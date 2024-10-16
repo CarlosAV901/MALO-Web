@@ -1,0 +1,93 @@
+/* Contenedor del carrusel */
+.carousel-container {
+    position: relative;
+    height: 100vh;
+    width: 100%;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+/* Ocultar los controles predeterminados del carrusel */
+.carousel-control-prev,
+.carousel-control-next {
+    display: none;
+}
+
+/* Asegura que las imágenes ocupen todo el espacio disponible */
+.carousel-inner img {
+    height: 100vh;
+    object-fit: cover;
+}
+
+/* Estilos para la barra de búsqueda */
+.search-bar {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    color: white;
+    z-index: 10;
+}
+
+.search-bar h1 {
+    font-size: 3rem;
+    font-weight: bold;
+}
+
+.search-bar h1 span {
+    color: #1E90FF; /* Color del texto "empleo" */
+}
+
+.search-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.search-input {
+    width: 300px;
+    padding: 10px;
+    border-radius: 30px 0 0 30px;
+    border: none;
+    outline: none;
+}
+
+.search-btn {
+    padding: 10px 20px;
+    border: none;
+    background-color: #1E90FF;
+    color: white;
+    border-radius: 0 30px 30px 0;
+    cursor: pointer;
+}
+
+
+/* Sección de características */
+.features-section {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 50px;
+    background-color: #F0F0F0; /* Cambia este color según tu preferencia */
+}
+
+/* Cada ítem de características */
+.feature-item {
+    text-align: center;
+    margin: 10px;
+}
+
+/* Estilo de los íconos */
+.feature-icon {
+    width: 80px; /* Ajusta el tamaño del ícono */
+    height: auto;
+    margin-bottom: 10px;
+}
+
+/* Estilo del texto */
+.feature-item p {
+    font-size: 16px;
+    font-weight: bold;
+    color: #090C9B; /* Cambia este color según el que quieras */
+}

@@ -1,0 +1,17 @@
+.nosotros-section {
+    padding: 40px;
+    background-color: #F0F0F0; /* Puedes ajustar este color */
+    text-align: center;
+}
+
+.nosotros-section h2 {
+    font-size: 28px;
+    color: #090C9B;
+}
+
+.nosotros-section p {
+    font-size: 18px;
+    color: #333;
+    max-width: 800px;
+    margin: 20px auto;
+}
