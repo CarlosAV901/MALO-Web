@@ -1,7 +1,5 @@
 import { Routes } from '@angular/router';
 import { DashboardComponent } from './dashboard/dashboard.component';  // Importa el Dashboard
-import { LogInComponent } from './auth/features/log-in/log-in.component';
-import { SignUpComponent } from './auth/features/sign-up/sign-up.component';
 
 export const appRoutes: Routes = [
   { path: '', component: DashboardComponent },  // La página de inicio es Dashboard
@@ -10,10 +8,8 @@ export const appRoutes: Routes = [
     loadChildren: () => import('./empleos/empleos.routes').then(m => m.EmpleosRoutes)  // Rutas para empleos
   },
   {
-    path:'login', component:LogInComponent
-  },
-  {
-    path:'signup', component: SignUpComponent
+    path: 'auth',
+    loadChildren: () => import('./auth/features/auth.routes').then(m => m.AUTH_ROUTES)  // Lazy load para auth
   },
   { path: '**', redirectTo: '' }  // Redirige al Dashboard si no encuentra la ruta
 ];
