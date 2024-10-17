@@ -1,0 +1,96 @@
+
+.carousel-container {
+    position: relative;
+    height: 90vh;
+    width: 100%;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+    
+}
+
+.carousel-control-prev,
+.carousel-control-next {
+    display: none;
+}
+
+.carousel-inner img {
+    height: 90vh;
+    object-fit: cover;
+    filter: brightness(50%);
+}
+
+/* Estilos para la barra de búsqueda */
+.search-bar {
+    position: absolute;
+    top: 35%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    color: white;
+    z-index: 10;
+    padding: 20px;
+}
+
+.search-bar h1 {
+    font-size: 4rem; /* Tamaño grande para pantallas grandes */
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.search-bar h1 span {
+    color: #0984ff; /* Color del texto "empleo" */
+}
+
+.search-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.search-input {
+    width: 500px; /* Tamaño por defecto para pantallas grandes */
+    padding: 15px;
+    font-size: 1.2rem;
+    border-radius: 30px 0 0 30px;
+    border: none;
+    outline: none;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Sombra para mejor visibilidad */
+}
+
+.search-btn {
+    padding: 15px 30px;
+    font-size: 1.2rem;
+    border: none;
+    background-color: #1E90FF;
+    color: white;
+    border-radius: 0 30px 30px 0;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s ease;
+}
+
+.search-btn:hover {
+    background-color: #0056b3;
+}
+
+/* Estilos para dispositivos móviles */
+@media (max-width: 768px) {
+    .search-container {
+        width: 90%; /* La barra se ajusta al 90% del contenedor en pantallas pequeñas */
+    }
+
+    .search-input {
+        max-width: 350px; /* Establecemos un ancho máximo */
+        width: 100%; /* Se adapta al ancho disponible */
+        padding: 10px;
+        font-size: 1rem;
+        border-radius: 10px 0 0 10px;
+    }
+
+    .search-btn {
+        padding: 10px 15px; /* Ajustamos el tamaño del botón para pantallas pequeñas */
+        font-size: 1rem;
+        border-radius: 0 10px 10px 0;
+    }
+}

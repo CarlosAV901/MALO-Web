@@ -2,12 +2,11 @@
 .footer {
     background-color: #090C9B;
     color: white;
-    padding: 20px 0;
+    padding: 1em 0;
     text-align: center;
     width: 100%;
-    position: absolute;
-    bottom: 0;
     position: relative;
+    margin-top: auto;
 }
 
 .footer .container {

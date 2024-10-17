@@ -1,13 +1,15 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { NosotrosComponent } from './nosotros/nosotros.component';  // Importa el componente independiente
+import { NosotrosComponent } from './nosotros/nosotros.component';
+import { NavbarComponent } from '../shared/ui/layout/navbar.component';  // Importa el NavbarComponent
+import { FeatureSectionComponent } from './feature-section/feature-section.component';
+import { BusquedaComponent } from './busqueda/busqueda.component';
 
 @Component({
   standalone: true,
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.css'],
-  imports: [CommonModule, NosotrosComponent]  // Importa aquí el componente independiente
+  imports: [CommonModule,BusquedaComponent ,NosotrosComponent, NavbarComponent, FeatureSectionComponent]  // Agrega NavbarComponent a los imports
 })
 export class DashboardComponent {
 }

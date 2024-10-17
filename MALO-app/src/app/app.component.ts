@@ -14,7 +14,7 @@ import { filter } from 'rxjs';
   imports: [RouterOutlet, NavbarComponent, FooterComponent, CommonModule] // Añade CommonModule aquí
 })
 export class AppComponent {
-  showNavbar: boolean = true;
+/*  showNavbar: boolean = true;
 
   constructor(private router: Router) {
     this.router.events
@@ -23,5 +23,5 @@ export class AppComponent {
         // Cambia el valor de showNavbar dependiendo de la ruta actual
         this.showNavbar = !(event.url.includes('/login') || event.url.includes('/signup'));
       });
-  }
+  }*/
 }

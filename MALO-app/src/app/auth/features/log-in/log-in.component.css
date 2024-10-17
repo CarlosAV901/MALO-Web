@@ -1,3 +1,18 @@
+.login-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.container {
+    flex: 1;
+}
+
+.login-logo {
+    width: 250px;
+    margin-bottom: 20px;
+}
+
 .container {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -6,7 +21,6 @@
 
 .left {
     background-image: url('https://unsplash.com/photos/npxXWgQ33ZQ/download?force=true&w=1920');
-    /* Imagen de fondo */
     background-size: cover;
     background-position: center;
 }
@@ -47,7 +61,7 @@
     border: 2px solid #0056FF;
     border-radius: 12px;
     font-size: 16px;
-    background: none; /* Para que el fondo del input sea transparente */
+    background: none;
 }
 
 .form-group label {
@@ -90,7 +104,7 @@
 .login-box .link-container {
     display: flex;
     flex-direction: column;
-    align-items: flex-end; /* Alinea los elementos al final (derecha) */
+    align-items: flex-end;
     margin-top: 20px;
     position: relative;
     width: 100%;
@@ -100,7 +114,7 @@
 .login-box .divider {
     width: 100%;
     height: 1px;
-    background-color: #0056FF; /* Color de la línea */
+    background-color: #0056FF;
     margin: 10px 0;
     position: relative;
 }
@@ -109,7 +123,7 @@
 .login-box a {
     color: #0056FF;
     text-decoration: none;
-    text-align: right; /* Texto alineado a la derecha */
+    text-align: right;
     margin-left: 10px;
 }
 
@@ -124,7 +138,7 @@
     }
 
     .left {
-        display: none; /* Ocultar la imagen en dispositivos móviles */
+        display: none;
     }
 
     .right {

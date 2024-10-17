@@ -1,0 +1,30 @@
+/* Sección de características */
+.features-section {
+    display: flex; 
+    flex-wrap: wrap; /* Permite que los elementos se distribuyan en varias filas */
+    justify-content: center; /* Centra los elementos horizontalmente */
+    padding: 50px;
+    background-color: #F0F0F0; /* Cambia este color según tu preferencia */
+}
+
+/* Cada ítem de características */
+.feature-item {
+    text-align: center;
+    margin: 10px; /* Espaciado entre los ítems */
+    flex: 1 0 150px; /* Se asegura de que cada ítem ocupe al menos 150px y crezca si es posible */
+    max-width: 200px; /* Ancho máximo para los ítems */
+}
+
+/* Estilo de los íconos */
+.feature-icon {
+    width: 80px; /* Ajusta el tamaño del ícono */
+    height: auto;
+    margin-bottom: 10px;
+}
+
+/* Estilo del texto */
+.feature-item p {
+    font-size: 16px;
+    font-weight: bold;
+    color: #090C9B; /* Cambia este color según el que quieras */
+}

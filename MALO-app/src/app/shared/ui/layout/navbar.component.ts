@@ -8,4 +8,10 @@ import { RouterModule } from '@angular/router';
   styleUrls: ['./navbar.component.css'],
   imports: [RouterModule] // Para usar el routerLink en la barra de navegación
 })
-export class NavbarComponent {}
+export class NavbarComponent {
+  menuOpen = false;
+
+  toggleMenu() {
+    this.menuOpen = !this.menuOpen;
+  }
+}
