@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
-//import { EmpleosComponent } from './features/empleos.component'; // El componente correspondiente a empleos
+import { TableroComponent } from './features/tablero/tablero.component';
 
-export const EmpleosRoutes: Routes = [
- // { path: '', component: EmpleosComponent }  // Ruta para la lista de empleos
+export const empleosRoutes: Routes = [
+  { path: 'tablero', component: TableroComponent },
+  // Otras rutas de empleos pueden ir aquí
 ];
