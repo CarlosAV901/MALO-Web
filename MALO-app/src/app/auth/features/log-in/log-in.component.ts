@@ -2,7 +2,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { UserService } from '../../../core/services/user.service'; // Importa el servicio
+import { UserService } from '../../../core/services/user.service';
 
 @Component({
   selector: 'app-log-in',
@@ -24,10 +24,11 @@ export class LogInComponent {
   onLogin() {
     this.http.post("http://localhost:5271/api/Auth/login", this.loginObj).subscribe(
       (res: any) => {
-        // Si la respuesta es exitosa y contiene un token
+        
         if (res.token) {
           alert("Login success");
-          localStorage.setItem('authToken', res.token); // Guardar el token
+          localStorage.setItem('authToken', res.token);
+          this.userService.setAuthenticationState(true);
           this.router.navigate(['/empleos/tablero']);
         } else {
           alert("Credenciales inválidas. Por favor, verifique su correo y contraseña.");
@@ -43,5 +44,5 @@ export class LogInComponent {
         }
       }
     );
-  }
+  } 
 }
