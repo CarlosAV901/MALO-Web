@@ -1,79 +1,209 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  background-image: url('../../../../../public/sign-up.jpg');
+  background-size: 37rem;
+  background-position: right 13% top;
+  background-repeat: no-repeat;
+}
+
 * {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
+  margin: 0;
+  padding: 0;
+  font-family: system-ui, sans-serif;
 }
 
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f9f9f9;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
+.container {
+  width: 100%;
+  padding: 0 13%;
 }
 
-.form-container {
-    background-color: white;
-    border: 1px solid #e5e5e5;
-    padding: 40px;
-    border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    max-width: 600px;
-    width: 100%;
+.clearfix {
+  clear: both;
 }
 
-h2 {
-    text-align: center;
-    margin-bottom: 20px;
-    color: #1a1a1a;
+.form-1, 
+.form-2, 
+.form-3 h1 {
+  color: #3066be;
 }
 
-form {
-    display: flex;
-    flex-direction: column;
+h1 {
+  margin-bottom: 16px;
+}
+
+.form-1, 
+.form-2, 
+.form-3, 
+.form-4 {
+  padding-top: 7%;
 }
 
 .form-group {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 20px;
+  text-align: left;
+  margin-bottom: 0.9375rem;
 }
 
-.form-group input, 
 .form-group select {
-    width: 30%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 14px;
+  display: block;
+  width: 35%;
+  height: 3rem;
+  padding: 0 0.9375rem;
+  border: 2px solid #3066be;
+  border-radius: 0.75rem;
+  font-size: 1rem;
+  background: none;
+  color: #000; /* Para asegurar que el texto seleccionado sea visible */
 }
+
+.form-group input {
+  display: block;
+  width: 35%;
+  height: 3rem;
+  padding: 0.9375rem;
+  border: 2px solid #3066be;
+  border-radius: 0.75rem;
+  font-size: 1rem;
+  background: none;
+}
+
+.form-group label {
+  font-size: 1.1rem;
+  color: #3066be;
+}
+
+.conti-1, 
+.conti-2, 
+.conti-3 {
+  padding: 0.625rem 1.875rem;
+  margin-top: 0.625rem;
+  font-size: 1rem;
+  background-color: #3066be;
+  color: white;
+  border: none;
+  border-radius: 30px;
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.back {
+  padding: 0.625rem 1.875rem;
+  margin-top: 0.625rem;
+  font-size: 1rem;
+  background-color: #c7c7c7;
+  color: black;
+  border: none;
+  border-radius: 30px;
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+button:enabled {
+  opacity: 1;
+  cursor: pointer;
+}
+
+.error {
+  border-bottom: 1px solid red;
+}
+
+/* Barra de progreso */
+.progress-bar {
+  max-width: 50rem;
+  display: flex;
+  margin: 4rem 13%;
+}
+
+.bot-icon-1,
+.bot-icon-2,
+.bot-icon-3 {
+  font-size: 1.875rem;
+  color: #c7c7c7;
+  cursor: pointer;
+  transition: color 0.5s linear; /* Animación suave al cambiar de color */
+}
+
+.bot-icon-1.active,
+.bot-icon-2.active,
+.bot-icon-3.active {
+  color: #0254b7;
+}
+
+.step-1 {
+  position: relative;
+  width: 15.625rem;
+}
+
+/* Líneas de conexión entre los pasos */
+.line-1,
+.line-2,
+.line-3 {
+  height: 0.125rem;
+  width: 12.5rem;
+  position: absolute;
+  top: 50%;
+  left: 2.5rem;
+  background-color: #c7c7c7;
+  transition: background-color 0.5s linear; /* Animación suave para el color */
+}
+
+.line-1.active,
+.line-2.active,
+.line-3.active {
+  background-color: #0254b7;
+}
+
 
 button {
+  margin-right: 10px;
+}
+
+.small-container {
+  width: 60%; /* Ajusta este valor según tus necesidades */
+}
+
+.disabled-icon {
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.progress-final{
+  margin: 21.5625rem 13%;
+}
+
+@media (max-width: 68.125rem) {
+  :host {
+    background-image: none;
+  }
+  .form-group input {
+    width: 90%;
+  }
+  .line-1, 
+  .line-2, 
+  .line-3 {
+    width: 70%;
+  }
+  .progress-bar {
+    max-width: 35rem;
+  }
+}
+@media (max-width: 40rem) {
+  .form-group input {
     width: 100%;
-    padding: 15px;
-    background-color: #0014ff;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
+  }
+  .line-1, 
+  .line-2, 
+  .line-3 {
+    width: 50%;
+  }
 }
-
-button:hover {
-    background-color: #000dcf;
-}
-
-p {
-    text-align: center;
-    margin-top: 20px;
-}
-
-p a {
-    color: #0014ff;
-    text-decoration: none;
-}
-
-p a:hover {
-    text-decoration: underline;
+@media (max-width: 22.5rem) {
+  .line-1, 
+  .line-2, 
+  .line-3 {
+    display: none;
+  }
 }
