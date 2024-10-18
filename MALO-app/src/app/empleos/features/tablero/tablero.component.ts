@@ -1,12 +1,18 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { UserService } from '../../../core/services/user.service';// Ajusta la ruta según tu estructura
 
 @Component({
   selector: 'app-tablero',
-  standalone: true,
-  imports: [],
   templateUrl: './tablero.component.html',
-  styleUrl: './tablero.component.css'
+  styleUrls: ['./tablero.component.css']
 })
-export class TableroComponent {
+export class TableroComponent implements OnInit {
+  userName: string | null = null;
 
+  constructor(private userService: UserService) {}
+
+  ngOnInit(): void {
+    const userData = this.userService.getUserData();
+    this.userName = userData ? userData.email : null; // Puedes acceder a otros datos también
+  }
 }
