@@ -1,7 +1,7 @@
 import { Routes } from '@angular/router';
-import { TableroComponent } from './features/tablero/tablero.component';
+import { TableroComponent } from './tablero.component';
+import { NavEmpleosComponent } from './ui/nav-empleos/nav-empleos.component';
 
 export const empleosRoutes: Routes = [
   { path: 'tablero', component: TableroComponent },
-  // Otras rutas de empleos pueden ir aquí
 ];

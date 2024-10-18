@@ -2,6 +2,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { UserService } from '../../../core/services/user.service'; // Importa el servicio
 
 @Component({
   selector: 'app-log-in',
@@ -12,12 +13,13 @@ import { Router } from '@angular/router';
 })
 export class LogInComponent {
   loginObj: any = {
-    "email": "",
-    "contrasena": ""
+    email: '',
+    contrasena: ''
   };
 
   http = inject(HttpClient);
   router = inject(Router);
+  userService = inject(UserService);
 
   onLogin() {
     this.http.post("http://localhost:5271/api/Auth/login", this.loginObj).subscribe(
@@ -25,23 +27,19 @@ export class LogInComponent {
         // Si la respuesta es exitosa y contiene un token
         if (res.token) {
           alert("Login success");
-          localStorage.setItem('authToken', res.token);
+          localStorage.setItem('authToken', res.token); // Guardar el token
           this.router.navigate(['/empleos/tablero']);
         } else {
           alert("Credenciales inválidas. Por favor, verifique su correo y contraseña.");
         }
       },
       (error: HttpErrorResponse) => {
-        // Manejo de errores
         if (error.status === 500) {
-          // Error interno del servidor
           alert("Error en el servidor. Por favor, inténtelo de nuevo más tarde.");
         } else if (error.status === 401) {
-          // No autorizado
-          alert("Credenciales inválidas. Por favor, verifique su correo y contraseña.");
+          alert("Credenciales inválidas.");
         } else {
-          // Otros errores
-          alert("Hubo un error al intentar iniciar sesión. Por favor, inténtelo de nuevo.");
+          alert("Hubo un error al intentar iniciar sesión.");
         }
       }
     );

@@ -1,0 +1,9 @@
+<app-nav-empleos></app-nav-empleos>
+<div>
+  <h1>Bienvenido al Tablero</h1>
+  <p *ngIf="userName">Hola, {{ userName }}. Bienvenido de nuevo.</p>
+  <p *ngIf="!userName">Por favor, <a routerLink="/auth/login">inicia sesión</a> para acceder a más funciones.</p>
+  
+  <!-- Botón de Cerrar Sesión -->
+  <button *ngIf="userName" (click)="logout()">Cerrar sesión</button>
+</div>
