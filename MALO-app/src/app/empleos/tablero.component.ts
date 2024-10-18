@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common'; // Importa CommonModule
 import { UserService } from '../core/services/user.service'; // Ajusta la ruta según tu estructura
-import { NavEmpleosComponent } from './ui/nav-empleos/nav-empleos.component';
+import { NavbarComponent } from '../shared/ui/layout/navbar.component';
 
 
 
 @Component({
   selector: 'app-tablero',
   standalone: true,
-  imports: [CommonModule, NavEmpleosComponent],
+  imports: [CommonModule, NavbarComponent],
   templateUrl: './tablero.component.html',
   styleUrls: ['./tablero.component.css']
 })
