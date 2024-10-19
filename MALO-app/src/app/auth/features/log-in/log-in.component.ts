@@ -37,11 +37,11 @@ export class LogInComponent {
         },
         (error: HttpErrorResponse) => {
           if (error.status === 500) {
-            alert("Error en el servidor. Por favor, inténtelo de nuevo más tarde.");
+            alert("Credenciales inválidas. Por favor, verifique su correo y contraseña.");
           } else if (error.status === 401) {
             alert("Credenciales inválidas.");
           } else {
-            alert("Hubo un error al intentar iniciar sesión.");
+            alert("Credenciales inválidas. Por favor, verifique su correo y contraseña.");
           }
         }
       );

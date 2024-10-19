@@ -93,6 +93,14 @@
     cursor: pointer;
 }
 
+.login-box input[type="submit"]:disabled {
+    background-color: #cccccc; /* Cambia el color de fondo a gris */
+    cursor: not-allowed; /* Cambia el cursor a un tache */
+    color: #666666; /* Color de texto más claro */
+    border: none; /* Elimina el borde */
+    opacity: 0.6; /* Reduce la opacidad para dar un aspecto deshabilitado */
+}
+
 .password-toggle {
     position: absolute;
     right: 20px;
