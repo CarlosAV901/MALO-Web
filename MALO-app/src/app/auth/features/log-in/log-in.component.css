@@ -23,6 +23,7 @@
     background-image: url('https://unsplash.com/photos/npxXWgQ33ZQ/download?force=true&w=1920');
     background-size: cover;
     background-position: center;
+    max-height: 100%;
 }
 
 .right {
@@ -92,6 +93,14 @@
     font-size: 16px;
     cursor: pointer;
 }
+
+.error {
+    color: red;
+    font-size: 12px; /* Puedes ajustar el tamaño según tus preferencias */
+    min-width: 15px;
+    margin-top: 5px;
+}
+
 
 .login-box input[type="submit"]:disabled {
     background-color: #cccccc; /* Cambia el color de fondo a gris */

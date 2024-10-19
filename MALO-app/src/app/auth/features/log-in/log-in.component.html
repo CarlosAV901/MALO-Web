@@ -8,11 +8,12 @@
                 <form #loginForm="ngForm" (ngSubmit)="onLogin(loginForm)">
                     <div class="form-group">
                         <label for="email">Correo</label>
-                        <input type="email" name="email" [(ngModel)]="loginObj.email" id="email" placeholder="Carlos" required>
-                        <!-- Mostrar un mensaje de error si el campo está vacío o no es válido -->
-                        <div *ngIf="loginForm.submitted && loginForm.controls['email']?.invalid" class="error">
+                        <input type="email" name="email" [(ngModel)]="loginObj.email" id="email" 
+                        placeholder="example@example.com" required
+                        pattern="^[\w-\.]+@([\w-]+\.)+(com|com\.mx)$">
+                        <div *ngIf="loginForm.submitted && loginForm.controls['email']?.invalid" [ngClass]="{'error': true}">
                             El correo es obligatorio y debe tener un formato válido.
-                        </div>
+                        </div>                        
                     </div>
                     <div class="form-group" style="position:relative;">
                         <label for="contrasena">Contraseña</label>
@@ -21,7 +22,6 @@
                             La contraseña es obligatoria.
                         </div>
                     </div>
-                    <!-- Deshabilitar el botón si el formulario no es válido -->
                     <input type="submit" [disabled]="loginForm.invalid" value="Iniciar sesión">
                     <div class="link-container">
                         <a href="#">Olvidé mi contraseña</a>

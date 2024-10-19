@@ -1,6 +1,6 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Component, inject } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, NgForm  } from '@angular/forms';
 import { Router } from '@angular/router';
 import { UserService } from '../../../core/services/user.service';
 import { CommonModule } from '@angular/common'; // Importar CommonModule
@@ -13,6 +13,7 @@ import { CommonModule } from '@angular/common'; // Importar CommonModule
   styleUrls: ['./log-in.component.css']
 })
 export class LogInComponent {
+
   loginObj: any = {
     email: '',
     contrasena: ''
@@ -22,12 +23,13 @@ export class LogInComponent {
   router = inject(Router);
   userService = inject(UserService);
 
-  onLogin(loginForm: any) {
+  // Método de inicio de sesión
+  onLogin(loginForm: NgForm) {
     if (loginForm.valid) {
+      // Llamar a la API de inicio de sesión
       this.http.post("http://localhost:5271/api/Auth/login", this.loginObj).subscribe(
         (res: any) => {
           if (res.token) {
-            alert("Login success");
             localStorage.setItem('authToken', res.token);
             this.userService.setAuthenticationState(true);
             this.router.navigate(['/empleos/tablero']);
@@ -36,12 +38,10 @@ export class LogInComponent {
           }
         },
         (error: HttpErrorResponse) => {
-          if (error.status === 500) {
-            alert("Credenciales inválidas. Por favor, verifique su correo y contraseña.");
-          } else if (error.status === 401) {
-            alert("Credenciales inválidas.");
+          if (error.status === 500 || error.status === 401) {
+            alert("ERROR");
           } else {
-            alert("Credenciales inválidas. Por favor, verifique su correo y contraseña.");
+            alert("Error en el servidor. Por favor, inténtelo más tarde.");
           }
         }
       );
@@ -50,3 +50,16 @@ export class LogInComponent {
     }
   }
 }
+/*
+  onLogin(){
+    debugger;
+    this.http.post("https://malo-backend.onrender.com/api/auth/login", this.loginObj).subscribe((res:any)=>{
+      debugger;
+      if(res.result){
+        alert("Login success")
+      }else{
+        alert("error en contrase;a o usuario")
+      }
+    })
+  }
+*/
