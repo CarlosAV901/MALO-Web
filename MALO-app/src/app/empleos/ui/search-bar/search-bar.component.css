@@ -1,0 +1,106 @@
+.search-bar-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+}
+
+.search-bar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px; /* Más espacio entre elementos */
+    padding: 15px;
+    background-color: #090C9B; /* Color de fondo azul */
+    width: 100%;
+}
+
+.search-item {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%; /* Asegura que cada search-item ocupe el ancho completo */
+}
+
+.search-item input,
+.search-item select {
+    padding: 15px 20px;
+    border-radius: 30px;
+    border: none;
+    outline: none;
+    font-size: 16px;
+    background-color: #fff;
+    width: 100%; /* Todos los elementos ocupan el mismo ancho */
+    box-sizing: border-box; /* Incluye padding en el cálculo del ancho total */
+}
+
+.search-item i {
+    position: absolute;
+    left: 15px;
+    color: #000;
+}
+
+.search-item input {
+    padding-left: 40px; /* Más espacio para el icono */
+}
+
+.search-item select {
+    padding-left: 45px;
+    padding-right: 25px;
+    appearance: none;
+}
+
+.search-item select + i {
+    position: absolute;
+    right: 15px;
+    pointer-events: none;
+}
+
+/* Estilos responsivos para móviles */
+@media (max-width: 768px) {
+    .search-bar {
+        display: none; /* Oculta la barra por defecto en móviles */
+        flex-direction: column;
+        gap: 10px;
+        width: 100%;
+    }
+
+    .search-bar.is-visible {
+        display: flex; /* Mostrar la barra al hacer clic en el botón de filtros */
+        background-color: rgb(197, 192, 255);
+        border-radius: 20px;
+        margin-top: 15px;
+    }
+
+    .search-item input,
+    .search-item select {
+        width: 100%; /* Todos los elementos ocupan el mismo ancho */
+        max-width: none; /* Elimina el máximo ancho de 300px para pantallas móviles */
+        min-width: none; /* Elimina cualquier mínimo ancho */
+        box-sizing: border-box; /* Asegura que el padding no afecte al tamaño */
+    }
+
+    .filters-button {
+        display: block; /* Mostrar el botón solo en móviles */
+        width: 90%;
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    .filters-button button {
+        background-color: #fff;
+        color: #1E22AA;
+        border: 2px solid #1E22AA;
+        border-radius: 30px;
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+        width: 100%; /* Botón a todo el ancho */
+    }
+}
+
+@media (min-width: 769px) {
+    .filters-button {
+        display: none;
+    }
+}

@@ -1,0 +1,43 @@
+<div class="search-bar-container">
+    <!-- Botón para móviles -->
+    <div class="filters-button">
+      <button (click)="toggleFilters()">Mostrar filtros</button>
+    </div>
+  
+    <!-- Barra de búsqueda -->
+    <div class="search-bar" [ngClass]="{'is-visible': isFiltersOpen}">
+      <div class="search-item">
+        <i class="fas fa-search"></i>
+        <input type="text" placeholder="Buscar empleo..." />
+      </div>
+  
+      <div class="search-item">
+        <i class="fas fa-map-marker-alt"></i>
+        <select>
+          <option selected disabled>Ciudad o estado...</option>
+          <option value="cdmx">Ciudad de México</option>
+          <option value="guadalajara">Guadalajara</option>
+          <option value="monterrey">Monterrey</option>
+        </select>
+      </div>
+  
+      <div class="search-item">
+        <select>
+          <option selected disabled>Horario</option>
+          <option value="tiempo-completo">Tiempo Completo</option>
+          <option value="medio-tiempo">Medio Tiempo</option>
+        </select>
+        <i class="fas fa-angle-down"></i>
+      </div>
+  
+      <div class="search-item">
+        <select>
+          <option selected disabled>Sueldo</option>
+          <option value="10-20k">$10,000 - $20,000</option>
+          <option value="20-30k">$20,000 - $30,000</option>
+        </select>
+        <i class="fas fa-angle-down"></i>
+      </div>
+    </div>
+  </div>
+    
