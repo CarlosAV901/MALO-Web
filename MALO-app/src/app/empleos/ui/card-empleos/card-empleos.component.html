@@ -1,1 +1,17 @@
-<p>card-empleos works!</p>
+<div class="card">
+   
+    <div class="card-content">
+        <div class="card-details">
+            <h3>{{ empleo.titulo }}</h3>
+            <span>{{ empleo.empresa }}</span>
+            <span>{{ empleo.salario }}</span>
+            <span>{{ empleo.tipoTrabajo }}</span>
+        </div>
+        <div class="card-description">
+            <p>{{ empleo.descripcion }}</p>
+        </div>
+    </div>
+    <div class="card-action">
+        <a href="#">Ver más...</a>
+    </div>
+</div>

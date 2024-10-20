@@ -1,0 +1,52 @@
+.lista-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    padding-bottom: 20px;
+}
+
+.container {
+    width: 100%;
+    /* max-width: 1200px; Si no lo necesitas, puedes eliminarlo */
+    margin: 0; /* Elimina el margen */
+}
+
+.empleos-lista {
+    display: flex;
+    flex-direction: column; /* Alinea las tarjetas en una columna */
+    gap: 20px; /* Espacio entre las tarjetas */
+    width: 100%;
+    align-items: flex-start; /* Alinea las tarjetas a la izquierda */
+    padding-left: 50px; /* Elimina el padding izquierdo */
+    margin-top: 50px;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center; /* Centra la paginación */
+    margin-top: 20px; /* Espacio superior */
+    align-items: center;
+}
+
+.pagination button {
+    margin: 0 10px; /* Espacio entre botones */
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+}
+
+.pagination button:disabled {
+    background-color: #ccc; /* Color para botón deshabilitado */
+    cursor: not-allowed; /* Cambia el cursor */
+}
+
+
+@media (max-width: 768px) {
+    .empleos-lista {
+        align-items: center; /* Centra las tarjetas en pantallas móviles */
+        padding-left: 0; /* Elimina el padding izquierdo */
+    }
+}

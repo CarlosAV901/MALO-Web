@@ -1,0 +1,109 @@
+.card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 100%; /* Se ajusta al 100% del contenedor padre */
+    max-width: 550px; /* Ancho máximo de la tarjeta */
+    width:500px ;
+    height: 100%;
+    max-height: 250px;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #f9f9f9;
+    padding: 20px;
+    border: 1px solid #dcdcdc;
+    margin: 0px 0; /* Reduce el margen vertical entre las tarjetas */
+    cursor: pointer;
+    transition: transform 0.15s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.card:hover {
+    transform: translateY(-5px); /* Eleva la tarjeta un poco hacia arriba */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Aumenta la sombra al pasar el cursor */
+}
+
+.card.selected {
+    background-color: #e0f7fa; /* Cambia el color de fondo cuando está seleccionada */
+    border: 1px solid #007bff; /* Cambia el borde para resaltar la tarjeta seleccionada */
+}
+
+.card-image {
+    width: 100%;
+    height: 100px;
+    border-radius: 10px 10px 0 0;
+    object-fit: cover;
+}
+
+.card-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-top: 10px;
+}
+
+.card-details {
+    font-size: 16px;
+    color: #333;
+    max-width: 150px;
+}
+
+.card-details h3 {
+    margin: 0;
+    font-size: 18px;
+    color: #03009a;
+}
+
+.card-details span {
+    display: block;
+    margin: 5px 0;
+}
+
+.card-description {
+    font-size: 14px;
+    color: #666;
+    line-height: 1.5;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 300px; /* Limita el tamaño de la descripción */
+}
+
+.card-action {
+    text-align: right;
+    font-size: 16px;
+    color: #007bff;
+}
+
+.card-action a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.card-action a:hover {
+    text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+    .card {
+        width: 100%; /* En pantallas pequeñas, las tarjetas ocupan el 100% del contenedor */
+        max-width: 90%; /* Ajusta el ancho máximo para pantallas pequeñas */
+        margin: 0 auto; /* Centra la tarjeta horizontalmente */
+    }
+
+    /* Ajustar el tamaño de la fuente para pantallas pequeñas */
+    .card-details {
+        font-size: 14px; /* Reduce el tamaño de la fuente de los detalles */
+    }
+
+    .card-details h3 {
+        font-size: 16px; /* Reduce el tamaño del título */
+    }
+
+    .card-description {
+        font-size: 12px; /* Reduce el tamaño de la descripción */
+    }
+
+    .card-action {
+        font-size: 14px; /* Reduce el tamaño del texto en la acción */
+    }
+}

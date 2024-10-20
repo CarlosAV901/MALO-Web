@@ -1,15 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common'; // Importa CommonModule
-import { UserService } from '../core/services/user.service'; // Ajusta la ruta según tu estructura
+import { CommonModule } from '@angular/common';
+import { UserService } from '../core/services/user.service';
 import { NavbarComponent } from '../shared/ui/layout/navbar.component';
-import { SearchBarComponent } from "./ui/search-bar/search-bar.component";
-
-
+import { SearchBarComponent } from './ui/search-bar/search-bar.component';
+import { ListaEmpleosComponent } from "./features/lista-empleos/lista-empleos.component"; // Importar el componente de card
 
 @Component({
   selector: 'app-tablero',
   standalone: true,
-  imports: [CommonModule, NavbarComponent, SearchBarComponent],
+  imports: [CommonModule, NavbarComponent, SearchBarComponent, ListaEmpleosComponent],
   templateUrl: './tablero.component.html',
   styleUrls: ['./tablero.component.css']
 })
@@ -17,7 +16,7 @@ export class TableroComponent implements OnInit {
   userName: string | null = null;
   name: string | null = null;
 
-  constructor(private userService: UserService) {}
+  constructor(private userService: UserService) { }
 
   ngOnInit(): void {
     const userData = this.userService.getUserData();
@@ -30,10 +29,9 @@ export class TableroComponent implements OnInit {
     }
   }
 
-  // Método para cerrar sesión
   logout(): void {
-    this.userService.clearToken(); // Borra el token
-    this.userName = null; // Resetea el nombre de usuario
-    this.name = null; // Resetea el nombre
+    this.userService.clearToken();
+    this.userName = null;
+    this.name = null;
   }
 }

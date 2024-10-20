@@ -1,0 +1,13 @@
+<div class="lista-container">
+    <div class="container">
+        <div class="empleos-lista">
+            <app-card-empleos *ngFor="let empleo of paginatedEmpleos" [empleo]="empleo"></app-card-empleos>
+            <div class="pagination">
+                <button (click)="prevPage()" [disabled]="currentPage === 1">Anterior</button>
+                <span>Página {{ currentPage }} de {{ (empleos.length / itemsPerPage) | number: '1.0-0' }}</span>
+                <button (click)="nextPage()" [disabled]="currentPage * itemsPerPage >= empleos.length">Siguiente</button>
+            </div>
+        </div>
+    </div>
+</div>
+

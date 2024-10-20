@@ -9,9 +9,9 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 20px; /* Más espacio entre elementos */
+    gap: 20px;
     padding: 15px;
-    background-color: #090C9B; /* Color de fondo azul */
+    background-color: #090C9B;
     width: 100%;
 }
 
@@ -19,19 +19,19 @@
     position: relative;
     display: flex;
     align-items: center;
-    width: 100%; /* Asegura que cada search-item ocupe el ancho completo */
+    width: 100%;
 }
 
 .search-item input,
 .search-item select {
     padding: 15px 20px;
-    border-radius: 30px;
+    border-radius: 10px;
     border: none;
     outline: none;
     font-size: 16px;
     background-color: #fff;
-    width: 100%; /* Todos los elementos ocupan el mismo ancho */
-    box-sizing: border-box; /* Incluye padding en el cálculo del ancho total */
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .search-item i {
@@ -41,7 +41,7 @@
 }
 
 .search-item input {
-    padding-left: 40px; /* Más espacio para el icono */
+    padding-left: 40px;
 }
 
 .search-item select {
@@ -50,38 +50,39 @@
     appearance: none;
 }
 
-.search-item select + i {
+.search-item select+i {
     position: absolute;
     right: 15px;
     pointer-events: none;
 }
 
-/* Estilos responsivos para móviles */
 @media (max-width: 768px) {
     .search-bar {
-        display: none; /* Oculta la barra por defecto en móviles */
+        display: none;
         flex-direction: column;
         gap: 10px;
         width: 100%;
     }
 
     .search-bar.is-visible {
-        display: flex; /* Mostrar la barra al hacer clic en el botón de filtros */
-        background-color: rgb(197, 192, 255);
+        display: flex;
+        background-color: rgb(255, 255, 255);
         border-radius: 20px;
-        margin-top: 15px;
+        margin: 15px 5px 0 5px;
+        width: 95%;
     }
 
     .search-item input,
     .search-item select {
-        width: 100%; /* Todos los elementos ocupan el mismo ancho */
-        max-width: none; /* Elimina el máximo ancho de 300px para pantallas móviles */
-        min-width: none; /* Elimina cualquier mínimo ancho */
-        box-sizing: border-box; /* Asegura que el padding no afecte al tamaño */
+        width: 100%;
+        max-width: none;
+        box-sizing: border-box;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     }
 
     .filters-button {
-        display: block; /* Mostrar el botón solo en móviles */
+        display: block;
         width: 90%;
         text-align: center;
         margin-top: 20px;
@@ -95,7 +96,7 @@
         padding: 10px 20px;
         font-size: 16px;
         cursor: pointer;
-        width: 100%; /* Botón a todo el ancho */
+        width: 100%;
     }
 }
 
