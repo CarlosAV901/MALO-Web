@@ -5,6 +5,7 @@
             <div class="login-box">
                 <img src="Picture1.png" alt="Logo" class="login-logo">
                 <h2>Ingresar</h2>
+                <app-notification *ngIf="errorMessage" [message]="errorMessage" [isError]="true"></app-notification>
                 <form #loginForm="ngForm" (ngSubmit)="onLogin(loginForm)">
                     <div class="form-group">
                         <label for="email">Correo</label>

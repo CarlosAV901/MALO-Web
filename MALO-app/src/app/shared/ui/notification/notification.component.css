@@ -1,0 +1,26 @@
+.notification {
+    padding: 15px;
+    margin: 10px 0;
+    border-radius: 8px;
+    text-align: center;
+    font-weight: bold;
+    font-size: 16px;
+    transition: opacity 0.3s ease-in-out;
+    opacity: 0.9;
+  }
+  
+  .notification.error {
+    background-color: #f44336;  /* Rojo para errores */
+    color: white;
+  }
+  
+  .notification.success {
+    background-color: #4CAF50;  /* Verde para éxito */
+    color: white;
+  }
+  
+  .notification.info {
+    background-color: #2196F3;  /* Azul para información */
+    color: white;
+  }
+  

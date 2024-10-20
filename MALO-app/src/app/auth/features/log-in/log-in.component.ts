@@ -4,11 +4,12 @@ import { FormsModule, NgForm  } from '@angular/forms';
 import { Router } from '@angular/router';
 import { UserService } from '../../../core/services/user.service';
 import { CommonModule } from '@angular/common'; // Importar CommonModule
+import { NotificationComponent } from '../../../shared/ui/notification/notification.component';
 
 @Component({
   selector: 'app-log-in',
   standalone: true,
-  imports: [FormsModule, CommonModule], // Agregar CommonModule aquí
+  imports: [FormsModule, CommonModule, NotificationComponent], // Agregar CommonModule aquí
   templateUrl: './log-in.component.html',
   styleUrls: ['./log-in.component.css']
 })
@@ -18,6 +19,9 @@ export class LogInComponent {
     email: '',
     contrasena: ''
   };
+
+  errorMessage: string = '';  // Almacenará el mensaje de error
+  successMessage: string = '';  // Almacenará el mensaje de éxito (opcional)
 
   http = inject(HttpClient);
   router = inject(Router);
@@ -34,20 +38,28 @@ export class LogInComponent {
             this.userService.setAuthenticationState(true);
             this.router.navigate(['/empleos/tablero']);
           } else {
-            alert("Credenciales inválidas. Por favor, verifique su correo y contraseña.");
+            this.errorMessage = "Credenciales inválidas. Por favor, verifique su correo y contraseña.";
+            this.clearMessages();
           }
         },
         (error: HttpErrorResponse) => {
           if (error.status === 500 || error.status === 401) {
-            alert("ERROR");
+            this.errorMessage = "ERROR: Credenciales inválidas o error en el servidor.";
           } else {
-            alert("Error en el servidor. Por favor, inténtelo más tarde.");
+            this.errorMessage = "Error en el servidor. Por favor, inténtelo más tarde.";
           }
         }
       );
     } else {
-      alert("Por favor, completa el formulario correctamente.");
+      this.errorMessage = "Por favor, completa el formulario correctamente.";
+      this.clearMessages();
     }
+  }
+  clearMessages() {
+    setTimeout(() => {
+      this.errorMessage = '';
+      this.successMessage = '';
+    }, 3000);  // Los mensajes desaparecen después de 3 segundos
   }
 }
 /*
