@@ -1,6 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-sign-up',
@@ -21,6 +23,7 @@ export class SignUpComponent {
   fechaNacimiento = '';
   correo = '';
   contrasena = '';
+  router = inject(Router);
 
   nextStep() {
     if (this.currentStep < 4) {
@@ -48,6 +51,10 @@ export class SignUpComponent {
   
   isForm3Valid(): boolean {
     return !!this.fechaNacimiento && !!this.correo && !!this.contrasena;
+  }
+
+  finishRegister(){
+    this.router.navigate(['/auth/login']);
   }
   
 }

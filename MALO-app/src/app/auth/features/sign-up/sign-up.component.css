@@ -171,7 +171,11 @@ button {
 }
 
 .progress-final{
-  margin: 21.5625rem 13%;
+  display: none;
+}
+
+.transition{
+  transition: background-color 1s linear;
 }
 
 @media (max-width: 68.125rem) {

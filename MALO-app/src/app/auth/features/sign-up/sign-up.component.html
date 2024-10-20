@@ -22,9 +22,8 @@
 
     <!-- Form 2: Ubicación -->
 <div *ngIf="currentStep === 2" class="form-2">
-  <div class="container">
+  <div class="container" [ngClass]="{'transition': currentStep === 2}">
     <h1><i class="fa fa-compass"></i>&nbsp; Ubicación </h1>
-    
     <!-- Select para País -->
     <div class="form-group">
       <label for="pais">País</label>
@@ -68,7 +67,7 @@
 
     <!-- Form 3: Completa tu cuenta -->
     <div *ngIf="currentStep === 3" class="form-3">
-      <div class="container">
+      <div class="container" >
         <h1><i class="fa fa-list-alt"></i>&nbsp; Completa tu cuenta </h1>
         <div class="form-group">
           <label for="fechaNacimiento">Fecha de nacimiento</label>
@@ -91,32 +90,35 @@
     <div *ngIf="currentStep === 4" class="form-4">
       <div class="container" [ngClass]="{'small-container': currentStep === 4}">
         <h1>¡Felicidades! Tu cuenta en Manos a la obra esta lista...</h1>
+        <button (click)="finishRegister()" class="conti-3" (click)="nextStep()" [disabled]="!isForm3Valid()">Continuar</button>
       </div>
     </div>
   </div>
 
-  <!-- Barra de progreso (los iconos no serán clickeables en el paso 4) -->
+  <!-- Barra de progreso (desaparece en el paso 4) -->
   <div class="progress-bar" [ngClass]="{ 'progress-final': currentStep === 4 }">
       <div class="step-1">
         <i class="fa fa-user-o bot-icon-1" 
-           [ngClass]="{ 'disabled-icon': currentStep === 4 }"
            (click)="currentStep !== 4 ? goToStep(1) : null"
            [class.active]="currentStep >= 1"></i>
         <div class="line-1" [ngStyle]="{'background-color': currentStep > 1 ? '#0254b7' : '#c7c7c7'}"></div>
       </div>
       <div class="step-1">
         <i class="fa fa-compass bot-icon-2" 
-           [ngClass]="{ 'disabled-icon': currentStep === 4 }"
            (click)="currentStep !== 4 ? goToStep(2) : null"
            [class.active]="currentStep >= 2"></i>
         <div class="line-2" [ngStyle]="{'background-color': currentStep > 2 ? '#0254b7' : '#c7c7c7'}"></div>
       </div>
       <div class="step-1">
         <i class="fa fa-list-alt bot-icon-3" 
-           [ngClass]="{ 'disabled-icon': currentStep === 4 }"
            (click)="currentStep !== 4 ? goToStep(3) : null"
            [class.active]="currentStep >= 3"></i>
         <div class="line-3" [ngStyle]="{'background-color': currentStep > 3 ? '#0254b7' : '#c7c7c7'}"></div>
-    </div>
+      </div>
+      <!-- Barra de progreso final (aparece en el paso 4) -->
+      <div class="step-1" *ngIf="currentStep === 4">
+        <div class="line-1" [ngStyle]="{'background-color': '#0254b7'}"></div>
+        <i  class="fa fa-check" 
+            [class.active]="currentStep >= 4"></i>
+      </div>
   </div>
-</div>
