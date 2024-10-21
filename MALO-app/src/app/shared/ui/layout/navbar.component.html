@@ -1,26 +1,29 @@
-<div class="backdrop" [class.active]="menuOpen"></div>
-<nav class="navbarEmpleos">
-  <div class="brand">
-    <img src="logoblanco.png" alt="Logo" class="logo">
-  </div>
-  <div class="hamburger" (click)="toggleMenu()" [class.active]="menuOpen">
-    <div class="line-1"></div>
-    <div class="line-2"></div>
-    <div class="line-3"></div>
-  </div>
-  <ul class="nav-links" [class.active]="menuOpen">
-    <li><a routerLink="/">Sobre nosotros</a></li>
-    <ng-container *ngIf="!isAuthenticated">
-      <li><a routerLink="/auth/login">Acceder</a></li>
-      <li><a routerLink="/auth/sign-up">Regístrate</a></li>
-    </ng-container>
-    <ng-container *ngIf="isAuthenticated">
-      <li><a (click)="toggleProfileMenu($event)">Perfil</a></li> <!-- Añadimos el evento click -->
-    </ng-container>
-  </ul>
-  <!-- Menú desplegable cuando se hace clic en "Perfil" -->
-  <ul class="profile-menu" [class.active]="profileMenuOpen">
-    <li><a routerLink="/configuracion">Configuración</a></li>
-    <li><a (click)="logout()">Cerrar sesión</a></li>
-  </ul>
-</nav>
+<header>
+  <img class="logo" src="logoblanco.png" alt="Logo">
+  <button id="abrir" class="abrir-menu" (click)="toggleMenu()"><i class="fas fa-bars"></i></button>
+  <nav class="nav" id="nav" [class.visible]="menuOpen">
+    <button class="cerrar-menu" id="cerrar" (click)="toggleMenu()"><i class="fas fa-times"></i></button>
+    <!-- Información del usuario solo visible si está autenticado -->
+    <div class="user-info" *ngIf="isAuthenticated">
+      <p class="user-email">{{ user.email }}</p>
+    </div>
+    <ul class="nav-list">
+      <li><a routerLink="/nosotros">Nosotros</a></li>
+      <!-- Opciones si NO está autenticado -->
+      <ng-container *ngIf="!isAuthenticated">
+        <li><a routerLink="/auth/login">Iniciar sesión</a></li>
+        <li><a routerLink="/auth/sign-up">Regístrate</a></li>
+      </ng-container>
+      <!-- Opciones si está autenticado -->
+      <ng-container *ngIf="isAuthenticated">
+        <li class="dropdown">
+          <a href="#" id="perfil" class="perfil" (click)="toggleProfileMenu($event)">Perfil</a>
+          <ul class="dropdown-content" [class.active]="profileMenuOpen">
+            <li><a routerLink="/configuracion">Configuración</a></li>
+            <li><a href="#" class="logout" (click)="logout()">Cerrar sesión</a></li>
+          </ul>
+        </li>
+      </ng-container>
+    </ul>
+  </nav>
+</header>

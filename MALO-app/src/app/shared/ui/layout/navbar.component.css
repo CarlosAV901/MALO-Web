@@ -1,48 +1,42 @@
+header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 2rem;
+    background-color: #090C9B;
+    height: 100px;
+}
+
 .logo {
     width: 160px;
     height: auto;
 }
 
-.navbarEmpleos {
-    background-color: #090C9B;
+.nav-list {
+    list-style-type: none;
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 20px;
-    height: 100px;
-    position: relative;
-    z-index: 1000;
-}
-
-.nav-links {
-    list-style: none;
-    display: flex;
-    gap: 20px;
+    gap: 1rem;
     align-items: center;
     transition: transform 0.3s ease;
-
 }
 
-.nav-links li {
+.nav-list li {
     display: inline;
 }
 
-.nav-links a {
-    position: relative;
-    color: white;
+.nav-list li a {
     text-decoration: none;
-    padding: 10px;
-    font-size: 18px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: color 0.3s;
+    color: #ffffff;
+    position: relative;
+    font-size: 1.1rem;
+    font-weight: bold;
 }
 
-.nav-links a:hover {
+.nav-list a:hover {
     color: #FFD700;
 }
 
-.nav-links a::after {
+.nav-list a::after {
     content: '';
     position: absolute;
     width: 100%;
@@ -55,143 +49,209 @@
     transition: transform 0.3s ease-out;
 }
 
-.nav-links a:hover::after {
+.nav-list a:hover::after {
     transform: scaleX(1);
     transform-origin: bottom left;
 }
 
-.hamburger {
+/* Ocultar botones de menú en escritorio */
+.abrir-menu,
+.cerrar-menu {
     display: none;
-    cursor: pointer;
-    flex-direction: column;
-    gap: 5px;
-    z-index: 11;
 }
 
-.hamburger div {
-    width: 25px;
-    height: 2px;
-    background-color: white;
-    transition: all 0.3s ease;
+.abrir-menu i {
+    color: #ffffff;
 }
 
-.hamburger.active .line-1 {
-    transform: rotate(45deg) translate(5px, 5px);
-}
-
-.hamburger.active .line-2 {
-    opacity: 0;
-}
-
-.hamburger.active .line-3 {
-    transform: rotate(-45deg) translate(5px, -5px);
-}
-
-.profile-menu {
-    position: absolute;
-    top: 80px;
-    right: 10px;
-    background-color: white;
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    padding: 10px 0;
-    min-width: 200px;
-    display: none;
-    z-index: 1000;
-    border: 1px solid rgba(0, 0, 0, 0.1);
-}
-
-.profile-menu.active {
-    display: block;
-}
-
-.profile-menu li {
-    padding: 12px 20px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.profile-menu li:hover {
-    background-color: #f0f0f0;
-}
-
-.profile-menu li a {
-    text-decoration: none;
-    color: #000;
-    display: block;
-    width: 100%;
-}
-
-.profile-menu li a:hover {
-    color: #ff4081;
-}
-
-.profile-menu li:last-child a {
-    color: #ff4081;
-    font-weight: bold;
-}
-
-.profile-menu li:last-child a:hover {
-    background-color: transparent;
-}
-
-.profile-menu li+li {
-    border-top: 1px solid #eee;
-}
-
-.backdrop {
+.no-scroll {
+    overflow: hidden;
     position: fixed;
+    width: 100%;
     top: 0;
     left: 0;
-    width: 100vw;
-    height: 100vh;
-    background-color: rgba(0, 0, 0, 0.5);
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.3s ease;
-    z-index: 999;
-}
-
-.backdrop.active {
-    opacity: 1;
-    pointer-events: auto;
 }
 
 
-@media (max-width: 768px) {
-    .nav-links {
-        position: fixed;
-        top: 0;
-        right: -100%;
-        height: 100vh;
-        width: 280px;
-        background-color: #7a89fa;
+
+/* Vista móvil */
+/* Vista móvil */
+@media screen and (max-width: 550px) {
+
+    .abrir-menu,
+    .cerrar-menu {
+        display: block;
+        border: 0;
+        font-size: 1.25rem;
+        background-color: transparent;
+        cursor: pointer;
+    }
+
+    .abrir-menu {
+        color: #f9eded;
+    }
+
+    .cerrar-menu {
+        color: #ececec;
+    }
+
+    .nav {
+        opacity: 0;
+        visibility: hidden;
+        display: flex;
         flex-direction: column;
-        justify-content: flex-start;
         align-items: flex-start;
-        padding: 0 20px;
-        transition: right 0.3s ease;
-        z-index: 10;
-    }
-
-    .nav-links.active {
+        gap: 1rem;
+        position: absolute;
+        top: 0;
         right: 0;
+        bottom: 0;
+        background-color: #ffffff;
+        padding: 2rem;
+        box-shadow: 0 0 0 100vmax rgba(0, 0, 0, .5);
+        width: 80%;
+        /* Ocupa el 80% del ancho de la pantalla */
+        border-radius: 10px 0 0 10px;
+        z-index: 100;
     }
 
-    .nav-links li {
-        margin-bottom: 20px;
+    .nav.visible {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    .nav-list {
+        flex-direction: column;
+        align-items: flex-start;
+        width: 100%;
+        display: flex;
+        flex-grow: 1;
+        justify-content: space-between;
+        /* Esto asegura que los elementos se distribuyan y el último esté al final */
+    }
+
+    .nav-list li a {
+        color: #000000ec;
+        padding: 1rem 0;
+        width: 100%;
+        display: block;
+        border-bottom: 1px solid #ddd;
+    }
+
+    /* Colocar "Cerrar sesión" en rojo y al final */
+    .nav-list li a.logout {
+        color: #FF0000;
+        font-weight: bold;
+        margin-top: auto;
+        /* Asegura que el enlace esté siempre al final */
+    }
+
+    .cerrar-menu i {
+        color: black;
+    }
+
+    /* Estilos de la información del usuario */
+    .user-info {
+        border-bottom: 1px solid #ddd;
+        padding-bottom: 1rem;
         width: 100%;
     }
 
-    .hamburger {
-        display: flex;
+    .user-email {
+        font-weight: bold;
+        color: #000000;
+        font-size: 1rem;
+    }
+
+    .user-name {
+        color: #666;
+        font-size: 0.875rem;
+    }
+
+    #perfil {
+        display: none;
     }
 }
 
+/* Ocultar el correo y nombre de perfil en vista web */
+@media screen and (min-width: 551px) {
+    .user-info {
+        display: none;
+    }
+}
+
+
+/* Ocultar el correo y nombre de perfil en vista web */
+@media screen and (min-width: 551px) {
+    .user-info {
+        display: none;
+    }
+}
+
+
+/* Estilos del menú desplegable solo para la vista web */
+@media screen and (min-width: 551px) {
+
+    /* Estilo del dropdown (menú desplegable) */
+    .dropdown-content {
+        display: none;
+        /* Oculto por defecto */
+        position: absolute;
+        /* Para posicionarlo debajo del botón del menú */
+        background-color: #ffffff;
+        /* Fondo blanco */
+        box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+        /* Sombra similar a la imagen */
+        padding: 1rem;
+        /* Añadir padding para mayor espacio interno */
+        border-radius: 8px;
+        /* Bordes redondeados */
+        min-width: 160px;
+        /* Anchura mínima */
+        right: 0;
+        /* Alineación a la derecha */
+        z-index: 10;
+    }
+
+    .dropdown:hover .dropdown-content {
+        display: block;
+        /* Muestra el dropdown cuando el cursor está sobre el menú */
+    }
+
+    .dropdown-content li {
+        list-style: none;
+        /* Sin viñetas de lista */
+        padding: 0.5rem 0;
+        /* Espaciado entre los elementos */
+        border-bottom: 1px solid #ddd;
+        /* Separadores entre los elementos */
+    }
+
+    .dropdown-content li:last-child {
+        border-bottom: none;
+        /* Sin borde en el último elemento */
+    }
+
+    .dropdown-content li a {
+        text-decoration: none;
+        /* Sin subrayado en los enlaces */
+        color: #090C9B;
+        /* Color de texto */
+        display: block;
+        /* Bloque completo clicable */
+        font-size: 1rem;
+        /* Tamaño de fuente */
+        padding: 0.5rem;
+        /* Espaciado dentro de cada enlace */
+    }
+
+    .dropdown-content li a:hover {
+        color: #E74C3C;
+        /* Cambiar color en hover a rojo, similar al cierre de sesión */
+    }
+}
+
+/*
 @media (min-width: 768px) {
     .hamburger {
         display: none;
@@ -221,8 +281,10 @@
     .backdrop {
         display: none;
     }
-}
+}*/
 
+
+/*
 @media (max-width: 768px) {
     .profile-menu {
         background-color: transparent;
@@ -267,7 +329,7 @@
         background-color: transparent;
     }
 }
-
+*/
 
 
 /*

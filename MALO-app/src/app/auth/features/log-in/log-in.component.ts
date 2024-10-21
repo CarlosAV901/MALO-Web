@@ -32,8 +32,10 @@ export class LogInComponent {
     if (loginForm.valid) {
       // Llamar a la API de inicio de sesión
       this.http.post("http://localhost:5271/api/Auth/login", this.loginObj).subscribe(
+         //this.http.post("/api/auth/login", this.loginObj).subscribe(
+         //http://localhost:5271/api/Auth/login
         (res: any) => {
-          if (res.token) {
+          if (res.token/**token result */) {
             localStorage.setItem('authToken', res.token);
             this.userService.setAuthenticationState(true);
             this.router.navigate(['/empleos/tablero']);
