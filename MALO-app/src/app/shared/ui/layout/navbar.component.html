@@ -1,3 +1,4 @@
+<div class="backdrop" [class.active]="menuOpen"></div>
 <nav class="navbarEmpleos">
   <div class="brand">
     <img src="logoblanco.png" alt="Logo" class="logo">
@@ -9,14 +10,17 @@
   </div>
   <ul class="nav-links" [class.active]="menuOpen">
     <li><a routerLink="/">Sobre nosotros</a></li>
-    <!-- Mostrar enlaces si no está autenticado -->
     <ng-container *ngIf="!isAuthenticated">
       <li><a routerLink="/auth/login">Acceder</a></li>
       <li><a routerLink="/auth/sign-up">Regístrate</a></li>
     </ng-container>
-    <!-- Mostrar círculo de perfil si está autenticado -->
     <ng-container *ngIf="isAuthenticated">
-      <li class="profile-circle"></li>
+      <li><a (click)="toggleProfileMenu($event)">Perfil</a></li> <!-- Añadimos el evento click -->
     </ng-container>
+  </ul>
+  <!-- Menú desplegable cuando se hace clic en "Perfil" -->
+  <ul class="profile-menu" [class.active]="profileMenuOpen">
+    <li><a routerLink="/configuracion">Configuración</a></li>
+    <li><a (click)="logout()">Cerrar sesión</a></li>
   </ul>
 </nav>

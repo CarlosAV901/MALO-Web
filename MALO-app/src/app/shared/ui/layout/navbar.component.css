@@ -1,10 +1,8 @@
-/* Logo styling */
 .logo {
     width: 160px;
     height: auto;
 }
 
-/* Navbar grid styles */
 .navbarEmpleos {
     background-color: #090C9B;
     display: flex;
@@ -13,13 +11,16 @@
     padding: 10px 20px;
     height: 100px;
     position: relative;
+    z-index: 1000;
 }
 
 .nav-links {
     list-style: none;
     display: flex;
     gap: 20px;
-    align-items: center; /* Asegura que estén centrados verticalmente */
+    align-items: center;
+    transition: transform 0.3s ease;
+
 }
 
 .nav-links li {
@@ -33,6 +34,7 @@
     padding: 10px;
     font-size: 18px;
     font-weight: 600;
+    cursor: pointer;
     transition: color 0.3s;
 }
 
@@ -58,12 +60,12 @@
     transform-origin: bottom left;
 }
 
-/* Hamburger menu styles */
 .hamburger {
     display: none;
     cursor: pointer;
     flex-direction: column;
     gap: 5px;
+    z-index: 11;
 }
 
 .hamburger div {
@@ -85,7 +87,190 @@
     transform: rotate(-45deg) translate(5px, -5px);
 }
 
-/* Responsive design */
+.profile-menu {
+    position: absolute;
+    top: 80px;
+    right: 10px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    padding: 10px 0;
+    min-width: 200px;
+    display: none;
+    z-index: 1000;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.profile-menu.active {
+    display: block;
+}
+
+.profile-menu li {
+    padding: 12px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.profile-menu li:hover {
+    background-color: #f0f0f0;
+}
+
+.profile-menu li a {
+    text-decoration: none;
+    color: #000;
+    display: block;
+    width: 100%;
+}
+
+.profile-menu li a:hover {
+    color: #ff4081;
+}
+
+.profile-menu li:last-child a {
+    color: #ff4081;
+    font-weight: bold;
+}
+
+.profile-menu li:last-child a:hover {
+    background-color: transparent;
+}
+
+.profile-menu li+li {
+    border-top: 1px solid #eee;
+}
+
+.backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    z-index: 999;
+}
+
+.backdrop.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+
+@media (max-width: 768px) {
+    .nav-links {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        height: 100vh;
+        width: 280px;
+        background-color: #7a89fa;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start;
+        padding: 0 20px;
+        transition: right 0.3s ease;
+        z-index: 10;
+    }
+
+    .nav-links.active {
+        right: 0;
+    }
+
+    .nav-links li {
+        margin-bottom: 20px;
+        width: 100%;
+    }
+
+    .hamburger {
+        display: flex;
+    }
+}
+
+@media (min-width: 768px) {
+    .hamburger {
+        display: none;
+    }
+
+    .nav-links {
+        position: static;
+        height: auto;
+        width: auto;
+        flex-direction: row;
+        justify-content: space-between;
+        background-color: transparent;
+    }
+
+    .nav-links li {
+        margin: 0;
+    }
+
+    .nav-links a {
+        font-size: 16px;
+    }
+
+    .profile-menu {
+        top: 80px;
+    }
+
+    .backdrop {
+        display: none;
+    }
+}
+
+@media (max-width: 768px) {
+    .profile-menu {
+        background-color: transparent;
+        border: none;
+        padding: 0;
+        box-shadow: none;
+    }
+
+    .profile-menu li {
+        list-style-type: none;
+        padding: 10px;
+        margin: 0;
+        font-size: 16px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+    }
+
+    .profile-menu li:last-child {
+        border-bottom: none;
+    }
+
+    .profile-menu li a {
+        text-decoration: none;
+        color: #000;
+        display: block;
+        width: 100%;
+        padding: 10px;
+        box-sizing: border-box;
+    }
+
+    .profile-menu li a:hover {
+        background-color: #f0f0f0;
+        color: #000;
+    }
+
+    .profile-menu li:last-child a {
+        color: #ff4081;
+        font-weight: bold;
+    }
+
+    .profile-menu li:last-child a:hover {
+        background-color: transparent;
+    }
+}
+
+
+
+/*
 @media (max-width: 768px) {
     .nav-links {
         position: absolute;
@@ -98,14 +283,14 @@
         transform: translateY(-100%);
         transition: transform 0.3s ease-in-out;
         opacity: 0;
-        pointer-events: none; /* Evita la interacción cuando el menú está cerrado */
+        pointer-events: none;
         z-index: 1000;
     }
 
     .nav-links.active {
         transform: translateY(0);
         opacity: 1;
-        pointer-events: auto; /* Permite la interacción cuando el menú está abierto */
+        pointer-events: auto;
         z-index: 1000;
     }
 
@@ -116,14 +301,4 @@
     .nav-links li {
         margin: 15px 0;
     }
-}
-
-
-.profile-circle {
-    width: 40px; /* Ajusta el tamaño según lo que necesites */
-    height: 40px;
-    border-radius: 50%; /* Hace que sea un círculo */
-    background-color: #fff; /* Puedes cambiar el color o agregar una imagen de fondo */
-    margin-left: 20px; /* Espacio entre el círculo y el resto del navbar */
-  }
-  
+}*/
