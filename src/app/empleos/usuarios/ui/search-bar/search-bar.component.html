@@ -1,0 +1,38 @@
+<div class="search-bar-container">
+  <div class="filters-button">
+    <button (click)="toggleFilters()">
+      {{ isFiltersOpen ? 'Ocultar filtros' : 'Mostrar filtros' }}
+    </button>
+  </div>
+  <div class="search-bar" [ngClass]="{'is-visible': isFiltersOpen}">
+    <div class="search-item">
+      <i class="fas fa-search"></i>
+      <input type="text" [(ngModel)]="searchKeyword" placeholder="Buscar empleo..." />
+    </div>
+    <div class="search-item">
+      <i class="fas fa-map-marker-alt"></i>
+      <input type="text" [(ngModel)]="location" placeholder="Ciudad o estado..." />
+    </div>
+    <div class="search-item">
+      <select [(ngModel)]="schedule">
+        <option selected disabled>Horario</option>
+        <option value="medio tiempo">Medio Tiempo</option>
+        <option value="completo">Tiempo Completo</option>
+        <option value="temporal">Temporal</option>
+        <option value="freelance">Freelance</option>
+      </select>
+      <i class="fas fa-angle-down"></i>
+    </div>
+    <div class="search-item">
+      <select [(ngModel)]="salary">
+        <option selected disabled>Sueldo</option>
+        <option value="10-20k">$10,000 - $20,000</option>
+        <option value="20-30k">$20,000 - $30,000</option>
+      </select>
+      <i class="fas fa-angle-down"></i>
+    </div>
+    <div class="search-item">
+      <button class="apply-btn" (click)="applyFilters()">Aplicar</button>
+    </div>
+  </div>
+</div>

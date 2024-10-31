@@ -1,0 +1,32 @@
+<div class="detalle-container" *ngIf="empleo">
+  <div class="detalle-header">
+    <h2>{{ empleo.titulo }}</h2>
+  </div>
+  
+  <p class="salario">$ {{ empleo.salario_maximo }} Máximo</p>
+  <p class="salario-minimo">$ {{ empleo.salario_minimo }} Mínimo</p>
+  <p class="empresa"> {{ empleo.empresaNombre }}</p>
+  <p class="ubicacion">{{ empleo.ubicacion }}</p>
+
+  <!-- Imagen del empleo -->
+  <div class="detalle-imagen" *ngIf="empleo.multimediaContenido">
+    <img [src]="empleo.multimediaContenido" alt="{{ empleo.titulo }}">
+  </div>
+
+  <!-- Sección del horario -->
+  <div class="detalle-section">
+    <h3>Horario</h3>
+    <p>{{ empleo.horario }}</p>
+  </div>
+
+  <!-- Descripción del empleo -->
+  <div class="detalle-section">
+    <h3>Descripción del empleo</h3>
+    <p>{{ empleo.descripcion }}</p>
+  </div>
+
+  <!-- Botón para postularse o registrarse -->
+  <button class="btn-postularse" (click)="onButtonClick()">
+    {{ isAuthenticated ? 'Postularse' : 'Regístrate para postularte' }}
+  </button>
+</div>

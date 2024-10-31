@@ -1,0 +1,299 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+.container {
+  min-height: 100vh;
+  position: relative;
+  background-color: white;
+  overflow: hidden;
+}
+
+.form__container {
+  position: absolute;
+  width: 60%;
+  height: 100%;
+  padding: 2rem;
+  transition: 0.6s ease-in-out;
+}
+
+.signup__container {
+  opacity: 0;
+  z-index: 1;
+}
+
+.signin__container {
+  z-index: 2;
+}
+
+form {
+  height: 100%;
+  max-width: 30rem;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+form h1 {
+  font-size: 2.5rem;
+}
+
+#reg-1{
+  color: #3c3744;
+}
+
+#reg-2{
+  color: #3066be;
+}
+
+#btn-1{
+  background-color: #3c3744;
+}
+
+#btn-2{
+  background-color: #3066be;
+}
+
+#btn-1:hover{
+  background-color: #615d67;
+  transition: 0.3s ease-in-out;
+}
+
+#btn-2:hover{
+  background-color: #668cc9;
+  transition: 0.3s ease-in-out;
+}
+
+form span {
+  color: #94969a;
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+  text-align: center;
+  margin-top: .5rem;
+}
+
+.form__image {
+  width: 20rem; /* Ajusta el tamaño según tus necesidades */
+  height: auto;
+  margin: 1rem 0; /* Espacio entre el span y la imagen */
+  display: block;
+}
+
+.form__group {
+  position: relative;
+  margin: 0.5rem 0;
+  width: 100%;
+}
+
+.form__container button {
+  padding: 0.75rem 0;
+  width: 70%;
+  margin-top: 2rem;
+  border: none;
+  outline: none;
+  font-size: 1rem;
+  color: white;
+  border-radius: 2rem;
+  cursor: pointer;
+}
+
+/* Overlay Container */
+.overlay__container {
+  position: absolute;
+  top: 0;
+  left: 60%;
+  height: 100%;
+  width: 40%;
+  overflow: hidden;
+  transition: transform 0.6s ease-in-out;
+  z-index: 10;
+}
+
+.overlay__wrapper {
+  background-position: center center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  position: relative;
+  color: white;
+  left: -150%;
+  height: 100%;
+  width: 250%;
+  transition: transform 0.5s ease-in-out, background-image 0.5s ease-in-out;
+}
+
+
+.overlay__panel {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 4rem;
+  text-align: center;
+  height: 100%;
+  width: 40%;
+  transition: transform 0.6s ease-in-out;
+}
+
+.overlay__panel__left {
+  right: 60%;
+  transform: translateX(-12%);
+}
+
+.overlay__panel__right {
+  right: 0;
+  transform: translateX(0);
+}
+
+.overlay__panel h1 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+.overlay__panel p {
+  max-width: 350px;
+  margin: 0 auto;
+  line-height: 2rem;
+}
+
+.overlay__panel button {
+  padding: 0.75rem 4rem;
+  margin-top: 2rem;
+  border: 1px white solid;
+  outline: none;
+  font-size: 1rem;
+  color: white;
+  border-radius: 2rem;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+#overlayBtn {
+  cursor: pointer;
+  position: absolute;
+  left: 50%;
+  top: 443px;
+  transform: translateX(-50%);
+  width: 10rem;
+  height: 3rem;
+  border: 1px solid white;
+  background: transparent;
+  border-radius: 2rem;
+}
+
+.right__panel__active .overlay__container {
+  transform: translateX(-150%);
+}
+
+.right__panel__active .overlay__wrapper {
+  transform: translateX(50%);
+}
+
+.right__panel__active .overlay__panel__left {
+  transform: translateX(25%);
+}
+
+.right__panel__active .overlay__panel__right {
+  transform: translateX(35%);
+}
+
+.right__panel__active .signin__container {
+  transform: translateX(20%);
+  opacity: 0;
+}
+
+.right__panel__active .signup__container {
+  transform: translateX(65%);
+  opacity: 1;
+  z-index: 5;
+  animation: show 0.6s;
+}
+
+@keyframes show {
+  0%,
+  50% {
+    opacity: 0;
+    z-index: 1;
+  }
+  51%,
+  100% {
+    opacity: 1;
+    z-index: 5;
+  }
+}
+
+.scale__btn-animation {
+  animation: scale-animation 0.6s;
+}
+
+@keyframes scale-animation {
+  0% {
+    width: 10rem;
+  }
+  50% {
+    width: 20rem;
+  }
+  100% {
+    width: 10rem;
+  }
+}
+
+/* Botón para registrar compañía, centrado en la pantalla */
+.btn-register-company {
+  width: 51%;
+  display: none; /* Oculto por defecto */
+  position: absolute;
+  left: 50%; /* Centrar horizontalmente */
+  bottom: 20%; /* Ajustar su posición vertical */
+  transform: translate(-50%, 50%); /* Centrarlo completamente (50% horizontal, 50% vertical) */
+  background-color: #949396;
+  color: white;
+  padding: 0.75rem 2rem;
+  font-size: 1rem;
+  border: none;
+  border-radius: 2rem;
+  cursor: pointer;
+  z-index: 100; /* Asegurarse de que esté encima de otros elementos */
+}
+
+
+/* On small screens, make the signup form take full width when activated */
+@media (max-width: 768px) {
+  .form__container {
+    width: 100%; /* El formulario ocupará el 100% del ancho */
+    transition: none;
+  }
+
+  .form__image{
+    max-width: 13rem;
+    display: none;
+  }
+
+  /* Ocultar el overlay panel en pantallas pequeñas */
+  .overlay__container {
+    display: none;
+  }
+
+  /* Fullscreen for Sign Up form */
+  .right__panel__active .signup__container {
+    transform: none;
+    opacity: 1;
+    z-index: 5;
+  }
+
+  /* Hide Sign In form */
+  .right__panel__active .signin__container {
+    opacity: 0;
+    z-index: 0;
+    display: none; /* Ocultar el formulario de Sign In */
+  }
+
+  /* Button to register company */
+  .btn-register-company {
+    display: block;
+  }
+}

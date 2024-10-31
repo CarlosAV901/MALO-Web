@@ -1,0 +1,16 @@
+.parent {
+    display: grid;
+    grid-template-columns: 50% 50%;
+    /* Ajusta las columnas a estar más cerca */
+    grid-template-rows: 1fr auto;
+    grid-column-gap: 0px;
+    grid-row-gap: 0px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 10px;
+    min-height: 100vh;
+    padding-bottom: 20px;
+    justify-items: center;
+    align-items: center;
+    align-items: stretch;
+}

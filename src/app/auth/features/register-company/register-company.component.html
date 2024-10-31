@@ -1,0 +1,84 @@
+<div class="body">
+  <div class="formulario">
+    <!-- Form 1: Datos personales y ubicación -->
+    <div *ngIf="currentStep === 1" class="form-1">
+      <div class="container">
+        <h1><i class="fa fa-user-o"></i>&nbsp; Datos de la empresa</h1>
+        <div class="form-group">
+          <label *ngIf="!nombreTouched || isNotEmpty(nombre)" for="nombre">Nombre</label>
+          <label *ngIf="nombreTouched && !isNotEmpty(nombre)" for="nombre" class="error">
+            Debes agregar un nombre!
+          </label>
+          <input type="text" id="nombre" class="input_1" [(ngModel)]="nombre" (blur)="nombreTouched = true" required>
+        </div>
+        <div class="form-group">
+          <label *ngIf="!industriaTouched || isNotEmpty(industria)" for="industria">Industria</label>
+          <label *ngIf="industriaTouched && !isNotEmpty(industria)" for="industria" class="error">
+            Debes agregar un tipo de industria!
+          </label>
+          <input type="text" id="industria" class="input_1" [(ngModel)]="industria" (blur)="industriaTouched = true" required>
+        </div>
+        <div class="form-group">
+          <label *ngIf="!ubicacionTouched || isNotEmpty(ubicacion)" for="ubicacion">Ubicación</label>
+          <label *ngIf="ubicacionTouched && !isNotEmpty(ubicacion)" for="ubicacion" class="error">
+            Debes agregar una ubicación!
+          </label>
+          <input type="text" id="ubicacion" class="input_1" [(ngModel)]="ubicacion" (blur)="ubicacionTouched = true" required>
+        </div>
+        <button class="conti-1" (click)="nextStep()" [disabled]="!isForm1Valid()">Siguiente &nbsp;></button>
+      </div>
+    </div>
+
+    <!-- Form 2: Correo -->
+    <div *ngIf="currentStep === 2" class="form-2">
+      <div class="container">
+        <app-notification *ngIf="errorMessage" [message]="errorMessage" [isError]="true"></app-notification>
+        <h1><i class="fa fa-list-alt"></i>&nbsp; Credenciales</h1>
+        <div class="form-group">
+          <label *ngIf="isEmailValid(correo) || !emailTouched" for="correo">Correo</label>
+          <label *ngIf="!isEmailValid(correo) && emailTouched" for="correo" class="error">
+            Correo no válido. Debe contener "&#64;" y un formato válido!
+          </label>
+          <input id="correo" type="email" [(ngModel)]="correo" (blur)="emailTouched = true" />
+        </div>
+        <div class="form-group">
+          <label *ngIf="isPasswordValid(contrasena) || !contrasenaTouched" for="contrasena">Contraseña</label>
+          <label *ngIf="!isPasswordValid(contrasena) && contrasenaTouched" for="contrasena" class="error">
+            La contraseña debe tener al menos 6 caracteres!
+          </label>
+          <input type="password" id="contrasena" class="input_3" [(ngModel)]="contrasena" (blur)="contrasenaTouched = true" required>
+        </div>
+        <div class="form-group">
+          <label *ngIf="doPasswordsMatch(contrasena, confirmPass) || !confirmPassTouched" for="confirmPass">Confirmar Contraseña</label>
+          <label *ngIf="!doPasswordsMatch(contrasena, confirmPass) && confirmPassTouched" for="confirmPass" class="error">
+            Las contraseñas no coinciden!
+          </label>
+          <input id="confirmPass" type="password" [(ngModel)]="confirmPass" (blur)="confirmPassTouched = true" required />
+        </div>
+        <button class="back" (click)="previousStep()"><&nbsp; Anterior</button>
+        <button class="conti-2" (click)="finishRegister()" [disabled]="!isForm2Valid()">Siguiente &nbsp;></button>
+      </div>
+    </div>
+
+    <!-- Form 3: Felicitaciones -->
+    <div *ngIf="currentStep === 3" class="form-3">
+      <div class="container">
+        <h1>¡Muy bien! ahora revisa tu correo para verificar tu cuenta...</h1>
+        <button (click)="goToSignIn()" class="conti-3">Continuar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Barra de progreso -->
+  <div class="progress-bar" [ngClass]="{ 'progress-final': currentStep === 3 }">
+    <div class="step-1">
+      <i class="fa fa-user-o bot-icon-1" [ngClass]="{ 'disabled-icon': currentStep === 3 }" (click)="currentStep !== 3 ? goToStep(1) : null" [class.active]="currentStep >= 1"></i>
+      <div class="line-1" [ngStyle]="{'background-color': currentStep > 1 ? '#3c3744' : '#c7c7c7'}"></div>
+    </div>
+    <div class="step-1">
+      <i class="fa fa-list-alt bot-icon-2" [ngClass]="{ 'disabled-icon': currentStep === 3 }" (click)="currentStep !== 3 ? goToStep(2) : null" [class.active]="currentStep >= 2"></i>
+      <div class="line-2" [ngStyle]="{'background-color': currentStep > 2 ? '#3c3744' : '#c7c7c7'}"></div>
+    </div>
+  </div>
+  <app-loader *ngIf="isLoading"></app-loader>
+</div>
