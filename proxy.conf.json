@@ -1,0 +1,9 @@
+{
+    "/api": {
+      "target": "https://malo-backend.onrender.com",
+      "secure": false,
+      "changeOrigin": true,
+      "logLevel": "debug"
+    }
+  }
+  

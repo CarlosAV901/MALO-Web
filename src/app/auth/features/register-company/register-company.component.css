@@ -1,0 +1,232 @@
+.body {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    background-image: url('/register-company.png');
+    background-size: 44rem;
+    background-position: left 10% top 30%; /* Imagen de fondo alineada a la izquierda */
+    background-repeat: no-repeat;
+  }
+  
+  * {
+    margin: 0;
+    padding: 0;
+  }
+  
+  .container {
+    width: 38%; /* Ajusta el tamaño del formulario si es necesario */
+    margin-left: auto; /* Empuja el contenedor hacia la derecha */
+    padding-right: 10%; /* Ajusta el padding derecho para separar el formulario del borde */
+    text-align: right; /* Alinea los textos del formulario a la derecha */
+    min-height: 23.2rem;
+  }
+  
+  .clearfix {
+    clear: both;
+  }
+  
+  .form-1 h1, 
+  .form-2 h1, 
+  .form-3 h1 {
+    color: #3c3744;
+    margin-bottom: 16px;
+    margin-left: -60%;
+  }
+ 
+  
+  .form-1, 
+  .form-2, 
+  .form-3 {
+    padding-top: 7%;
+  }
+  
+  .form-group {
+    text-align: right; /* Alinea las etiquetas y elementos del formulario a la derecha */
+    margin-bottom: 0.9375rem;
+  }
+  
+  .form-group select {
+    display: block;
+    width: 100%; /* Asegura que los select ocupen todo el ancho disponible */
+    height: 3rem;
+    padding: 0 0.9375rem;
+    border: 2px solid #3c3744;
+    border-radius: 0.75rem;
+    font-size: 1rem;
+    background: none;
+    color: #000;
+  }
+  
+  .form-group input {
+    display: block;
+    width: 100%; /* Ajusta el ancho de los inputs */
+    height: 3rem;
+    padding: 0.9375rem;
+    border: 2px solid #3c3744;
+    border-radius: 0.75rem;
+    font-size: 1rem;
+    background: none;
+  }
+  
+  .form-group label {
+    font-size: 1.1rem;
+    color: #3c3744;
+  }
+  
+  .sendEmail{
+    margin-bottom: 1rem !important;
+    margin-top: -0.5rem !important;
+    width: 100%;
+  }
+
+  .conti-1, 
+  .conti-2, 
+  .conti-3 {
+    padding: 0.625rem 1.875rem;
+    margin-top: 0.625rem;
+    font-size: 1rem;
+    background-color: #3c3744;
+    color: white;
+    border: none;
+    border-radius: 30px;
+    opacity: 0.3;
+    cursor: not-allowed;
+  }
+  
+  .back {
+    padding: 0.625rem 1.875rem;
+    margin-top: 0.625rem;
+    font-size: 1rem;
+    background-color: #c7c7c7;
+    color: black;
+    border: none;
+    border-radius: 30px;
+    opacity: 0.3;
+    cursor: not-allowed;
+  }
+  
+  button:enabled {
+    opacity: 1;
+    cursor: pointer;
+  }
+  
+  .error {
+    color: red !important;
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
+  }
+  
+  /* Barra de progreso - excluida de los cambios de alineación */
+  .progress-bar {
+    max-width: 50rem;
+    display: flex;
+    margin: 4rem -1%;
+    margin-left: auto; /* Empuja la barra de progreso hacia la derecha */
+    padding-right: 10%; /* Espacio entre la barra de progreso y el borde derecho */
+  }
+  
+  .bot-icon-1,
+  .bot-icon-2 {
+    font-size: 1.875rem;
+    color: #c7c7c7;
+    cursor: pointer;
+    transition: color 0.5s linear; /* Animación suave al cambiar de color */
+  }
+  
+  .bot-icon-1.active,
+  .bot-icon-2.active {
+    color: #3c3744;
+  }
+  
+  .step-1 {
+    position: relative;
+    width: 15.625rem;
+  }
+  
+  /* Líneas de conexión entre los pasos */
+  .line-1,
+  .line-2 {
+    height: 0.125rem;
+    width: 75%;
+    position: absolute;
+    top: 50%;
+    left: 2.5rem;
+    background-color: #c7c7c7;
+    transition: background-color 0.5s linear; /* Animación suave para el color */
+  }
+  
+  .line-1.active,
+  .line-2.active {
+    background-color: #3c3744;
+  }
+  
+  button {
+    margin-right: 10px;
+  }
+  
+  .disabled-icon {
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+  
+  .transition {
+    transition: background-color 1s linear;
+  }
+  
+/* Ajustes para pantallas más pequeñas */
+@media (max-width: 68.125rem) {
+  .body {
+    background-image: none;
+  }
+
+  .container {
+    margin: 0; /* Deshace el centrado del formulario */
+    width: 100%; /* Asegura que el formulario se ajuste bien a pantallas pequeñas */
+    text-align: right; /* Alinea los textos a la izquierda */
+    padding-right: 0; /* Elimina el padding derecho en pantallas pequeñas */
+    margin-left: 0; /* Restablece la alineación a la izquierda */
+    padding: 0 13%;
+  }
+
+  .form-3 h1{
+    margin: 0 !important;
+  }
+
+  .form-group {
+    text-align: right; /* Alinea los textos de los elementos del formulario a la izquierda */
+  }
+  .progress-bar {
+    margin-left: 0; /* Alinea la barra de progreso a la izquierda */
+    padding-right: 0; /* Elimina el padding derecho en pantallas pequeñas */
+    margin: 4rem 13%;
+  }
+  .line-1, 
+  .line-2 {
+    width: 70%;
+  }
+  .progress-bar {
+    max-width: 35rem;
+  }
+}
+
+@media (max-width: 40rem) {
+  .form-group input {
+    width: 100%; /* Asegura que los inputs ocupen el 100% en pantallas pequeñas */
+  }
+
+  .line-1, 
+  .line-2 {
+    width: 50%;
+  }
+
+}
+
+@media (max-width: 22.5rem) {
+  .line-1, 
+  .line-2 {
+    display: none; /* Oculta las líneas en pantallas muy pequeñas */
+  }
+}

@@ -1,0 +1,368 @@
+header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 2rem;
+    background-color: #090C9B;
+    height: 100px;
+}
+
+.logo {
+    width: 160px;
+    height: auto;
+    cursor: pointer;
+}
+
+.nav-list {
+    list-style-type: none;
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    transition: transform 0.3s ease;
+}
+
+.nav-list li {
+    display: inline;
+}
+
+.nav-list li a {
+    text-decoration: none;
+    color: #ffffff;
+    position: relative;
+    font-size: 1.1rem;
+    font-weight: bold;
+}
+
+.nav-list a:hover {
+    color: #FFD700;
+}
+
+.nav-list a::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 2px;
+    background-color: #FFD700;
+    left: 0;
+    bottom: 0;
+    transform: scaleX(0);
+    transform-origin: bottom right;
+    transition: transform 0.3s ease-out;
+}
+
+.nav-list a:hover::after {
+    transform: scaleX(1);
+    transform-origin: bottom left;
+}
+
+/* Ocultar botones de menú en escritorio */
+.abrir-menu,
+.cerrar-menu {
+    display: none;
+}
+
+.abrir-menu i {
+    color: #ffffff;
+}
+
+.no-scroll {
+    overflow: hidden;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+}
+
+
+
+/* Vista móvil */
+/* Vista móvil */
+@media screen and (max-width: 550px) {
+
+    .abrir-menu,
+    .cerrar-menu {
+        display: block;
+        border: 0;
+        font-size: 1.25rem;
+        background-color: transparent;
+        cursor: pointer;
+    }
+
+    .abrir-menu {
+        color: #f9eded;
+    }
+
+    .cerrar-menu {
+        color: #ececec;
+    }
+
+    .nav {
+        opacity: 0;
+        visibility: hidden;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #ffffff;
+        padding: 2rem;
+        box-shadow: 0 0 0 100vmax rgba(0, 0, 0, .5);
+        width: 80%;
+        height: calc(min(75vh, 90%)); 
+        border-radius: 10px 0 0 10px;
+        z-index: 100;
+    }
+
+    .nav.visible {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    .nav-list {
+        flex-direction: column;
+        align-items: flex-start;
+        width: 100%;
+        display: flex;
+        flex-grow: 1;
+        justify-content: space-between;
+        /* Esto asegura que los elementos se distribuyan y el último esté al final */
+    }
+
+    .nav-list li a {
+        color: #000000ec;
+        padding: 1rem 0;
+        width: 100%;
+        display: block;
+        border-bottom: 1px solid #ddd;
+    }
+
+    /* Colocar "Cerrar sesión" en rojo y al final */
+    .nav-list li a.logout {
+        color: #FF0000;
+        font-weight: bold;
+        margin-top: auto;
+        margin-bottom: 2rem;
+        /* Asegura que el enlace esté siempre al final */
+    }
+
+    .cerrar-menu i {
+        color: black;
+    }
+
+    /* Estilos de la información del usuario */
+    .user-info {
+        border-bottom: 1px solid #ddd;
+        padding-bottom: 1rem;
+        width: 100%;
+    }
+
+    .user-email {
+        font-weight: bold;
+        color: #000000;
+        font-size: 1rem;
+    }
+
+    .user-name {
+        color: #666;
+        font-size: 0.875rem;
+    }
+
+    #perfil {
+        display: none;
+    }
+}
+
+/* Ocultar el correo y nombre de perfil en vista web */
+@media screen and (min-width: 551px) {
+    .user-info {
+        display: none;
+    }
+}
+
+
+/* Ocultar el correo y nombre de perfil en vista web */
+@media screen and (min-width: 551px) {
+    .user-info {
+        display: none;
+    }
+}
+
+
+/* Estilos del menú desplegable solo para la vista web */
+@media screen and (min-width: 551px) {
+
+    /* Estilo del dropdown (menú desplegable) */
+    .dropdown-content {
+        display: none;
+        /* Oculto por defecto */
+        position: absolute;
+        /* Para posicionarlo debajo del botón del menú */
+        background-color: #ffffff;
+        /* Fondo blanco */
+        box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+        /* Sombra similar a la imagen */
+        padding: 1rem;
+        /* Añadir padding para mayor espacio interno */
+        border-radius: 8px;
+        /* Bordes redondeados */
+        min-width: 160px;
+        /* Anchura mínima */
+        right: 0;
+        /* Alineación a la derecha */
+        z-index: 10;
+    }
+
+    .dropdown:hover .dropdown-content {
+        display: block;
+        /* Muestra el dropdown cuando el cursor está sobre el menú */
+    }
+
+    .dropdown-content li {
+        list-style: none;
+        /* Sin viñetas de lista */
+        padding: 0.5rem 0;
+        /* Espaciado entre los elementos */
+        border-bottom: 1px solid #ddd;
+        /* Separadores entre los elementos */
+    }
+
+    .dropdown-content li:last-child {
+        border-bottom: none;
+        /* Sin borde en el último elemento */
+    }
+
+    .dropdown-content li a {
+        text-decoration: none;
+        /* Sin subrayado en los enlaces */
+        color: #090C9B;
+        /* Color de texto */
+        display: block;
+        /* Bloque completo clicable */
+        font-size: 1rem;
+        /* Tamaño de fuente */
+        padding: 0.5rem;
+        /* Espaciado dentro de cada enlace */
+    }
+
+    .dropdown-content li a:hover {
+        color: #E74C3C;
+        /* Cambiar color en hover a rojo, similar al cierre de sesión */
+    }
+}
+
+/*
+@media (min-width: 768px) {
+    .hamburger {
+        display: none;
+    }
+
+    .nav-links {
+        position: static;
+        height: auto;
+        width: auto;
+        flex-direction: row;
+        justify-content: space-between;
+        background-color: transparent;
+    }
+
+    .nav-links li {
+        margin: 0;
+    }
+
+    .nav-links a {
+        font-size: 16px;
+    }
+
+    .profile-menu {
+        top: 80px;
+    }
+
+    .backdrop {
+        display: none;
+    }
+}*/
+
+
+/*
+@media (max-width: 768px) {
+    .profile-menu {
+        background-color: transparent;
+        border: none;
+        padding: 0;
+        box-shadow: none;
+    }
+
+    .profile-menu li {
+        list-style-type: none;
+        padding: 10px;
+        margin: 0;
+        font-size: 16px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+    }
+
+    .profile-menu li:last-child {
+        border-bottom: none;
+    }
+
+    .profile-menu li a {
+        text-decoration: none;
+        color: #000;
+        display: block;
+        width: 100%;
+        padding: 10px;
+        box-sizing: border-box;
+    }
+
+    .profile-menu li a:hover {
+        background-color: #f0f0f0;
+        color: #000;
+    }
+
+    .profile-menu li:last-child a {
+        color: #ff4081;
+        font-weight: bold;
+    }
+
+    .profile-menu li:last-child a:hover {
+        background-color: transparent;
+    }
+}
+*/
+
+
+/*
+@media (max-width: 768px) {
+    .nav-links {
+        position: absolute;
+        top: 100px;
+        right: 0;
+        width: 100%;
+        flex-direction: column;
+        background-color: #090C9B;
+        align-items: center;
+        transform: translateY(-100%);
+        transition: transform 0.3s ease-in-out;
+        opacity: 0;
+        pointer-events: none;
+        z-index: 1000;
+    }
+
+    .nav-links.active {
+        transform: translateY(0);
+        opacity: 1;
+        pointer-events: auto;
+        z-index: 1000;
+    }
+
+    .hamburger {
+        display: flex;
+    }
+
+    .nav-links li {
+        margin: 15px 0;
+    }
+}*/

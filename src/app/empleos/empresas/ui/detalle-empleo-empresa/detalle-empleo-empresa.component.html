@@ -1,0 +1,79 @@
+<div class="detalle-container" *ngIf="empleo">
+  <div class="detalle-header">
+    <h2 *ngIf="!modoEdicion">{{ empleo.titulo }}</h2>
+    <div class="detalle-section" *ngIf="modoEdicion">
+      <h3>Titulo</h3>
+      <input [(ngModel)]="empleo.titulo" class="input-editar" placeholder="Título" required />
+      <div *ngIf="!empleo.titulo" class="error">Este campo es obligatorio</div>
+    </div>
+  </div>
+
+  <p *ngIf="!modoEdicion" class="salario">$ {{ empleo.salario_maximo }} Máximo</p>
+  <div class="detalle-section" *ngIf="modoEdicion">
+    <h3>Salario Máximo</h3>
+    <input [(ngModel)]="empleo.salario_maximo" type="number" class="input-editar" placeholder="Salario máximo"
+      required />
+    <div *ngIf="!empleo.salario_maximo" class="error">Este campo es obligatorio</div>
+  </div>
+
+  <p *ngIf="!modoEdicion" class="salario-minimo">$ {{ empleo.salario_minimo }} Mínimo</p>
+  <div class="detalle-section" *ngIf="modoEdicion">
+    <h3>Salario Mínimo</h3>
+    <input [(ngModel)]="empleo.salario_minimo" type="number" class="input-editar" placeholder="Salario mínimo" required
+      min="0" />
+    <div *ngIf="!empleo.salario_minimo && empleo.salario_minimo !== 0" class="error">Este campo es obligatorio</div>
+    <div *ngIf="empleo.salario_minimo < 0" class="error">El salario no puede ser menor a 0</div>
+  </div>
+
+  <p *ngIf="!modoEdicion">{{ empleo.ubicacion }}</p>
+  <div class="detalle-section" *ngIf="modoEdicion">
+    <h3>Ubicación</h3>
+    <input [(ngModel)]="empleo.ubicacion" class="input-editar" placeholder="Ubicación" required />
+    <div *ngIf="!empleo.ubicacion" class="error">Este campo es obligatorio</div>
+  </div>
+
+  <div class="detalle-imagen" *ngIf="!modoEdicion && empleo.multimediaContenido">
+
+    <img [src]="empleo.multimediaContenido" alt="Imagen del empleo" />
+  </div>
+
+  <div class="detalle-section" *ngIf="modoEdicion">
+
+    <h3>URL de la imagen</h3>
+    <input id="urlImagen" [(ngModel)]="empleo.multimediaContenido" class="input-editar"
+      placeholder="Ingrese URL de la imagen" />
+  </div>
+
+  <div class="detalle-section">
+    <h3>Horario</h3>
+    <p *ngIf="!modoEdicion">{{ empleo.horario }}</p>
+    <select *ngIf="modoEdicion" [(ngModel)]="empleo.horario" class="input-editar" required>
+      <option value="">Selecciona un horario</option>
+      <option value="medio tiempo">Medio Tiempo</option>
+      <option value="completo">Tiempo Completo</option>
+      <option value="temporal">Temporal</option>
+      <option value="freelance">Freelance</option>
+    </select>
+    <div *ngIf="!empleo.horario" class="error">Este campo es obligatorio</div>
+  </div>
+
+  <div class="detalle-section">
+    <h3>Descripción</h3>
+    <p *ngIf="!modoEdicion">{{ empleo.descripcion }}</p>
+    <div *ngIf="modoEdicion">
+      <input [(ngModel)]="empleo.descripcion" class="input-editar" placeholder="Descripción" required />
+      <div *ngIf="!empleo.descripcion" class="error">Este campo es obligatorio</div>
+    </div>
+  </div>
+
+  <div class="action-buttons">
+    <button *ngIf="!modoEdicion" class="btn-editar" (click)="activarEdicion()">Editar</button>
+    <button *ngIf="modoEdicion" class="btn-guardar" (click)="guardarCambios()">Guardar</button>
+    <button *ngIf="modoEdicion" class="btn-cancelar" (click)="modoEdicion = false">Cancelar</button>
+    <button class="btn-eliminar" (click)="eliminarEmpleo()">Eliminar</button>
+
+  </div>
+  <div class="notifications">
+    <app-notification *ngIf="errorMessage" [message]="errorMessage" [isError]="true"></app-notification>
+  </div>
+</div>

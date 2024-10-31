@@ -1,0 +1,209 @@
+.profile-container {
+  display: flex;
+  flex-direction: row;
+  min-height: 100vh;
+}
+
+.section {
+  padding: 20px;
+}
+
+.perfilData {
+  background: url('/57-bg.png');
+  background-size: cover;
+  color: white;
+  width: 30%; 
+}
+
+.profile-photo {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  border: 1px solid white;
+  overflow: hidden;
+  margin: 0 auto 20px; /* Centra la imagen horizontalmente */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+.profile-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.perfilData p {
+  width: 100%;
+  padding: 5px 2rem;
+}
+
+.editData {
+  background-color: white;
+  color: black;
+  width: 70%;
+  margin-right: 52px;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  margin-top: 10px;
+}
+
+input, textarea {
+  margin-top: 5px;
+  padding: 8px;
+  font-size: 1rem;
+}
+
+button {
+  margin-top: 15px;
+  padding: 10px;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.section-content {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: max-height 0.3s ease, opacity 0.3s ease;
+}
+
+.section-content.visible {
+  max-height: 500px;
+  opacity: 1;
+}
+
+.separator {
+  flex-grow: 1;
+  border: none;
+  border-top: 1px solid white;
+  margin: 10px 0;
+}
+.separatorE {
+  flex-grow: 1;
+  border: none;
+  border-top: 1px solid black;
+  margin: 10px 0;
+  margin-left: 10px;
+}
+
+.separator-icon {
+  margin-left: 8px;
+  font-size: 1.2em;
+  color: white; /* Ajusta el color del icono */
+  cursor: pointer;
+  transform: rotate(180deg);
+  transition: transform 0.3s ease;
+}
+.separator-iconE {
+  color: black;
+  margin-left: 8px;
+  font-size: 1.2em;
+  cursor: pointer;
+  transform: rotate(180deg);
+  transition: transform 0.3s ease;
+}
+
+.separator-container {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  cursor: pointer; 
+  margin: 10px 15px 10px auto;
+}
+
+.separator-containerE {
+  color: black;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  margin: 3rem 15px 2rem auto;
+}
+
+.separator-containerE p{
+  color: black;
+  font-size: 1.3rem;
+}
+
+h2{
+  color: #3066be;
+  font-size: 1.5rem;
+  text-align: center;
+}
+
+.separator-icon.rotated {
+  transform: rotate(0deg); /* Rotar 180 grados */
+}
+.separator-iconE.rotated {
+  transform: rotate(0deg); /* Rotar 180 grados */
+}
+
+.form-group {
+  max-width: 100%;
+  flex: 1;
+  text-align: left;
+  margin-bottom: 0.9375rem;
+}
+
+.form-group select {
+  display: block;
+  width: 100%;
+  height: 3rem;
+  padding: 0 0.9375rem;
+  border: 2px solid #3066be;
+  border-radius: 0.75rem;
+  font-size: 1rem;
+  background: none;
+  color: #000; /* Para asegurar que el texto seleccionado sea visible */
+}
+
+.form-group input {
+  display: block;
+  min-width: 100%;
+  height: 3rem;
+  padding: 0.9375rem;
+  border: 2px solid #3066be;
+  border-radius: 0.75rem;
+  font-size: 1rem;
+  background: none;
+}
+
+.form-group label {
+  font-size: 1.1rem;
+  color: #3066be;
+}
+
+.form-row{
+  max-width: 100%;
+  display: flex;
+  gap: 20px;
+}
+
+.button-group {
+  display: flex;
+  align-items: center; /* Centra verticalmente el botón respecto al campo de correo */
+}
+
+.sendEmail {
+  width: 49%;
+  margin-top: -5px;
+  padding: 0.625rem 1.875rem;
+  font-size: 1rem;
+  background-color: #3066be;
+  color: white;
+  border: none;
+  border-radius: 30px;
+  opacity: 0.3;
+  cursor: not-allowed;
+}

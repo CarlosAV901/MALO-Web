@@ -1,0 +1,43 @@
+<div class="notificaciones">
+  <app-notification *ngIf="successMessage" [message]="successMessage"></app-notification>
+  <app-notification *ngIf="errorMessage" [message]="errorMessage" [isError]="true"></app-notification>
+</div>
+<div class="parent">
+  <div class="div1">
+    <div class="empleos-lista">
+      <app-titulo [primeraPalabra]="'Tus'" [segundaPalabra]="'Empleos'"></app-titulo>
+  
+      <!-- Selector de ordenación -->
+      <div class="ordenar-empleos">
+        <label for="ordenFecha">Ordenar por fecha:</label>
+        <select id="ordenFecha" [(ngModel)]="ordenFecha" (change)="ordenarEmpleos()">
+          <option value="asc">Del primero al último</option>
+          <option value="desc">Del último al primero</option>
+        </select>
+      </div>
+  
+      <!-- Listado de empleos -->
+      <app-card-empleos-empresa *ngFor="let empleo of paginatedEmpleos; let i = index" [empleo]="empleo"
+        [selected]="selectedEmpleoIndex === i + (currentPage - 1) * itemsPerPage"
+        (cardClick)="onCardClick(i + (currentPage - 1) * itemsPerPage)">
+      </app-card-empleos-empresa>
+  
+      <!-- Paginación -->
+      <div class="pagination">
+        <button (click)="prevPage()" [disabled]="currentPage === 1">Anterior</button>
+        <span>Página {{ currentPage }} de {{ totalPages }}</span>
+        <button (click)="nextPage()" [disabled]="currentPage === totalPages">Siguiente</button>
+      </div>
+    </div>
+  </div>
+  <div class="div2">
+    <br>
+    <app-detalle-empleo-empresa 
+    *ngIf="selectedEmpleoIndex !== null" 
+    [empleo]="empleos[selectedEmpleoIndex]" 
+    (empleoEliminado)="actualizarListaEmpleos($event)"
+    (empleoActualizado)="actualizarEmpleo($event)">
+    </app-detalle-empleo-empresa>
+    <button class="publicar-empleo-btn" (click)="onPublicarEmpleo()">¡Publica tu empleo!</button>
+  </div>
+</div> 

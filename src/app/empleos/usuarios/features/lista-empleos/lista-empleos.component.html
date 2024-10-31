@@ -1,0 +1,24 @@
+<app-search-bar (filtersApplied)="onFiltersApplied($event)"></app-search-bar>
+<div class="parent">
+  <div class="div1">
+    <br><br>
+    <div class="empleos-lista">
+      <app-titulo [primeraPalabra]="'Lista de'" [segundaPalabra]="'Empleos'"></app-titulo>
+      <app-card-empleos 
+        *ngFor="let empleo of paginatedEmpleos; let i = index" 
+        [empleo]="empleo"
+        [selected]="selectedEmpleoIndex === i + (currentPage - 1) * itemsPerPage" 
+        (cardClick)="onCardClick(i + (currentPage - 1) * itemsPerPage)">
+      </app-card-empleos>
+      <div class="pagination" *ngIf="filteredEmpleos.length > itemsPerPage">
+        <button (click)="prevPage()" [disabled]="currentPage === 1">Anterior</button>
+        <span>Página {{ currentPage }} de {{ totalPages }}</span>
+        <button (click)="nextPage()" [disabled]="currentPage * itemsPerPage >= filteredEmpleos.length">Siguiente</button>
+      </div>
+    </div>
+  </div>
+  <div class="div2">
+    <br>
+    <app-detalle-empleo *ngIf="selectedEmpleoIndex !== null" [empleo]="filteredEmpleos[selectedEmpleoIndex]"></app-detalle-empleo>
+  </div>
+</div>

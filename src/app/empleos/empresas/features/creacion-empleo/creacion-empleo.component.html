@@ -1,0 +1,115 @@
+<div class="container">
+  <h1>Creación de Empleo</h1>
+  <form [formGroup]="empleoForm" (ngSubmit)="crearEmpleo()">
+    <div class="form-grid">
+      <div class="form-section">
+        <fieldset>
+          <legend>Datos del Empleo</legend>
+
+          <!-- Título del Empleo -->
+          <div class="form-group" [ngClass]="{'error': empleoForm.get('titulo')?.invalid && empleoForm.get('titulo')?.touched}">
+            <label for="titulo">Título del Empleo</label>
+            <input type="text" id="titulo" formControlName="titulo" placeholder="Ingresa el título del empleo">
+            <div *ngIf="empleoForm.get('titulo')?.invalid && empleoForm.get('titulo')?.touched" class="error-message">
+              <span *ngIf="empleoForm.get('titulo')?.errors?.['required']">El título es obligatorio.</span>
+            </div>
+          </div>
+
+          <!-- Descripción -->
+          <div class="form-group" [ngClass]="{'error': empleoForm.get('descripcion')?.invalid && empleoForm.get('descripcion')?.touched}">
+            <label for="descripcion">Descripción</label>
+            <textarea id="descripcion" formControlName="descripcion" placeholder="Descripción del empleo"></textarea>
+            <div *ngIf="empleoForm.get('descripcion')?.invalid && empleoForm.get('descripcion')?.touched" class="error-message">
+              <span *ngIf="empleoForm.get('descripcion')?.errors?.['required']">La descripción es obligatoria.</span>
+            </div>
+          </div>
+
+          <!-- Ubicación -->
+          <div class="form-group" [ngClass]="{'error': empleoForm.get('ubicacion')?.invalid && empleoForm.get('ubicacion')?.touched}">
+            <label for="ubicacion">Ubicación</label>
+            <input type="text" id="ubicacion" formControlName="ubicacion" placeholder="Ingresa la ubicación">
+            <div *ngIf="empleoForm.get('ubicacion')?.invalid && empleoForm.get('ubicacion')?.touched" class="error-message">
+              <span *ngIf="empleoForm.get('ubicacion')?.errors?.['required']">La ubicación es obligatoria.</span>
+            </div>
+          </div>
+
+          <!-- Horario -->
+          <div class="form-group" [ngClass]="{'error': empleoForm.get('horario')?.invalid && empleoForm.get('horario')?.touched}">
+            <label for="horario">Horario</label>
+            <select id="horario" formControlName="horario">
+              <option value="">Selecciona un horario</option>
+              <option value="medio tiempo">Medio Tiempo</option>
+              <option value="completo">Tiempo Completo</option>
+              <option value="temporal">Temporal</option>
+              <option value="freelance">Freelance</option>
+            </select>
+            <div *ngIf="empleoForm.get('horario')?.invalid && empleoForm.get('horario')?.touched" class="error-message">
+              <span *ngIf="empleoForm.get('horario')?.errors?.['required']">El horario es obligatorio.</span>
+            </div>
+          </div>
+        </fieldset>
+      </div>
+
+      <div class="form-section">
+        <fieldset>
+          <legend>Más Información</legend>
+
+          <!-- Salario Mínimo -->
+          <div class="form-group" [ngClass]="{'error': empleoForm.get('salarioMinimo')?.invalid && empleoForm.get('salarioMinimo')?.touched}">
+            <label for="salarioMinimo">Salario Mínimo</label>
+            <input type="number" id="salarioMinimo" formControlName="salarioMinimo" placeholder="Salario mínimo">
+            <div *ngIf="empleoForm.get('salarioMinimo')?.invalid && empleoForm.get('salarioMinimo')?.touched" class="error-message">
+              <span *ngIf="empleoForm.get('salarioMinimo')?.errors?.['required']">El salario mínimo es obligatorio.</span>
+              <span *ngIf="empleoForm.get('salarioMinimo')?.errors?.['min']">El salario mínimo debe ser mayor a 0.</span>
+            </div>
+          </div>
+
+          <!-- Salario Máximo -->
+          <div class="form-group" [ngClass]="{'error': empleoForm.get('salarioMaximo')?.invalid && empleoForm.get('salarioMaximo')?.touched}">
+            <label for="salarioMaximo">Salario Máximo</label>
+            <input type="number" id="salarioMaximo" formControlName="salarioMaximo" placeholder="Salario máximo">
+            <div *ngIf="empleoForm.get('salarioMaximo')?.invalid && empleoForm.get('salarioMaximo')?.touched" class="error-message">
+              <span *ngIf="empleoForm.get('salarioMaximo')?.errors?.['required']">El salario máximo es obligatorio.</span>
+              <span *ngIf="empleoForm.get('salarioMaximo')?.errors?.['min']">El salario máximo debe ser mayor a 0.</span>
+            </div>
+          </div>
+
+          <!-- Nombre de la imagen -->
+          <div class="form-group" [ngClass]="{'error': empleoForm.get('multimediaNombre')?.invalid && empleoForm.get('multimediaNombre')?.touched}">
+            <label for="multimediaNombre">Nombre de la imagen</label>
+            <input type="text" id="multimediaNombre" formControlName="multimediaNombre" placeholder="Titulo de la imagen">
+            <div *ngIf="empleoForm.get('multimediaNombre')?.invalid && empleoForm.get('multimediaNombre')?.touched" class="error-message">
+              <span *ngIf="empleoForm.get('multimediaNombre')?.errors?.['required']">El nombre de la imagen es obligatorio.</span>
+            </div>
+          </div>
+
+          <!-- Tipo de imagen -->
+          <div class="form-group" [ngClass]="{'error': empleoForm.get('multimediaTipo')?.invalid && empleoForm.get('multimediaTipo')?.touched}">
+            <label for="multimediaTipo">Tipo de imagen</label>
+            <select id="multimediaTipo" formControlName="multimediaTipo">
+              <option value="">Selecciona un tipo de imagen</option>
+              <option value="jpg">JPG</option>
+              <option value="png">PNG</option>
+              <option value="gif">GIF</option>
+            </select>
+            <div *ngIf="empleoForm.get('multimediaTipo')?.invalid && empleoForm.get('multimediaTipo')?.touched" class="error-message">
+              <span *ngIf="empleoForm.get('multimediaTipo')?.errors?.['required']">El tipo de imagen es obligatorio.</span>
+            </div>
+          </div>
+
+          <!-- URL de la imagen -->
+          <div class="form-group" [ngClass]="{'error': empleoForm.get('multimediaContenido')?.invalid && empleoForm.get('multimediaContenido')?.touched}">
+            <label for="multimediaContenido">URL de la imagen</label>
+            <input type="text" id="multimediaContenido" formControlName="multimediaContenido" placeholder="URL de la imagen">
+            <div *ngIf="empleoForm.get('multimediaContenido')?.invalid && empleoForm.get('multimediaContenido')?.touched" class="error-message">
+              <span *ngIf="empleoForm.get('multimediaContenido')?.errors?.['required']">La URL de la imagen es obligatoria.</span>
+            </div>
+          </div>
+        </fieldset>
+      </div>
+    </div>
+    <app-notification *ngIf="errorMessage" [message]="errorMessage" [isError]="true"></app-notification>
+    <button type="submit">Crear Empleo</button>
+    <app-loader *ngIf="isLoading"></app-loader>
+  </form>
+</div>

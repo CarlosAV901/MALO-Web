@@ -1,0 +1,36 @@
+<div class="container" id="container">
+    <div class="form__container signup__container">
+      <form>
+        <h1 id="reg-1">Agrega tu empresa</h1>
+        <span>Registra y conecta con personas que buscan una oportunidad para demostrar su valía. ¡Da el primer paso hacia una contratación más inclusiva!</span>
+        <img src="company.png" alt="Imagen de cuenta" class="form__image" />
+        <button id="btn-1" (click)="goToRegisterCompany()">Registrar</button>
+      </form>
+    </div>
+    <div class="form__container signin__container">
+      <form>
+        <h1 id="reg-2">¡Crea tu cuenta!</h1>
+        <span>Únete a una comunidad que te valora por lo que puedes lograr, no por lo que dice tu currículum. ¡Da el primer paso hacia tu próximo empleo!</span>
+        <img src="account.png" alt="Imagen de cuenta" class="form__image" />
+        <button id="btn-2" (click)="goToSignUp()">Crear</button>
+      </form>
+    </div>
+  
+    <!-- Botón para pantallas pequeñas que alterna los formularios -->
+    <button class="btn-register-company" (click)="toggleForms()">{{ buttonText }}</button>
+  
+    <div class="overlay__container" id="overlayContainer">
+      <div class="overlay__wrapper" id="overlayWrapper">
+        <div class="overlay__panel overlay__panel__left">
+          <h1>¡Crea tu cuenta!</h1>
+          <p>No importa tu formación, importa tu potencial</p>
+          <button>Vamos</button>
+        </div>
+        <div class="overlay__panel overlay__panel__right">
+          <h1>¡Agrega tu empresa!</h1>
+          <p>Encuentra el talento que tu empresa necesita</p>
+          <button>Vamos</button>
+        </div>
+      </div>
+    </div>
+  </div>

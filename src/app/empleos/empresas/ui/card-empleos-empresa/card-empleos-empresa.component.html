@@ -1,0 +1,12 @@
+<div class="card" [ngClass]="{'selected': selected}" (click)="onCardClick()">
+    <div class="card-content">
+      <div class="card-details">
+        <h3>{{ empleo.titulo }}</h3>
+        <span>Salario: ${{ empleo.salario_maximo }}</span>
+        <span>{{ empleo.horario }}</span>
+      </div>
+    </div>
+    <div class="card-action">
+      <span>{{ empleo.fecha_publicacion.slice(0, 10)  }}</span>
+    </div>
+  </div>

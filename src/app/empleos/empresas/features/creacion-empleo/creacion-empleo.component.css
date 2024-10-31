@@ -1,0 +1,139 @@
+
+.container {
+    width: 100%;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    min-height: 100vh;
+    width: 100%;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #007bff;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+fieldset {
+    border: 2px solid #007bff; /* Cambié de dashed a solid */
+    padding: 20px;
+    border-radius: 8px;
+}
+
+legend {
+    font-weight: bold;
+    color: #007bff;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin-bottom: 20px; /* Agrega más espacio entre los inputs */
+}
+
+label {
+    font-weight: bold;
+    color: #007bff;
+}
+
+input, textarea {
+    padding: 10px;
+    border: 2px solid #007bff;
+    border-radius: 5px;
+    font-size: 1rem;
+    outline: none;
+    margin-bottom: 15px; /* Agrega espacio entre los inputs */
+}
+
+textarea#descripcion {
+    height: 142px; /* Ajusta el valor según la altura deseada */
+}
+
+input:focus, textarea:focus {
+    border-color: #0056b3;
+}
+
+button {
+    padding: 10px;
+    font-size: 1.2rem;
+    background-color: #0008ff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    align-self: center;
+}
+
+button:hover {
+    background-color: #0f8100;
+}
+
+select {
+    padding: 10px;
+    border: 2px solid #007bff;
+    border-radius: 5px;
+    font-size: 1rem;
+    outline: none;
+    margin-bottom: 15px;
+    background-color: #fff;
+    color: #333;
+    cursor: pointer;
+    appearance: none; /* Oculta el estilo predeterminado del navegador */
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath fill='%23007bff' d='M0 0l5 5 5-5z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 10px top 50%;
+    background-size: 10px 6px;
+}
+
+select:focus {
+    border-color: #0056b3;
+}
+
+select option {
+    color: #333;
+}
+
+.error input {
+    border-color: red;
+}
+.error-message {
+    color: red;
+    font-size: 0.9em;
+}
+
+@media (max-width: 768px) {
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .container {
+        padding: 10px;
+        max-width: 90%; /* Asegura que el ancho no supere el 100% en móviles */
+        box-sizing: border-box; /* Incluye padding y border en el tamaño total */
+    }
+
+    fieldset {
+        padding: 15px;
+    }
+
+    button {
+        width: 100%;
+    }
+
+    select {
+        width: 100%;
+    }
+}

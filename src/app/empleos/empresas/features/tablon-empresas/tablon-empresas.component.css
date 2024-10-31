@@ -1,0 +1,144 @@
+.parent {
+    display: grid;
+    grid-template-columns: 50% 50%;
+    /* Ajusta las columnas a estar más cerca */
+    grid-template-rows: 1fr auto;
+    grid-column-gap: 0px;
+    grid-row-gap: 0px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 10px;
+    min-height: 100vh;
+    padding-bottom: 20px;
+    justify-items: center;
+    align-items: center;
+    align-items: stretch;
+}
+
+
+.div1 {
+    grid-area: 1 / 1 / 2 / 2;
+    /* Columna para las tarjetas */
+}
+
+.div2 {
+    grid-area: 1 / 2 / 2 / 3;
+    /* Columna para el detalle del empleo */
+    min-width: 90%;
+}
+
+
+/* Estilos de la lista de empleos */
+.empleos-lista {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    /* Ajusta el espacio entre las tarjetas */
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    /* Centra la paginación */
+    margin-top: 20px;
+    /* Espacio superior */
+    align-items: center;
+}
+
+.pagination button {
+    margin: 0 10px;
+    /* Espacio entre botones */
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+}
+
+.pagination button:disabled {
+    background-color: #ccc;
+    /* Color para botón deshabilitado */
+    cursor: not-allowed;
+    /* Cambia el cursor */
+}
+
+.contrata-btn {
+    position: fixed;
+    bottom: 80px;
+    /* Ajusta la distancia desde la parte inferior */
+    right: 60px;
+    /* Ajusta la distancia desde la derecha */
+    padding: 15px 20px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    z-index: 10;
+}
+
+.contrata-btn:hover {
+    background-color: #218838;
+    /* Cambia el color al pasar el ratón */
+}
+
+
+.publicar-empleo-btn {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    display: block;
+    margin: 0 auto; /* Esto centrará el botón horizontalmente */
+}
+
+
+.publicar-empleo-btn:hover {
+    background-color: #0056b3;
+}
+
+.notificaciones {
+    display: flex;
+    flex-direction: column; /* Alinea los elementos en una columna */
+    align-items: center; /* Centra horizontalmente */
+    justify-content: center; /* Centra verticalmente (opcional, depende del contexto) */
+    width: 80%;
+    margin: 0 auto; /* Centra el div horizontalmente en el contenedor padre */
+    padding: 10px; /* Añade un poco de padding para separar de otros elementos */
+}
+
+#ordenFecha {
+    margin-bottom: 20px;
+    padding: 8px;
+    font-size: 14px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    width: 100%;
+    max-width: 200px;
+  }
+/* Adaptación para pantallas pequeñas */
+@media (max-width: 768px) {
+    .parent {
+        grid-template-columns: 1fr;
+        /* Una columna en pantallas pequeñas */
+    }
+
+    
+    .div1, .div2, .div3 {
+        grid-area: auto; /* Asegura que cada div ocupe su espacio */
+    }
+
+    .empleos-lista {
+        align-items: center;
+        /* Centra las tarjetas en pantallas pequeñas */
+    }
+
+    .notificaciones{
+        width: 80%;
+    }
+}

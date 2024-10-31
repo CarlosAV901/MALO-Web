@@ -1,0 +1,18 @@
+.titulo-container {
+    display: flex;
+    justify-content: start; /* Alinea las palabras al inicio */
+    font-size: 38px;
+    align-items: center; /* Alinea verticalmente las palabras */
+  }
+  
+  .primera-palabra {
+    color: black;
+    font-weight: bold;
+    margin-right: 5px; /* Espacio entre las palabras */
+
+  }
+  
+  .segunda-palabra {
+    color: blue;
+  }
+  
