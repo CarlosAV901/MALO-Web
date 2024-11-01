@@ -15,13 +15,11 @@
           <option value="desc">Del último al primero</option>
         </select>
       </div>
-  
       <!-- Listado de empleos -->
       <app-card-empleos-empresa *ngFor="let empleo of paginatedEmpleos; let i = index" [empleo]="empleo"
         [selected]="selectedEmpleoIndex === i + (currentPage - 1) * itemsPerPage"
         (cardClick)="onCardClick(i + (currentPage - 1) * itemsPerPage)">
       </app-card-empleos-empresa>
-  
       <!-- Paginación -->
       <div class="pagination">
         <button (click)="prevPage()" [disabled]="currentPage === 1">Anterior</button>
@@ -29,6 +27,15 @@
         <button (click)="nextPage()" [disabled]="currentPage === totalPages">Siguiente</button>
       </div>
     </div>
+  </div>
+  <div *ngIf="isDetalleVisibleMobile" class="detalle-empleo-modal">
+    <button class="close-btn" (click)="closeDetalleMobile()">✕</button>
+    <app-detalle-empleo-empresa 
+      *ngIf="selectedEmpleoIndex !== null" 
+      [empleo]="empleos[selectedEmpleoIndex]" 
+      (empleoEliminado)="actualizarListaEmpleos($event)"
+      (empleoActualizado)="actualizarEmpleo($event)">
+    </app-detalle-empleo-empresa>
   </div>
   <div class="div2">
     <br>

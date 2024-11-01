@@ -121,6 +121,33 @@
     width: 100%;
     max-width: 200px;
   }
+
+  .detalle-empleo-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #ffffff;
+    overflow-y: auto;
+    z-index: 1000;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Botón de cerrar el modal */
+  .close-btn {
+    align-self: flex-end;
+    font-size: 24px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #333;
+    margin-bottom: 10px;
+  }
+
 /* Adaptación para pantallas pequeñas */
 @media (max-width: 768px) {
     .parent {
@@ -141,4 +168,9 @@
     .notificaciones{
         width: 80%;
     }
+
+
+  .div2 {
+    display: none; /* Oculta la vista regular del detalle en móvil */
+  }
 }
