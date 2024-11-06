@@ -1,3 +1,4 @@
+/* Estilos generales */
 .profile-container {
   display: flex;
   flex-direction: row;
@@ -21,12 +22,11 @@
   border-radius: 50%;
   border: 1px solid white;
   overflow: hidden;
-  margin: 0 auto 20px; /* Centra la imagen horizontalmente */
+  margin: 0 auto 20px;
   display: flex;
   align-items: center;
   justify-content: center;
 }
-
 
 .profile-photo img {
   width: 100%;
@@ -89,6 +89,7 @@ button {
   border-top: 1px solid white;
   margin: 10px 0;
 }
+
 .separatorE {
   flex-grow: 1;
   border: none;
@@ -100,11 +101,12 @@ button {
 .separator-icon {
   margin-left: 8px;
   font-size: 1.2em;
-  color: white; /* Ajusta el color del icono */
+  color: white;
   cursor: pointer;
   transform: rotate(180deg);
   transition: transform 0.3s ease;
 }
+
 .separator-iconE {
   color: black;
   margin-left: 8px;
@@ -115,11 +117,20 @@ button {
 }
 
 .separator-container {
+  color: white;
   width: 100%;
   display: flex;
   align-items: center;
-  cursor: pointer; 
+  cursor: pointer;
   margin: 10px 15px 10px auto;
+}
+
+.separator-container p {
+  color: #d2e3ff;
+  padding: 0;
+  padding-left: 8px;
+  margin: 0;
+  width: auto;
 }
 
 .separator-containerE {
@@ -131,22 +142,23 @@ button {
   margin: 3rem 15px 2rem auto;
 }
 
-.separator-containerE p{
+.separator-containerE p {
   color: black;
   font-size: 1.3rem;
 }
 
-h2{
+h2 {
   color: #3066be;
   font-size: 1.5rem;
   text-align: center;
 }
 
 .separator-icon.rotated {
-  transform: rotate(0deg); /* Rotar 180 grados */
+  transform: rotate(0deg);
 }
+
 .separator-iconE.rotated {
-  transform: rotate(0deg); /* Rotar 180 grados */
+  transform: rotate(0deg);
 }
 
 .form-group {
@@ -165,7 +177,7 @@ h2{
   border-radius: 0.75rem;
   font-size: 1rem;
   background: none;
-  color: #000; /* Para asegurar que el texto seleccionado sea visible */
+  color: #000;
 }
 
 .form-group input {
@@ -184,7 +196,7 @@ h2{
   color: #3066be;
 }
 
-.form-row{
+.form-row {
   max-width: 100%;
   display: flex;
   gap: 20px;
@@ -192,13 +204,13 @@ h2{
 
 .button-group {
   display: flex;
-  align-items: center; /* Centra verticalmente el botón respecto al campo de correo */
+  align-items: center;
 }
 
-.sendEmail {
-  width: 49%;
-  margin-top: -5px;
+.actualizar {
+  width: 40%;
   padding: 0.625rem 1.875rem;
+  margin-left: auto;
   font-size: 1rem;
   background-color: #3066be;
   color: white;
@@ -206,4 +218,116 @@ h2{
   border-radius: 30px;
   opacity: 0.3;
   cursor: not-allowed;
+}
+
+button:enabled {
+  opacity: 1;
+  cursor: pointer;
+}
+
+.error {
+  color: red !important;
+  font-size: 0.9rem;
+  margin-top: 0.5rem;
+}
+
+.skills-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.skill {
+  display: flex;
+  align-items: center;
+  padding: 8px 12px;
+  background-color: #f1f1f1;
+  border-radius: 20px;
+  font-size: 14px;
+  color: #333;
+}
+
+.close {
+  margin-left: 8px;
+  color: #666;
+  cursor: pointer;
+}
+
+.close:hover {
+  color: #333;
+}
+
+.habilidadesFG {
+  margin-top: 20px;
+  max-width: 30%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px; /* Espacio entre el input y el botón */
+}
+
+/* Estilos para el botón circular */
+.add-button {
+  margin: 0;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%; /* Hace que el botón sea circular */
+  background-color: #3066be; /* Color de fondo, puedes cambiarlo */
+  color: white; /* Color del símbolo "+" */
+  font-size: 50px;
+  font-weight: bold;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+/* Modo para teléfonos */
+@media (max-width: 760px) {
+  .profile-container {
+    flex-direction: column;
+  }
+
+  .perfilData {
+    display: none;
+  }
+
+  .editData {
+    width: 100%;
+    margin-right: 0;
+  }
+
+  .form-row{
+    flex-direction: column;
+  }
+
+  .perfilData {
+    width: 100%;
+    height: auto;
+    padding-top: 20px; /* Ajuste de espacio superior */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: url('/57-bg.png');
+    background-size: cover;
+    background-position: center;
+  }
+
+  /* Oculta el texto en perfilData en móviles */
+  .perfilData .separator-container,
+  .perfilData .section-content {
+    display: none;
+  }
+
+  /* Estilo de la imagen de perfil */
+  .profile-photo {
+    margin: 10px 0;
+  }
+
+  .actualizar{
+    width: auto;
+  }
 }

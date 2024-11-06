@@ -7,28 +7,31 @@
 
     <div class="separator-container">
       <hr class="separator" />
+      <p>Datos personales</p>
       <span class="separator-icon"><i class="fa fa-angle-down"></i></span> <!-- Icono al lado derecho -->
     </div>
     <div class="section-content visible">
-      <p>John</p>
-      <p>Doe</p>
-      <p>johndoe&#64;example.com</p>
-      <p>27/10/2024</p>
-      <p>1234567890</p>
+      <p>{{prevName}}</p>
+      <p>{{prevApellidos}}</p>
+      <p>{{prevCorreo}}</p>
+      <p>{{prevFechaNacimiento}}</p>
+      <p>{{prevTel}}</p>
     </div>
     
     <div class="separator-container">
       <hr class="separator" />
+      <p>Ubicación</p>
       <span class="separator-icon"><i class="fa fa-angle-down"></i></span> <!-- Icono al lado derecho -->
     </div>
     <div class="section-content visible">
-      <p>Ciudad de México</p>
-      <p>Azcapotzalco</p>
-      <p>Centro</p>
+      <p>{{prevEstado}}</p>
+      <p>{{prevMunicipio}}</p>
+      <p>{{prevLocalidad}}</p>
     </div>
     
     <div class="separator-container">
       <hr class="separator" />
+      <p>Empleos</p>
       <span class="separator-icon"><i class="fa fa-angle-down"></i></span> <!-- Icono al lado derecho -->
     </div>
     <div class="section-content visible">
@@ -39,47 +42,55 @@
 
   <div class="section editData">
     <!-- Sección para editar los datos del usuario -->
-    <h2>Editar Perfil</h2>
+     <h2>Modifica tu perfil</h2>
 
     <!-- Empleos -->
     <div class="separator-containerE">
-      <p>Datos personales</p>
+      <p>Empleos</p>
       <hr class="separatorE" />
       <span class="separator-iconE"><i class="fa fa-angle-down"></i></span> <!-- Icono al lado derecho -->
     </div>
     <div class="section-content visible">
-      <div class="form-row">
-        <div class="form-group">
-          <label *ngIf="!nombreTouched || isNotEmpty(nombre)" for="nombre">Nombre</label>
-          <label *ngIf="nombreTouched && !isNotEmpty(nombre)" for="nombre" class="error">
-            Debes agregar un nombre!
-          </label>
-          <input id="nombres" type="text" [(ngModel)]="nombre" (blur)="nombreTouched = true" />
+      <div class="skills-container">
+        <div *ngFor="let habilidad of habilidades" class="skill">
+          {{ habilidad }} <span class="close" (click)="eliminarHabilidad(habilidad.id)">&times;</span>
         </div>
+      </div>
+      <div class="form-group habilidadesFG">
+        <input id="habilidad" type="text" [(ngModel)]="nuevaHabilidadDescripcion" placeholder="Agregar habilidad"/>
+        <button class="add-button" (click)="agregarHabilidad()" [disabled]="!isHabilidadValid(nuevaHabilidadDescripcion)">+</button>
+      </div>         
         <div class="form-group">
-          <label *ngIf="!apellidosTouched || isNotEmpty(apellidos)" for="apellidos">Apellido</label>
+          <label *ngIf="!apellidosTouched || isNotEmpty(apellidos)" for="apellidos">Experiencia</label>
           <label *ngIf="apellidosTouched && !isNotEmpty(apellidos)" for="apellidos" class="error">
             Debes agregar apellidos!
           </label>
-          <input id="apellido" type="text" [(ngModel)]="apellidos" (blur)="apellidosTouched = true" />
+          <input id="exp" type="text" [(ngModel)]="apellidos" (blur)="apellidosTouched = true" />
         </div>
+      <div class="form-group">
+        <label *ngIf="!nombreTouched || isNotEmpty(nombre)" for="nombre">CV</label>
+        <label *ngIf="nombreTouched && !isNotEmpty(nombre)" for="nombre" class="error">
+          CV!
+        </label>
+        <input id="cv" type="text" [(ngModel)]="nombre" (blur)="nombreTouched = true" />
       </div>
+      <button class="actualizar" (click)="actualizarUsuario()" [disabled]="!isform1Valid()">Guardar cambios</button>
     </div>
 
     <!-- DATOS PERSONALES -->
     <div class="separator-containerE">
       <p>Datos personales</p>
       <hr class="separatorE" />
-      <span class="separator-iconE"><i class="fa fa-angle-down"></i></span> <!-- Icono al lado derecho -->
+      <span class="separator-iconE"><i class="fa fa-angle-up"></i></span> <!-- Icono al lado derecho -->
     </div>
-    <div class="section-content visible">
+    <div class="section-content rotated">
       <div class="form-row">
         <div class="form-group">
           <label *ngIf="!nombreTouched || isNotEmpty(nombre)" for="nombre">Nombre</label>
           <label *ngIf="nombreTouched && !isNotEmpty(nombre)" for="nombre" class="error">
             Debes agregar un nombre!
           </label>
-          <input id="nombres" type="text" [(ngModel)]="nombre" (blur)="nombreTouched = true" />
+          <input id="nombre" type="text" [(ngModel)]="nombre" (blur)="nombreTouched = true" />
         </div>
         <div class="form-group">
           <label *ngIf="!apellidosTouched || isNotEmpty(apellidos)" for="apellidos">Apellido</label>
@@ -105,22 +116,23 @@
           <input id="fechaNacimiento" type="date" [(ngModel)]="fechaNacimiento" (blur)="fechaNacimientoTouched = true" />
         </div>
       </div>
+      <button class="actualizar" (click)="actualizarUsuario()" [disabled]="!isform2Valid()">Guardar cambios</button>
     </div>
 
     <!-- UBICACIÓN -->
     <div class="separator-containerE">
       <p>Ubicación</p>
       <hr class="separatorE" />
-      <span class="separator-iconE"><i class="fa fa-angle-down"></i></span> <!-- Icono al lado derecho -->
+      <span class="separator-iconE"><i class="fa fa-angle-up"></i></span> <!-- Icono al lado derecho -->
     </div>
-    <div class="section-content visible">
+    <div class="section-content rotated">
       <div class="form-group">
         <label *ngIf="!estadoTouched || isNotEmpty(estado)" for="estado">Estado</label>
         <label *ngIf="estadoTouched && !isNotEmpty(estado)" for="estado" class="error">
           Debes seleccionar un estado!
         </label>
         <select id="estado" [(ngModel)]="estado" (change)="onEstadoChange(estado)" (blur)="estadoTouched = true" required>
-          <option value="" disabled selected>Selecciona tu estado</option>
+          <option value="" disabled selected>{{prevEstado}}</option>
           <option *ngFor="let estado of estados" [value]="estado.cvegeo">{{ estado.nomgeo }}</option>
         </select>
       </div>
@@ -132,7 +144,7 @@
           Debes seleccionar un municipio!
         </label>
         <select id="municipio" [(ngModel)]="municipio" (change)="onMunicipioChange(municipio)" (blur)="municipioTouched = true" required>
-          <option value="" disabled selected>Selecciona tu municipio</option>
+          <option value="" disabled selected>{{prevMunicipio}}</option>
           <option *ngFor="let municipio of municipios" [value]="municipio.cvegeo">{{ municipio.nomgeo }}</option>
         </select>
       </div>
@@ -144,20 +156,20 @@
           Debes seleccionar una localidad!
         </label>
         <select id="localidad" [(ngModel)]="localidad" (blur)="localidadTouched = true" required>
-          <option value="" disabled selected>Selecciona tu localidad</option>
+          <option value="" disabled selected>{{prevLocalidad}}</option>
           <option *ngFor="let localidad of localidades" [value]="localidad.cvegeo">{{ localidad.nomgeo }}</option>
         </select>
       </div>
+      <button class="actualizar" (click)="actualizarUsuario()" [disabled]="!isform3Valid()">Guardar cambios</button>
     </div>
 
     <!-- CREDENCIALES -->
     <div class="separator-containerE">
       <p>Credenciales</p>
       <hr class="separatorE" />
-      <span class="separator-iconE"><i class="fa fa-angle-down"></i></span> <!-- Icono al lado derecho -->
+      <span class="separator-iconE"><i class="fa fa-angle-up"></i></span> <!-- Icono al lado derecho -->
     </div>
-    <div class="section-content visible">
-      <div class="form-row">
+    <div class="section-content rotated">
         <div class="form-group">
           <label *ngIf="isEmailValid(correo) || !emailTouched" for="correo">Correo</label>
           <label *ngIf="!isEmailValid(correo) && emailTouched" for="correo" class="error">
@@ -165,35 +177,8 @@
           </label>
           <input id="correo" type="email" [(ngModel)]="correo" (blur)="emailTouched = true"/>
         </div>
-        <div class="form-group">
-          <label *ngIf="isCodigoValid(codigoInp, this.verificationCode) || !codigoInpTouched" for="codigoInp">Código de verificación</label>
-          <label *ngIf="!isCodigoValid(codigoInp, this.verificationCode) && codigoInpTouched" for="codigoInp" class="error">
-            El código no es valido!
-          </label>
-          <input id="codigoInp" type="text" [(ngModel)]="codigoInp" (blur)="codigoInpTouched = true" />
-        </div>
-      </div>
-      <div class="form-group button-group">
-        <button class="sendEmail" (click)="sendEmail()" [disabled]="!isEmailValid(correo) || emailButtonClicked || isLoading" >
-          {{ emailButtonClicked ? 'Revisa tu Correo (6m)' : 'Enviar código' }}
-        </button>
-      </div>
-      <div class="form-row">
-        <div class="form-group">
-          <label *ngIf="isPasswordValid(contrasena) || !passwordTouched" for="contrasena">Contraseña</label>
-          <label *ngIf="!isPasswordValid(contrasena) && passwordTouched" for="contrasena" class="error">
-            La contraseña debe tener al menos 6 caracteres!
-          </label>
-          <input id="contrasena" type="password" [(ngModel)]="contrasena" (blur)="passwordTouched = true"/>
-        </div>
-        <div class="form-group">
-          <label *ngIf="doPasswordsMatch(contrasena, confirmPass) || !confirmPassTouched" for="confirmPass">Confirmar Contraseña</label>
-          <label *ngIf="!doPasswordsMatch(contrasena, confirmPass) && confirmPassTouched" for="confirmPass" class="error">
-            Las contraseñas no coinciden!
-          </label>
-          <input id="confirmPass" type="password" [(ngModel)]="confirmPass" (blur)="confirmPassTouched = true" required />
-        </div>
-      </div>
+      <button class="actualizar" (click)="actualizarUsuario()" [disabled]="!isform4Valid()">Guardar cambios</button>
     </div>
   </div>
+  <app-loader *ngIf="isLoading"></app-loader>
 </div>
