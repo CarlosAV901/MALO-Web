@@ -25,6 +25,8 @@ export class PerfilComponent implements OnInit {
   prevFechaNacimiento = '';
   correo = '';
   prevCorreo = '';
+  experiencias = '';
+  prevExperiencias = '';
   nuevaHabilidadDescripcion = '';
   telefonoTouched: boolean = false;
   emailTouched: boolean = false;
@@ -49,6 +51,7 @@ export class PerfilComponent implements OnInit {
 
   // otros
   habilidades: any[] = [];
+  prevHabilidades: string = '';
   router = inject(Router);
   http = inject(HttpClient);
   userService = inject(UserService);
@@ -209,8 +212,7 @@ export class PerfilComponent implements OnInit {
   }
 
   agregarHabilidad(): void {
-    if (this.isNotEmpty(this.nuevaHabilidadDescripcion)) return; // Verifica que el campo no esté vacío
-
+    this.isLoading = true;
     const nuevaHabilidad = { descripcion: this.nuevaHabilidadDescripcion };
     this.http.post<any>('https://malo-backend.onrender.com/api/Habilidad/insertar-habilidad', nuevaHabilidad, { responseType: 'text' as 'json' }).subscribe({
       next: (response) => {
@@ -218,13 +220,13 @@ export class PerfilComponent implements OnInit {
         // Añade la habilidad a la lista y limpia el campo de entrada
         this.habilidades.push({ descripcion: this.nuevaHabilidadDescripcion });
         this.nuevaHabilidadDescripcion = '';
+        this.isLoading = false
       },
       error: (error) => {
         console.error('Error al agregar habilidad:', error);
       }
     });
   }
-
 
 
   // Método para obtener datos de usuario por ID
@@ -236,6 +238,7 @@ export class PerfilComponent implements OnInit {
 
     this.http.post<any>(url, requestBody).subscribe({
       next: (response) => {
+        console.log(response)
         // Asigna los valores recibidos a las propiedades
         this.nombre = this.prevName = response.nombre || '';
         this.apellidos = this.prevApellidos = response.apellido || '';
@@ -245,10 +248,11 @@ export class PerfilComponent implements OnInit {
         this.prevEstado = response.estado || '';
         this.prevMunicipio = response.municipio || '';
         this.prevLocalidad = response.localidad || '';
+        this.prevExperiencias = this.experiencias = response.experiencias || '';
 
         // Convierte las habilidades en un array, separadas por comas y elimina espacios adicionales
-        this.habilidades = response.habilidades
-          ? response.habilidades.split(',').map((habilidad:string) => habilidad.trim())
+        this.habilidades = response.habilidadesDescripciones
+          ? response.habilidadesDescripciones.split(',').map((habilidad:string) => habilidad.trim())
           : [];
         
         this.isLoading = false;
@@ -276,11 +280,11 @@ export class PerfilComponent implements OnInit {
       email: this.correo,
       apellido: this.apellidos,
       telefono: this.telefono,
-      estado: estadoNombre,
-      municipio: municipioNombre,
-      localidad: localidadNombre,
+      estado: estadoNombre || this.prevEstado,
+      municipio: municipioNombre || this.prevMunicipio,
+      localidad: localidadNombre || this.prevLocalidad,
+      descripcion:this.experiencias,
       habilidades: '3,7,10',
-      descripcion:'Prueba de habilidades',
       imagen_perfil: ''
     };
     
