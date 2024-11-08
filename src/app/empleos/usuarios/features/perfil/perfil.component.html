@@ -1,48 +1,48 @@
 <div class="profile-container" #profileContainer>
   <div class="section perfilData">
     <!-- Información del usuario -->
-    <div class="profile-photo" (click)="triggerFileInput()">
-      <img [src]="prevPhoto" alt="Foto de Perfil" *ngIf="prevPhoto"/>
-      <div class="overlay-text">Cambiar</div>
-      <div class="edit-icon">
-        <i class="fas fa-edit"></i>
+      <div class="profile-photo" (click)="triggerFileInput()">
+        <img [src]="prevPhoto" alt="Foto de Perfil" *ngIf="prevPhoto"/>
+        <div class="overlay-text">Cambiar</div>
+        <div class="edit-icon">
+          <i class="fas fa-edit"></i>
+        </div>
       </div>
-    </div>
-    <input type="file" #fileInput (change)="onFileSelected($event)" accept="image/*" style="display: none;" />
-
-    <div class="separator-container">
-      <hr class="separator" />
-      <p>Datos personales</p>
-      <span class="separator-icon"><i class="fa fa-angle-down"></i></span> <!-- Icono al lado derecho -->
-    </div>
-    <div class="section-content visible">
-      <p>{{prevName}}</p>
-      <p>{{prevApellidos}}</p>
-      <p>{{prevCorreo}}</p>
-      <p>{{prevFechaNacimiento}}</p>
-      <p>{{prevTel}}</p>
-    </div>
-    
-    <div class="separator-container">
-      <hr class="separator" />
-      <p>Ubicación</p>
-      <span class="separator-icon"><i class="fa fa-angle-down"></i></span> <!-- Icono al lado derecho -->
-    </div>
-    <div class="section-content visible">
-      <p>{{prevEstado}}</p>
-      <p>{{prevMunicipio}}</p>
-      <p>{{prevLocalidad}}</p>
-    </div>
-    
-    <div class="separator-container">
-      <hr class="separator" />
-      <p>Empleos</p>
-      <span class="separator-icon"><i class="fa fa-angle-down"></i></span> <!-- Icono al lado derecho -->
-    </div>
-    <div class="section-content visible">
-      <p>Desarrollo web, análisis de datos</p>
-      <p>{{prevExperiencias}}</p>
-    </div>    
+      <input type="file" #fileInput (change)="onFileSelected($event)" accept="image/*" style="display: none;" />
+      
+      <div class="separator-container">
+        <hr class="separator" />
+        <p>Datos personales</p>
+        <span class="separator-icon"><i class="fa fa-angle-down"></i></span> <!-- Icono al lado derecho -->
+      </div>
+      <div class="section-content visible">
+        <p>{{prevName}}</p>
+        <p>{{prevApellidos}}</p>
+        <p>{{prevCorreo}}</p>
+        <p>{{prevFechaNacimiento}}</p>
+        <p>{{prevTel}}</p>
+      </div>
+      
+      <div class="separator-container">
+        <hr class="separator" />
+        <p>Ubicación</p>
+        <span class="separator-icon"><i class="fa fa-angle-down"></i></span> <!-- Icono al lado derecho -->
+      </div>
+      <div class="section-content visible">
+        <p>{{prevEstado}}</p>
+        <p>{{prevMunicipio}}</p>
+        <p>{{prevLocalidad}}</p>
+      </div>
+      
+      <div class="separator-container">
+        <hr class="separator" />
+        <p>Empleos</p>
+        <span class="separator-icon"><i class="fa fa-angle-down"></i></span> <!-- Icono al lado derecho -->
+      </div>
+      <div class="section-content visible">
+        <p>{{prevHabilidades}}</p>
+        <p>{{prevExperiencias}}</p>
+      </div>    
   </div>
 
   <div class="section editData">
@@ -60,14 +60,37 @@
     <div class="section-content visible">
       <p class="skills-p">Habilidades</p>
       <div class="skills-container">
-        <div *ngFor="let habilidad of habilidades" class="skill">
+        <div *ngFor="let habilidad of habilidadesUsuario" class="skill">
           {{ habilidad }} <span class="close" (click)="eliminarHabilidad(habilidad.id)">&times;</span>
         </div>
       </div>
+      <!-- habilidades -->
       <div class="form-group habilidadesFG">
-        <input id="habilidad" type="text" [(ngModel)]="nuevaHabilidadDescripcion" placeholder="Agregar habilidad"/>
-        <button class="add-button" (click)="agregarHabilidad()" [disabled]="!isHabilidadValid(nuevaHabilidadDescripcion)">+</button>
-      </div>         
+        <input
+          id="habilidad"
+          type="text"
+          [(ngModel)]="nuevaHabilidadDescripcion"
+          placeholder="Buscar habilidad"
+          (input)="filtrarHabilidades(); habilidadesTouched = true"
+          (blur)="habilidadesTouched = false"
+        />
+        <button
+          class="add-button"
+          (click)="agregarHabilidad()"
+          [disabled]="!isHabilidadValid(nuevaHabilidadDescripcion)"
+        >
+          +
+        </button>
+      
+        <div *ngIf="habilidadesFiltradas.length > 0 && habilidadesTouched" class="sugerencias-container">
+          <ul>
+            <li *ngFor="let habilidad of habilidadesFiltradas" (click)="seleccionarHabilidad(habilidad.id, habilidad.descripcion)">
+              {{ habilidad.descripcion }}
+            </li>
+          </ul>
+        </div>
+      </div>      
+       <!-- fin habilidades -->
       <div class="form-group">
         <label *ngIf="isNotEmpty(experiencias)" for="exp">Experiencia</label>
         <label *ngIf="!isNotEmpty(experiencias)" for="exp" class="error">
@@ -81,10 +104,7 @@
         ></textarea>
       </div>      
       <div class="form-group file-input">
-        <label *ngIf="!nombreTouched || isNotEmpty(nombre)" for="nombre">CV</label>
-        <label *ngIf="nombreTouched && !isNotEmpty(nombre)" for="nombre" class="error">
-          CV!
-        </label>
+        <label for="cv">CV</label>
         <input 
           id="cv" 
           type="file" 

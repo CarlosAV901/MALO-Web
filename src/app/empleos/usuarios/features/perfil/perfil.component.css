@@ -61,7 +61,7 @@ button {
 }
 
 .section-content.visible {
-  max-height: 500px;
+  max-height: 100%;
   opacity: 1;
 }
 
@@ -165,7 +165,7 @@ h2 {
 }
 
 .form-group textarea{
-  height: 150px;
+  min-height: 120px;
 }
 
 .form-group label,
@@ -239,8 +239,9 @@ button:enabled {
 }
 
 .habilidadesFG {
+  position: relative;
   margin-top: 20px;
-  max-width: 30%;
+  max-width: 40%;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -359,6 +360,33 @@ button:enabled {
   transition: background .2s ease-in-out;
 }
 
+.sugerencias-container {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  background-color: #ffffff;
+  border: 1px solid #ccc;
+  z-index: 10;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  max-height: 150px; /* Limita la altura máxima a 150px */
+  overflow-y: auto; /* Activa el desplazamiento vertical */
+}
+
+.sugerencias-container ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.sugerencias-container li {
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+.sugerencias-container li:hover {
+  background-color: #f0f0f0;
+}
 
 /* Modo para teléfonos */
 @media (max-width: 760px) {

@@ -18,4 +18,9 @@ export class HabilidadesService {
     const url = 'https://malo-backend.onrender.com/api/Habilidad/eliminar-habilidad';
     return this.http.post<any>(url, { id }, { responseType: 'text' as 'json' });
   }
+
+  obtenerHabilidades(): Observable<any> {
+    const url = 'https://malo-backend.onrender.com/api/Habilidad/Obtener-habilidades';
+    return this.http.post<any>(url, {}); // Asegúrate de enviar un cuerpo vacío si es necesario
+  }
 }

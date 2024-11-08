@@ -57,9 +57,15 @@ export class PerfilComponent implements OnInit {
   localidad: string = '';
   prevLocalidad = '';
 
-  // Otros
+  // Habilidades
+  habilidadSeleccionadaId: number | null = null;
+  habilidadesUsuario: any[] = [];
   habilidades: any[] = [];
+  habilidadesFiltradas: any[] = [];
   prevHabilidades: string = '';
+  habilidadesTouched: boolean = false;
+
+  // Otros
   router = inject(Router);
   perfilService = inject(PerfilService);
   inegiService = inject(InegiService);
@@ -77,7 +83,8 @@ export class PerfilComponent implements OnInit {
 
   ngOnInit() {
     this.loadEstados();
-    //this.obtenerUsuarioPorId();
+    this.obtenerUsuarioPorId();
+    this.obtenerHabilidades();
 
     setTimeout(() => {
       const separators = this.profileContainer.nativeElement.querySelectorAll('.separator-container');
@@ -101,7 +108,6 @@ export class PerfilComponent implements OnInit {
       });
     });
   }
-
 
   // Funciones de validación
   isHabilidadValid(nuevaHabilidadDescripcion: string): boolean{
@@ -162,24 +168,6 @@ export class PerfilComponent implements OnInit {
 
   isMessageShown(): boolean {
     return !this.errorMessage && !this.successMessage;
-  }
-
-  agregarHabilidad(): void {
-    this.isLoading = true;
-    this.habilidadesService.agregarHabilidad(this.nuevaHabilidadDescripcion).subscribe({
-      next: (response) => {
-        console.log('Habilidad agregada:', response);
-        this.habilidades.push({ descripcion: this.nuevaHabilidadDescripcion });
-        this.nuevaHabilidadDescripcion = '';
-        this.isLoading = false;
-      },
-      error: (error) => {
-        console.error('Error al agregar habilidad:', error);
-        this.errorMessage = "¡Ups, ocurrio un error, intentalo más tarde!"
-        this.clearMessagesAfterDelay();
-        this.isLoading = false;
-      }
-    });
   }
 
   eliminarHabilidad(id: number): void {
@@ -257,9 +245,9 @@ export class PerfilComponent implements OnInit {
         this.prevLocalidad = response.localidad || '';
         this.prevExperiencias = this.experiencias = response.experiencias || '';
         this.prevPhoto = response.imagenPerfil;
-
-        this.habilidades = response.habilidadesDescripciones
-          ? response.habilidadesDescripciones.split(',').map((habilidad: string) => habilidad.trim())
+        this.prevHabilidades = response.habilidadesDescripciones || ''
+        this.habilidadesUsuario = response.habilidadesDescripciones
+          ? response.habilidadesDescripciones.split(',').map((habilidUsuario: string) => habilidUsuario.trim())
           : [];
         
         this.isLoading = false;
@@ -354,9 +342,52 @@ export class PerfilComponent implements OnInit {
     } else {
       console.error('No se ha seleccionado un archivo válido.');
       this.selectedPDF = null; // Resetea selectedPDF si no hay archivo válido
-      this.errorMessage = "¡Selecciona tu CV en pdf!"
+      this.errorMessage = "¡Selecciona tu CV!"
       this.clearMessagesAfterDelay();
     }
+  }
+
+  agregarHabilidad(): void {
+    if (this.habilidadSeleccionadaId !== null) {
+      console.log('ID de habilidad seleccionada:', this.habilidadSeleccionadaId);
+    }
+
+    this.isLoading = true;
+    this.habilidadesService.agregarHabilidad(this.nuevaHabilidadDescripcion).subscribe({
+      next: (response) => {
+        console.log('Habilidad agregada:', response);
+        this.habilidades.push({ descripcion: this.nuevaHabilidadDescripcion });
+        this.nuevaHabilidadDescripcion = '';
+        this.habilidadSeleccionadaId = null; // Resetea la selección
+        this.isLoading = false;
+      },
+      error: (error) => {
+        console.error('Error al agregar habilidad:', error);
+        this.errorMessage = "¡Ups, ocurrió un error, inténtalo más tarde!";
+        this.clearMessagesAfterDelay();
+        this.isLoading = false;
+      }
+    });
+  }
+
+  obtenerHabilidades(): void {
+    this.habilidadesService.obtenerHabilidades().subscribe((data) => {
+      this.habilidades = data;
+      this.habilidadesFiltradas = data; // Inicialmente muestra todas las habilidades
+    });
+  }
+
+  filtrarHabilidades(): void {
+    const query = this.nuevaHabilidadDescripcion.toLowerCase();
+    this.habilidadesFiltradas = this.habilidades.filter((habilidad) =>
+      habilidad.descripcion.toLowerCase().includes(query)
+    );
+  }
+
+  seleccionarHabilidad(habilidadId: number, descripcion: string): void {
+    this.habilidadSeleccionadaId = habilidadId;
+    this.nuevaHabilidadDescripcion = descripcion; // Muestra la habilidad seleccionada en el input
+    this.habilidadesFiltradas = []; // Oculta las sugerencias después de seleccionar una
   }
   
   formatDate(fecha: string): string {
