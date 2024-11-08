@@ -160,7 +160,7 @@ export class PerfilComponent implements OnInit {
   }
 
   isform1Valid(): boolean {
-    return true
+    return this.isNotEmpty(this.experiencias) && this.experiencias !== this.prevExperiencias;
   }
 
   isMessageShown(): boolean {
@@ -433,7 +433,7 @@ export class PerfilComponent implements OnInit {
         habilidadesArray.splice(index, 1);
         
         // Asignamos un string vacío si no quedan IDs, o unimos los IDs restantes con comas
-        this.habilidadesIds = habilidadesArray.length ? habilidadesArray.join(',') : '9';
+        this.habilidadesIds = habilidadesArray.length ? habilidadesArray.join(',') : '23';
 
         this.actualizarUsuario();
     } else {
