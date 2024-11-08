@@ -1,10 +1,13 @@
 import { Component, OnInit, ViewChild, ElementRef, inject } from '@angular/core';
+import { NotificationComponent } from '../../../../shared/ui/notification/notification.component';
+import { LoaderComponent } from '../../../../shared/ui/loader/loader.component';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { PerfilService } from '../../../../core/services/perfil.service';
+import { InegiService } from '../../../../core/services/inegi.service';
+import { HabilidadesService } from '../../../../core/services/habilidades.service';
 import { UserService } from '../../../../core/services/user.service';
-import { LoaderComponent } from '../../../../shared/ui/loader/loader.component';
 
 @Component({
   selector: 'app-profile',
@@ -14,7 +17,7 @@ import { LoaderComponent } from '../../../../shared/ui/loader/loader.component';
   styleUrls: ['./perfil.component.css']
 })
 export class PerfilComponent implements OnInit {
-  // datos usuario
+  // Datos usuario
   nombre = '';
   prevName = '';
   apellidos = '';
@@ -38,7 +41,7 @@ export class PerfilComponent implements OnInit {
   localidadTouched: boolean = false;
   emailButtonClicked: boolean = false;
 
-  // ubicación
+  // Ubicación
   estados: any[] = [];
   municipios: any[] = [];
   localidades: any[] = [];
@@ -49,16 +52,48 @@ export class PerfilComponent implements OnInit {
   localidad: string = '';
   prevLocalidad = '';
 
-  // otros
+  // Otros
   habilidades: any[] = [];
   prevHabilidades: string = '';
   router = inject(Router);
-  http = inject(HttpClient);
+  perfilService = inject(PerfilService);
+  inegiService = inject(InegiService);
+  habilidadesService = inject(HabilidadesService);
   userService = inject(UserService);
   isLoading: boolean = false;
   emailSent: boolean = false;
   verificationCode: string = '';
   errorMessage: string = '';
+
+  @ViewChild('profileContainer') profileContainer!: ElementRef;
+
+  ngOnInit() {
+    this.loadEstados();
+    this.obtenerUsuarioPorId();
+
+    setTimeout(() => {
+      const separators = this.profileContainer.nativeElement.querySelectorAll('.separator-container');
+      separators.forEach((separator: HTMLElement) => {
+        separator.addEventListener('click', () => {
+          const content = separator.nextElementSibling as HTMLElement;
+          const icon = separator.querySelector('.separator-icon') as HTMLElement;
+          content.classList.toggle('visible');
+          icon.classList.toggle('rotated');
+        });
+      });
+
+      const separators2 = this.profileContainer.nativeElement.querySelectorAll('.separator-containerE');
+      separators2.forEach((separator2: HTMLElement) => {
+        separator2.addEventListener('click', () => {
+          const content = separator2.nextElementSibling as HTMLElement;
+          const icon = separator2.querySelector('.separator-iconE') as HTMLElement;
+          content.classList.toggle('visible');
+          icon.classList.toggle('rotated');
+        });
+      });
+    });
+  }
+
 
   // Funciones de validación
   isHabilidadValid(nuevaHabilidadDescripcion: string): boolean{
@@ -114,95 +149,31 @@ export class PerfilComponent implements OnInit {
     return (isEstadoNotEmpty && isMunicipioNotEmpty && isLocalidadNotEmpty) &&
            (hasEstadoChanged || hasMunicipioChanged || hasLocalidadChanged);
   }
-  
-  
 
   isform1Valid(): boolean {
     return true
   }
 
-  // Obtener estados al iniciar
-  getEstados(): void {
-    this.http.get<any>('https://gaia.inegi.org.mx/wscatgeo/v2/mgee/').subscribe(
-      response => {
-        this.estados = response.datos;
+  agregarHabilidad(): void {
+    this.isLoading = true;
+    this.habilidadesService.agregarHabilidad(this.nuevaHabilidadDescripcion).subscribe({
+      next: (response) => {
+        console.log('Habilidad agregada:', response);
+        this.habilidades.push({ descripcion: this.nuevaHabilidadDescripcion });
+        this.nuevaHabilidadDescripcion = '';
+        this.isLoading = false;
       },
-      error => {
-        console.error('Error al obtener los estados', error);
+      error: (error) => {
+        console.error('Error al agregar habilidad:', error);
+        this.isLoading = false;
       }
-    );
-  }
-
-  // Obtener municipios al seleccionar estado
-  onEstadoChange(cvegeo: string): void {
-    if (cvegeo) {
-      this.http.get<any>(`https://gaia.inegi.org.mx/wscatgeo/v2/mgem/${cvegeo}`).subscribe(
-        response => {
-          this.municipios = response.datos;
-        },
-        error => {
-          console.error('Error al obtener los municipios', error);
-        }
-      );
-    } else {
-      this.municipios = [];
-    }
-  }
-
-  // Obtener localidades al seleccionar municipio
-  onMunicipioChange(cvegeo: string): void {
-    if (cvegeo) {
-      this.http.get<any>(`https://gaia.inegi.org.mx/wscatgeo/v2/localidades/${cvegeo}`).subscribe(
-        response => {
-          this.localidades = response.datos;
-        },
-        error => {
-          console.error('Error al obtener los municipios', error);
-        }
-      );
-    } else {
-      this.localidades = [];
-    }
-  }
-
-  @ViewChild('profileContainer') profileContainer!: ElementRef;
-
-  ngOnInit() {
-    this.getEstados();
-    this.obtenerUsuarioPorId();
-
-    setTimeout(() => { // Espera para asegurar que el DOM esté listo
-      const separators = this.profileContainer.nativeElement.querySelectorAll('.separator-container');
-      separators.forEach((separator: HTMLElement) => {
-        separator.addEventListener('click', () => {
-          const content = separator.nextElementSibling as HTMLElement;
-          const icon = separator.querySelector('.separator-icon') as HTMLElement;
-          content.classList.toggle('visible');
-          icon.classList.toggle('rotated');
-        });
-      });
-
-      const separators2 = this.profileContainer.nativeElement.querySelectorAll('.separator-containerE');
-      separators2.forEach((separator2: HTMLElement) => {
-        separator2.addEventListener('click', () => {
-          const content = separator2.nextElementSibling as HTMLElement;
-          const icon = separator2.querySelector('.separator-iconE') as HTMLElement;
-          content.classList.toggle('visible');
-          icon.classList.toggle('rotated');
-        });
-      });
     });
   }
 
   eliminarHabilidad(id: number): void {
-    this.http.post<any>(
-      'https://malo-backend.onrender.com/api/Habilidad/eliminar-habilidad', 
-      { id }, 
-      { responseType: 'text' as 'json' } // Cambiamos el tipo de respuesta esperada a texto
-    ).subscribe({
+    this.habilidadesService.eliminarHabilidad(id).subscribe({
       next: (response) => {
         console.log('Habilidad eliminada:', response);
-        // Actualiza la lista de habilidades eliminando la que fue eliminada
         this.habilidades = this.habilidades.filter(habilidad => habilidad.id !== id);
       },
       error: (error) => {
@@ -211,35 +182,52 @@ export class PerfilComponent implements OnInit {
     });
   }
 
-  agregarHabilidad(): void {
-    this.isLoading = true;
-    const nuevaHabilidad = { descripcion: this.nuevaHabilidadDescripcion };
-    this.http.post<any>('https://malo-backend.onrender.com/api/Habilidad/insertar-habilidad', nuevaHabilidad, { responseType: 'text' as 'json' }).subscribe({
+  loadEstados(): void {
+    this.inegiService.getEstados().subscribe({
       next: (response) => {
-        console.log('Habilidad agregada:', response);
-        // Añade la habilidad a la lista y limpia el campo de entrada
-        this.habilidades.push({ descripcion: this.nuevaHabilidadDescripcion });
-        this.nuevaHabilidadDescripcion = '';
-        this.isLoading = false
+        this.estados = response.datos;
       },
       error: (error) => {
-        console.error('Error al agregar habilidad:', error);
+        console.error('Error al obtener los estados', error);
       }
     });
   }
 
+  onEstadoChange(cvegeo: string): void {
+    if (cvegeo) {
+      this.inegiService.getMunicipios(cvegeo).subscribe({
+        next: (response) => {
+          this.municipios = response.datos;
+        },
+        error: (error) => {
+          console.error('Error al obtener los municipios', error);
+        }
+      });
+    } else {
+      this.municipios = [];
+    }
+  }
 
-  // Método para obtener datos de usuario por ID
+  onMunicipioChange(cvegeo: string): void {
+    if (cvegeo) {
+      this.inegiService.getLocalidades(cvegeo).subscribe({
+        next: (response) => {
+          this.localidades = response.datos;
+        },
+        error: (error) => {
+          console.error('Error al obtener las localidades', error);
+        }
+      });
+    } else {
+      this.localidades = [];
+    }
+  }
+
   obtenerUsuarioPorId(): void {
-    const userData = this.userService.getUserData();
-    const url = 'https://malo-backend.onrender.com/api/Usuario/ObtenerUsuarioPorId';
-    const requestBody = { id: userData.sub }; // Ajusta el ID según sea necesario
     this.isLoading = true;
-
-    this.http.post<any>(url, requestBody).subscribe({
+    this.perfilService.obtenerUsuarioPorId().subscribe({
       next: (response) => {
-        console.log(response)
-        // Asigna los valores recibidos a las propiedades
+        console.log(response);
         this.nombre = this.prevName = response.nombre || '';
         this.apellidos = this.prevApellidos = response.apellido || '';
         this.telefono = this.prevTel = response.telefono || '';
@@ -250,9 +238,8 @@ export class PerfilComponent implements OnInit {
         this.prevLocalidad = response.localidad || '';
         this.prevExperiencias = this.experiencias = response.experiencias || '';
 
-        // Convierte las habilidades en un array, separadas por comas y elimina espacios adicionales
         this.habilidades = response.habilidadesDescripciones
-          ? response.habilidadesDescripciones.split(',').map((habilidad:string) => habilidad.trim())
+          ? response.habilidadesDescripciones.split(',').map((habilidad: string) => habilidad.trim())
           : [];
         
         this.isLoading = false;
@@ -264,48 +251,42 @@ export class PerfilComponent implements OnInit {
     });
   }
 
-
   actualizarUsuario(): void {
-    // Encuentra los nombres correspondientes al cvegeo seleccionado
     const estadoNombre = this.estados.find(e => e.cvegeo === this.estado)?.nomgeo || '';
     const municipioNombre = this.municipios.find(m => m.cvegeo === this.municipio)?.nomgeo || '';
     const localidadNombre = this.localidades.find(l => l.cvegeo === this.localidad)?.nomgeo || '';
-
+  
     const userId = this.userService.getUserData();
-    const userData = this.userService.getToken();
-    const url = 'https://malo-backend.onrender.com/api/Usuario/ActualizarUsuario';
-    const requestBody = {
-      usuarioId: userId.sub,
-      nombre: this.nombre,
-      email: this.correo,
-      apellido: this.apellidos,
-      telefono: this.telefono,
-      estado: estadoNombre || this.prevEstado,
-      municipio: municipioNombre || this.prevMunicipio,
-      localidad: localidadNombre || this.prevLocalidad,
-      descripcion:this.experiencias,
-      habilidades: '3,7,10',
-      imagen_perfil: ''
-    };
-    
-    this.http.post<any>(url, requestBody, {
-      headers: {
-        'Authorization': `Bearer ${userData}`,
-        'Content-Type': 'application/json'
-      }
-    }).subscribe({
+  
+    // Crear objeto FormData para enviar los datos como form data
+    const formData = new FormData();
+    formData.append('usuarioId', userId.sub);
+    formData.append('nombre', this.nombre);
+    formData.append('email', this.correo);
+    formData.append('apellido', this.apellidos);
+    formData.append('telefono', this.telefono);
+    formData.append('estado', estadoNombre || this.prevEstado);
+    formData.append('municipio', municipioNombre || this.prevMunicipio);
+    formData.append('localidad', localidadNombre || this.prevLocalidad);
+    formData.append('descripcion', this.experiencias);
+    formData.append('habilidades', '3,7,10');
+    formData.append('archivo', new Blob(), '');  // Envía un archivo vacío si no tienes uno real
+  
+    this.isLoading = true;
+    this.perfilService.actualizarUsuario(formData).subscribe({
       next: (response) => {
         console.log('Usuario actualizado con éxito:', response);
         this.obtenerUsuarioPorId();
       },
       error: (error) => {
         console.error('Error al actualizar el usuario:', error);
+        this.isLoading = false;
       }
     });
-  }  
+  }
+  
 
-  // Método para formatear la fecha en yyyy-MM-dd
   formatDate(fecha: string): string {
-    return fecha.split('T')[0]; // Divide la cadena en 'T' y toma solo la parte de la fecha
+    return fecha.split('T')[0];
   }
 }
