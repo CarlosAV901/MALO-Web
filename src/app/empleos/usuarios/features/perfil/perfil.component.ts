@@ -12,7 +12,7 @@ import { UserService } from '../../../../core/services/user.service';
 @Component({
   selector: 'app-profile',
   standalone: true,
-  imports: [CommonModule, FormsModule, LoaderComponent],
+  imports: [CommonModule, FormsModule, LoaderComponent, NotificationComponent],
   templateUrl: './perfil.component.html',
   styleUrls: ['./perfil.component.css']
 })
@@ -31,6 +31,9 @@ export class PerfilComponent implements OnInit {
   experiencias = '';
   prevExperiencias = '';
   nuevaHabilidadDescripcion = '';
+  prevPhoto: string | null = '/carrusel3.png';
+  selectedFile: File | null = null;
+
   telefonoTouched: boolean = false;
   emailTouched: boolean = false;
   nombreTouched: boolean = false;
@@ -64,8 +67,11 @@ export class PerfilComponent implements OnInit {
   emailSent: boolean = false;
   verificationCode: string = '';
   errorMessage: string = '';
+  successMessage: string = '';
+  isPhotoHovered = false;
 
   @ViewChild('profileContainer') profileContainer!: ElementRef;
+  @ViewChild('fileInput') fileInput!: ElementRef;
 
   ngOnInit() {
     this.loadEstados();
@@ -129,8 +135,6 @@ export class PerfilComponent implements OnInit {
     return isPhoneValid && (hasPhoneChanged || hasNameChanged || hasApellidoChanged || hasFechaNacimientoChanged);
   }
   
-  
-
   isform3Valid(): boolean {
     // Encuentra los nombres correspondientes al cvegeo seleccionado
     const estadoNombre = this.estados.find(e => e.cvegeo === this.estado)?.nomgeo || '';
@@ -154,6 +158,10 @@ export class PerfilComponent implements OnInit {
     return true
   }
 
+  isMessageShown(): boolean {
+    return !this.errorMessage && !this.successMessage;
+  }
+
   agregarHabilidad(): void {
     this.isLoading = true;
     this.habilidadesService.agregarHabilidad(this.nuevaHabilidadDescripcion).subscribe({
@@ -165,6 +173,8 @@ export class PerfilComponent implements OnInit {
       },
       error: (error) => {
         console.error('Error al agregar habilidad:', error);
+        this.errorMessage = "¡Ups, ocurrio un error, intentalo más tarde!"
+        this.clearMessagesAfterDelay();
         this.isLoading = false;
       }
     });
@@ -178,6 +188,8 @@ export class PerfilComponent implements OnInit {
       },
       error: (error) => {
         console.error('Error al eliminar habilidad:', error);
+        this.errorMessage = "¡Ups, ocurrio un error, intentalo más tarde!"
+        this.clearMessagesAfterDelay();
       }
     });
   }
@@ -189,6 +201,8 @@ export class PerfilComponent implements OnInit {
       },
       error: (error) => {
         console.error('Error al obtener los estados', error);
+        this.errorMessage = "¡Ups, ocurrio un error, intentalo más tarde!"
+        this.clearMessagesAfterDelay();
       }
     });
   }
@@ -201,6 +215,8 @@ export class PerfilComponent implements OnInit {
         },
         error: (error) => {
           console.error('Error al obtener los municipios', error);
+          this.errorMessage = "¡Ups, ocurrio un error, intentalo más tarde!"
+          this.clearMessagesAfterDelay();
         }
       });
     } else {
@@ -216,6 +232,8 @@ export class PerfilComponent implements OnInit {
         },
         error: (error) => {
           console.error('Error al obtener las localidades', error);
+          this.errorMessage = "¡Ups, ocurrio un error, intentalo más tarde!"
+          this.clearMessagesAfterDelay();
         }
       });
     } else {
@@ -237,6 +255,7 @@ export class PerfilComponent implements OnInit {
         this.prevMunicipio = response.municipio || '';
         this.prevLocalidad = response.localidad || '';
         this.prevExperiencias = this.experiencias = response.experiencias || '';
+        this.prevPhoto = response.imagenPerfil;
 
         this.habilidades = response.habilidadesDescripciones
           ? response.habilidadesDescripciones.split(',').map((habilidad: string) => habilidad.trim())
@@ -246,6 +265,8 @@ export class PerfilComponent implements OnInit {
       },
       error: (error) => {
         console.error('Error al obtener el usuario:', error);
+        this.errorMessage = "¡Ups, ocurrio un error, intentalo más tarde!"
+        this.clearMessagesAfterDelay();
         this.isLoading = false;
       }
     });
@@ -270,23 +291,49 @@ export class PerfilComponent implements OnInit {
     formData.append('localidad', localidadNombre || this.prevLocalidad);
     formData.append('descripcion', this.experiencias);
     formData.append('habilidades', '3,7,10');
-    formData.append('archivo', new Blob(), '');  // Envía un archivo vacío si no tienes uno real
+  
+    // Adjuntar el archivo seleccionado, si existe
+    if (this.selectedFile) {
+      formData.append('archivo', this.selectedFile, this.selectedFile.name);
+    }
   
     this.isLoading = true;
     this.perfilService.actualizarUsuario(formData).subscribe({
       next: (response) => {
         console.log('Usuario actualizado con éxito:', response);
         this.obtenerUsuarioPorId();
+        this.successMessage = '¡Has modificado tu perfil!';
+        this.clearMessagesAfterDelay();
       },
       error: (error) => {
         console.error('Error al actualizar el usuario:', error);
+        this.errorMessage = "¡Ups, ocurrio un error, intentalo más tarde!"
+        this.clearMessagesAfterDelay();
         this.isLoading = false;
       }
     });
-  }
+  }  
   
-
   formatDate(fecha: string): string {
     return fecha.split('T')[0];
+  }
+
+  clearMessagesAfterDelay() {
+    setTimeout(() => {
+      this.successMessage = '';
+      this.errorMessage = '';
+    }, 5000);
+  }
+
+  triggerFileInput(): void {
+    this.fileInput.nativeElement.click(); // Simula el clic en el input file
+  }
+
+  onFileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files[0]) {
+      this.selectedFile = input.files[0];
+      this.actualizarUsuario();
+    }
   }
 }

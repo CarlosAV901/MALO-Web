@@ -1,9 +1,14 @@
 <div class="profile-container" #profileContainer>
   <div class="section perfilData">
     <!-- Información del usuario -->
-    <div class="profile-photo">
-      <img src="/carrusel3.png" alt="Foto de Perfil" />
+    <div class="profile-photo" (click)="triggerFileInput()">
+      <img [src]="prevPhoto" alt="Foto de Perfil" *ngIf="prevPhoto"/>
+      <div class="overlay-text">Cambiar</div>
+      <div class="edit-icon">
+        <i class="fas fa-edit"></i>
+      </div>
     </div>
+    <input type="file" #fileInput (change)="onFileSelected($event)" accept="image/*" style="display: none;" />
 
     <div class="separator-container">
       <hr class="separator" />
@@ -42,7 +47,9 @@
 
   <div class="section editData">
     <!-- Sección para editar los datos del usuario -->
-     <h2>Modifica tu perfil</h2>
+     <h2 *ngIf="isMessageShown()">Modifica tu perfil</h2>
+     <app-notification *ngIf="errorMessage" [message]="errorMessage" [isError]="true"></app-notification>
+     <app-notification *ngIf="successMessage" [message]="successMessage"></app-notification>
 
     <!-- Empleos -->
     <div class="separator-containerE">

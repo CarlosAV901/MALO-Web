@@ -16,24 +16,6 @@
   width: 30%; 
 }
 
-.profile-photo {
-  width: 120px;
-  height: 120px;
-  border-radius: 50%;
-  border: 1px solid white;
-  overflow: hidden;
-  margin: 0 auto 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.profile-photo img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
 .perfilData p {
   width: 100%;
   padding: 5px 2rem;
@@ -149,7 +131,7 @@ button {
 
 h2 {
   color: #3066be;
-  font-size: 1.5rem;
+  font-size: 1.7rem;
   text-align: center;
 }
 
@@ -283,6 +265,81 @@ button:enabled {
   opacity: 0.3;
   cursor: not-allowed;
 }
+
+.profile-photo {
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  border: 1px solid white;
+  overflow: hidden;
+  margin: 0 auto 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  cursor: pointer;
+}
+
+.profile-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: opacity 0.3s;
+}
+
+.profile-photo::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  transition: opacity 0.3s;
+  border-radius: 50%;
+}
+
+.profile-photo .overlay-text {
+  position: absolute;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  opacity: 0;
+  transition: opacity 0.3s;
+  pointer-events: none;
+}
+
+.profile-photo:hover::after {
+  opacity: 1;
+}
+
+.profile-photo:hover .overlay-text {
+  opacity: 1;
+}
+
+/* Estilos para el ícono de edición */
+.profile-photo .edit-icon {
+  width: 30px;
+  height: 30px;
+  position: absolute;
+  bottom: 5px;
+  padding: 5px;
+  font-size: 16px;
+  background-color: white;
+  border-radius: 50%;
+  justify-content: center;
+  align-items: center;
+  display: flex;  /* Establece el contenedor como flex */
+  justify-content: center;  /* Centra el ícono horizontalmente */
+  align-items: center;  /* Centra el ícono verticalmente */
+}
+
+.profile-photo .edit-icon i {
+  color: black;
+}
+
+
 
 /* Modo para teléfonos */
 @media (max-width: 760px) {
