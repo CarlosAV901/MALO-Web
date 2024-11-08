@@ -246,6 +246,7 @@ export class PerfilComponent implements OnInit {
   }
 
   actualizarUsuario(): void {
+    this.isLoading = true;
     const estadoNombre = this.estados.find(e => e.cvegeo === this.estado)?.nomgeo || '';
     const municipioNombre = this.municipios.find(m => m.cvegeo === this.municipio)?.nomgeo || '';
     const localidadNombre = this.localidades.find(l => l.cvegeo === this.localidad)?.nomgeo || '';
@@ -263,8 +264,6 @@ export class PerfilComponent implements OnInit {
     formData.append('descripcion', this.experiencias);
     formData.append('habilidades', this.habilidadesIds);
   
-    this.isLoading = true;
-  
     // Verifica si se puede usar el archivo seleccionado o crea un archivo dummy si no hay archivo o falla el fetch
     if (this.selectedFile) {
       formData.append('archivo', this.selectedFile);
@@ -281,6 +280,7 @@ export class PerfilComponent implements OnInit {
         this.obtenerUsuarioPorId();
         this.successMessage = '¡Has modificado tu perfil!';
         this.clearMessagesAfterDelay();
+        this.isLoading = false;
       },
       error: (error) => {
         console.error('Error al actualizar el usuario:', error);
@@ -344,31 +344,45 @@ export class PerfilComponent implements OnInit {
     }
   }
 
-  // Método para agregar una nueva habilidad
-  // Método para agregar una nueva habilidad
   agregarHabilidad() {
-    const habilidadExiste = this.habilidades.some(
-      (habilidad) => habilidad.descripcion.toLowerCase() === this.nuevaHabilidadDescripcion.toLowerCase()
+    // Verificamos si la habilidad ya existe
+    const habilidadExistente = this.habilidades.find(
+      habilidad => habilidad.descripcion.toLowerCase() === this.nuevaHabilidadDescripcion.toLowerCase()
     );
-
-    if (!habilidadExiste) {
-      // Si la habilidad no existe, se llama al servicio para agregarla
-      this.habilidadesService.agregarHabilidad(this.nuevaHabilidadDescripcion).subscribe({
-        next: (respuesta) => {
-          // Agregar la nueva habilidad a la lista local si el servicio responde exitosamente
-          this.habilidades.push({ id: Date.now(), descripcion: this.nuevaHabilidadDescripcion });
-          this.nuevaHabilidadDescripcion = ''; // Limpiar el campo de entrada
-        },
-        error: (error) => {
-          console.error('Error al agregar habilidad:', error);
-          alert('Hubo un problema al agregar la habilidad');
-        }
-      });
-    } else {
-      alert('Esta habilidad ya existe');
+    if (habilidadExistente) {
+      // Si ya existe, seleccionamos la habilidad
+      this.seleccionarHabilidad(habilidadExistente.id, habilidadExistente.descripcion);
+      return; // Salimos de la función
     }
-  }
-
+    // Si no existe, agregamos la nueva habilidad
+    this.isLoading = true;
+    this.habilidadesService.agregarHabilidad(this.nuevaHabilidadDescripcion).subscribe({
+      next: () => {
+        // Obtenemos todas las habilidades después de agregar la nueva
+        this.habilidadesService.obtenerHabilidades().subscribe({
+          next: (habilidades) => {
+            // Buscamos la habilidad recién agregada por su descripción
+            const habilidadRecienAgregada = habilidades.find(
+              (habilidad: { descripcion: string; }) => habilidad.descripcion.toLowerCase() === this.nuevaHabilidadDescripcion.toLowerCase()
+            );
+            this.seleccionarHabilidad(habilidadRecienAgregada.id, habilidadRecienAgregada.descripcion);
+            this.nuevaHabilidadDescripcion = '';
+            this.isLoading = false;
+          },
+          error: (error) => {
+            console.error('Error al obtener habilidades:', error);
+            this.isLoading = false;
+          }
+        });
+      },
+      error: (error) => {
+        console.error('Error al agregar habilidad:', error);
+        this.isLoading = false;
+        this.errorMessage = "Hubo un error, inténtalo más tarde";
+        this.clearMessagesAfterDelay();
+      }
+    });
+  }  
 
   obtenerHabilidades(): void {
     this.habilidadesService.obtenerHabilidades().subscribe((data) => {
