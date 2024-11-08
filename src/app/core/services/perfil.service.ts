@@ -18,15 +18,20 @@ export class PerfilService {
     return this.http.post<any>(url, requestBody);
   }
 
-  actualizarUsuario(data: FormData): Observable<any> {
+  actualizarUsuario(formData: FormData): Observable<any> {
     const url = `https://malo-backend.onrender.com/api/Usuario/ActualizarUsuario`;
     const token = this.userService.getToken();
 
-    return this.http.post<any>(url, data, {
+    return this.http.post<any>(url, formData, {
       headers: {
         'Authorization': `Bearer ${token}`
         // Nota: No agregamos 'Content-Type', ya que Angular lo maneja automáticamente para FormData
       }
     });
   }
+
+  enviarDocumento(formData: FormData): Observable<any> {
+    const url = 'https://malo-backend-documentos.onrender.com/api/Documento/PostAgregarDoc';
+    return this.http.post(url, formData, { responseType: 'text' }); // Indica que la respuesta es texto
+  }  
 }

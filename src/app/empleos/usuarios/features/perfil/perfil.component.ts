@@ -33,6 +33,8 @@ export class PerfilComponent implements OnInit {
   nuevaHabilidadDescripcion = '';
   prevPhoto: string | null = '/carrusel3.png';
   selectedFile: File | null = null;
+  prevPDF = '';
+  selectedPDF: File | null = null;
 
   telefonoTouched: boolean = false;
   emailTouched: boolean = false;
@@ -75,7 +77,7 @@ export class PerfilComponent implements OnInit {
 
   ngOnInit() {
     this.loadEstados();
-    this.obtenerUsuarioPorId();
+    //this.obtenerUsuarioPorId();
 
     setTimeout(() => {
       const separators = this.profileContainer.nativeElement.querySelectorAll('.separator-container');
@@ -245,7 +247,6 @@ export class PerfilComponent implements OnInit {
     this.isLoading = true;
     this.perfilService.obtenerUsuarioPorId().subscribe({
       next: (response) => {
-        console.log(response);
         this.nombre = this.prevName = response.nombre || '';
         this.apellidos = this.prevApellidos = response.apellido || '';
         this.telefono = this.prevTel = response.telefono || '';
@@ -294,13 +295,12 @@ export class PerfilComponent implements OnInit {
   
     // Adjuntar el archivo seleccionado, si existe
     if (this.selectedFile) {
-      formData.append('archivo', this.selectedFile, this.selectedFile.name);
+      formData.append('archivo', this.selectedFile);
     }
   
     this.isLoading = true;
     this.perfilService.actualizarUsuario(formData).subscribe({
       next: (response) => {
-        console.log('Usuario actualizado con éxito:', response);
         this.obtenerUsuarioPorId();
         this.successMessage = '¡Has modificado tu perfil!';
         this.clearMessagesAfterDelay();
@@ -313,6 +313,51 @@ export class PerfilComponent implements OnInit {
       }
     });
   }  
+
+  enviarDocumento(): void {
+    if (!this.selectedPDF) {
+      console.error("No se ha seleccionado un archivo para enviar.");
+      return;
+    }
+
+    this.isLoading = true;
+    const formData = new FormData();
+    const userId = this.userService.getUserData();
+
+    console.log(this.selectedPDF.name)
+    // Agregar ID del usuario y archivo PDF al formData
+    formData.append('usuario_id', userId.sub); // Asegúrate de que 'usuario_id' sea el campo esperado por el backend
+    formData.append('nombre', this.selectedPDF.name); // Nombre del archivo
+    formData.append('archivo', this.selectedPDF); // El archivo en sí como 'contenido'
+  
+    // Llamada al endpoint para enviar el documento
+    this.perfilService.enviarDocumento(formData).subscribe({
+      next: (response) => {
+        console.log('Documento enviado con éxito:', response);
+        this.isLoading = false;
+      },
+      error: (error) => {
+        console.error('Error al enviar el documento:', error);
+        this.isLoading = false;
+        this.errorMessage = "¡Ups, ocurrio un error, intentalo más tarde!"
+        this.clearMessagesAfterDelay();
+      }
+    });
+  }
+
+  onFileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      this.selectedPDF = input.files[0];
+      console.log('Archivo seleccionado:', this.selectedPDF.name); // Verificar el nombre del archivo
+      this.enviarDocumento();
+    } else {
+      console.error('No se ha seleccionado un archivo válido.');
+      this.selectedPDF = null; // Resetea selectedPDF si no hay archivo válido
+      this.errorMessage = "¡Selecciona tu CV en pdf!"
+      this.clearMessagesAfterDelay();
+    }
+  }
   
   formatDate(fecha: string): string {
     return fecha.split('T')[0];
@@ -327,13 +372,5 @@ export class PerfilComponent implements OnInit {
 
   triggerFileInput(): void {
     this.fileInput.nativeElement.click(); // Simula el clic en el input file
-  }
-
-  onFileSelected(event: Event): void {
-    const input = event.target as HTMLInputElement;
-    if (input.files && input.files[0]) {
-      this.selectedFile = input.files[0];
-      this.actualizarUsuario();
-    }
   }
 }

@@ -339,6 +339,25 @@ button:enabled {
   color: black;
 }
 
+.file-input input[type=file] {
+  max-width: 100%;
+  color: #444;
+  padding: 5px;
+  background: #fff;
+  border-radius: 10px;
+  border: 1px solid #555;
+}
+
+.file-input input[type=file]::file-selector-button {
+  margin-right: 20px;
+  border: none;
+  background: #3066be;
+  padding: 10px 20px;
+  border-radius: 10px;
+  color: #fff;
+  cursor: pointer;
+  transition: background .2s ease-in-out;
+}
 
 
 /* Modo para teléfonos */
