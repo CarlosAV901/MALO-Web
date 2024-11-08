@@ -8,7 +8,7 @@
           <i class="fas fa-edit"></i>
         </div>
       </div>
-      <input type="file" #fileInput (change)="onFileSelected($event)" accept="image/*" style="display: none;" />
+      <input type="file" #fileInput (change)="onFileSelectedIMG($event)" accept="image/*" style="display: none;" />
       
       <div class="separator-container">
         <hr class="separator" />
@@ -77,18 +77,19 @@
         <button
           class="add-button"
           (click)="agregarHabilidad()"
-          [disabled]="!isHabilidadValid(nuevaHabilidadDescripcion)"
+          [disabled]="!isNotEmpty(nuevaHabilidadDescripcion)"
         >
           +
         </button>
       
         <div *ngIf="habilidadesFiltradas.length > 0 && habilidadesTouched" class="sugerencias-container">
           <ul>
-            <li *ngFor="let habilidad of habilidadesFiltradas" (click)="seleccionarHabilidad(habilidad.id, habilidad.descripcion)">
+            <li *ngFor="let habilidad of habilidadesFiltradas" 
+                (mousedown)="seleccionarHabilidad(habilidad.id, habilidad.descripcion)">
               {{ habilidad.descripcion }}
             </li>
           </ul>
-        </div>
+        </div>        
       </div>      
        <!-- fin habilidades -->
       <div class="form-group">
@@ -108,7 +109,7 @@
         <input 
           id="cv" 
           type="file" 
-          (change)="onFileSelected($event)" 
+          (change)="onFileSelectedPDF($event)" 
           accept=".pdf" 
         />
       </div>

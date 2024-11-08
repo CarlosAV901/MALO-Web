@@ -34,4 +34,26 @@ export class PerfilService {
     const url = 'https://malo-backend-documentos.onrender.com/api/Documento/PostAgregarDoc';
     return this.http.post(url, formData, { responseType: 'text' }); // Indica que la respuesta es texto
   }  
+
+  convertirUrlAArchivo(url: string, nombreArchivo: string): Promise<File> {
+    return new Promise((resolve, reject) => {
+      const xhr = new XMLHttpRequest();
+      xhr.open("GET", url, true);
+      xhr.responseType = "blob";  // Esto permite obtener la respuesta como Blob
+  
+      xhr.onload = () => {
+        if (xhr.status === 200) {
+          const blob = xhr.response;
+          const file = new File([blob], nombreArchivo, { type: blob.type });
+          resolve(file);
+        } else {
+          reject(new Error("Error al descargar la imagen"));
+        }
+      };
+  
+      xhr.onerror = () => reject(new Error("Error de red al descargar la imagen"));
+      xhr.send();
+    });
+  }
+  
 }

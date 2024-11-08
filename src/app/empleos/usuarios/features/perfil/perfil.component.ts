@@ -31,7 +31,7 @@ export class PerfilComponent implements OnInit {
   experiencias = '';
   prevExperiencias = '';
   nuevaHabilidadDescripcion = '';
-  prevPhoto: string | null = '/carrusel3.png';
+  prevPhoto: string = '';
   selectedFile: File | null = null;
   prevPDF = '';
   selectedPDF: File | null = null;
@@ -63,6 +63,7 @@ export class PerfilComponent implements OnInit {
   habilidades: any[] = [];
   habilidadesFiltradas: any[] = [];
   prevHabilidades: string = '';
+  habilidadesIds: string = '';
   habilidadesTouched: boolean = false;
 
   // Otros
@@ -107,11 +108,6 @@ export class PerfilComponent implements OnInit {
         });
       });
     });
-  }
-
-  // Funciones de validación
-  isHabilidadValid(nuevaHabilidadDescripcion: string): boolean{
-    return this.isNotEmpty(nuevaHabilidadDescripcion)
   }
 
   isPhoneValid(telefono: string): boolean {
@@ -245,7 +241,8 @@ export class PerfilComponent implements OnInit {
         this.prevLocalidad = response.localidad || '';
         this.prevExperiencias = this.experiencias = response.experiencias || '';
         this.prevPhoto = response.imagenPerfil;
-        this.prevHabilidades = response.habilidadesDescripciones || ''
+        this.habilidadesIds = response.habilidadesIds;
+        this.prevHabilidades = response.habilidadesDescripciones || '';
         this.habilidadesUsuario = response.habilidadesDescripciones
           ? response.habilidadesDescripciones.split(',').map((habilidUsuario: string) => habilidUsuario.trim())
           : [];
@@ -265,10 +262,8 @@ export class PerfilComponent implements OnInit {
     const estadoNombre = this.estados.find(e => e.cvegeo === this.estado)?.nomgeo || '';
     const municipioNombre = this.municipios.find(m => m.cvegeo === this.municipio)?.nomgeo || '';
     const localidadNombre = this.localidades.find(l => l.cvegeo === this.localidad)?.nomgeo || '';
-  
     const userId = this.userService.getUserData();
   
-    // Crear objeto FormData para enviar los datos como form data
     const formData = new FormData();
     formData.append('usuarioId', userId.sub);
     formData.append('nombre', this.nombre);
@@ -279,14 +274,21 @@ export class PerfilComponent implements OnInit {
     formData.append('municipio', municipioNombre || this.prevMunicipio);
     formData.append('localidad', localidadNombre || this.prevLocalidad);
     formData.append('descripcion', this.experiencias);
-    formData.append('habilidades', '3,7,10');
-  
-    // Adjuntar el archivo seleccionado, si existe
-    if (this.selectedFile) {
-      formData.append('archivo', this.selectedFile);
-    }
+    formData.append('habilidades', '3,10');
   
     this.isLoading = true;
+  
+    // Verifica si se puede usar el archivo seleccionado o crea un archivo dummy si no hay archivo o falla el fetch
+    if (this.selectedFile) {
+      formData.append('archivo', this.selectedFile);
+    } else {
+      // Crear un archivo "dummy" para enviar en caso de que no se pueda usar la imagen
+      const dummyContent = new Blob(["Contenido de archivo predeterminado"], { type: 'text/plain' });
+      const dummyFile = new File([dummyContent], "archivo_predeterminado.txt", { type: 'text/plain' });
+      formData.append('archivo', dummyFile);
+    }
+  
+    // Enviar el FormData al servicio
     this.perfilService.actualizarUsuario(formData).subscribe({
       next: (response) => {
         this.obtenerUsuarioPorId();
@@ -295,7 +297,7 @@ export class PerfilComponent implements OnInit {
       },
       error: (error) => {
         console.error('Error al actualizar el usuario:', error);
-        this.errorMessage = "¡Ups, ocurrio un error, intentalo más tarde!"
+        this.errorMessage = "¡Ups, ocurrió un error, inténtalo más tarde!";
         this.clearMessagesAfterDelay();
         this.isLoading = false;
       }
@@ -333,7 +335,7 @@ export class PerfilComponent implements OnInit {
     });
   }
 
-  onFileSelected(event: Event): void {
+  onFileSelectedPDF(event: Event): void {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files.length > 0) {
       this.selectedPDF = input.files[0];
@@ -344,6 +346,14 @@ export class PerfilComponent implements OnInit {
       this.selectedPDF = null; // Resetea selectedPDF si no hay archivo válido
       this.errorMessage = "¡Selecciona tu CV!"
       this.clearMessagesAfterDelay();
+    }
+  }
+
+  onFileSelectedIMG(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files[0]) {
+      this.selectedFile = input.files[0];
+      this.actualizarUsuario();
     }
   }
 
@@ -383,11 +393,13 @@ export class PerfilComponent implements OnInit {
       habilidad.descripcion.toLowerCase().includes(query)
     );
   }
-
+  
   seleccionarHabilidad(habilidadId: number, descripcion: string): void {
-    this.habilidadSeleccionadaId = habilidadId;
-    this.nuevaHabilidadDescripcion = descripcion; // Muestra la habilidad seleccionada en el input
-    this.habilidadesFiltradas = []; // Oculta las sugerencias después de seleccionar una
+    this.habilidadesIds += `, ${habilidadId}`;
+    this.habilidadesTouched = false;
+
+    this.actualizarUsuario();
+    this.nuevaHabilidadDescripcion = '';
   }
   
   formatDate(fecha: string): string {
