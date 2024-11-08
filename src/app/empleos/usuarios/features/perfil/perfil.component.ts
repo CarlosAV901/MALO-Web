@@ -45,6 +45,7 @@ export class PerfilComponent implements OnInit {
   municipioTouched: boolean = false;
   localidadTouched: boolean = false;
   emailButtonClicked: boolean = false;
+  experienciaTouched: boolean = false;
 
   // Ubicación
   estados: any[] = [];
@@ -166,20 +167,6 @@ export class PerfilComponent implements OnInit {
     return !this.errorMessage && !this.successMessage;
   }
 
-  eliminarHabilidad(id: number): void {
-    this.habilidadesService.eliminarHabilidad(id).subscribe({
-      next: (response) => {
-        console.log('Habilidad eliminada:', response);
-        this.habilidades = this.habilidades.filter(habilidad => habilidad.id !== id);
-      },
-      error: (error) => {
-        console.error('Error al eliminar habilidad:', error);
-        this.errorMessage = "¡Ups, ocurrio un error, intentalo más tarde!"
-        this.clearMessagesAfterDelay();
-      }
-    });
-  }
-
   loadEstados(): void {
     this.inegiService.getEstados().subscribe({
       next: (response) => {
@@ -274,7 +261,7 @@ export class PerfilComponent implements OnInit {
     formData.append('municipio', municipioNombre || this.prevMunicipio);
     formData.append('localidad', localidadNombre || this.prevLocalidad);
     formData.append('descripcion', this.experiencias);
-    formData.append('habilidades', '3,10');
+    formData.append('habilidades', this.habilidadesIds);
   
     this.isLoading = true;
   
@@ -357,28 +344,31 @@ export class PerfilComponent implements OnInit {
     }
   }
 
-  agregarHabilidad(): void {
-    if (this.habilidadSeleccionadaId !== null) {
-      console.log('ID de habilidad seleccionada:', this.habilidadSeleccionadaId);
-    }
+  // Método para agregar una nueva habilidad
+  // Método para agregar una nueva habilidad
+  agregarHabilidad() {
+    const habilidadExiste = this.habilidades.some(
+      (habilidad) => habilidad.descripcion.toLowerCase() === this.nuevaHabilidadDescripcion.toLowerCase()
+    );
 
-    this.isLoading = true;
-    this.habilidadesService.agregarHabilidad(this.nuevaHabilidadDescripcion).subscribe({
-      next: (response) => {
-        console.log('Habilidad agregada:', response);
-        this.habilidades.push({ descripcion: this.nuevaHabilidadDescripcion });
-        this.nuevaHabilidadDescripcion = '';
-        this.habilidadSeleccionadaId = null; // Resetea la selección
-        this.isLoading = false;
-      },
-      error: (error) => {
-        console.error('Error al agregar habilidad:', error);
-        this.errorMessage = "¡Ups, ocurrió un error, inténtalo más tarde!";
-        this.clearMessagesAfterDelay();
-        this.isLoading = false;
-      }
-    });
+    if (!habilidadExiste) {
+      // Si la habilidad no existe, se llama al servicio para agregarla
+      this.habilidadesService.agregarHabilidad(this.nuevaHabilidadDescripcion).subscribe({
+        next: (respuesta) => {
+          // Agregar la nueva habilidad a la lista local si el servicio responde exitosamente
+          this.habilidades.push({ id: Date.now(), descripcion: this.nuevaHabilidadDescripcion });
+          this.nuevaHabilidadDescripcion = ''; // Limpiar el campo de entrada
+        },
+        error: (error) => {
+          console.error('Error al agregar habilidad:', error);
+          alert('Hubo un problema al agregar la habilidad');
+        }
+      });
+    } else {
+      alert('Esta habilidad ya existe');
+    }
   }
+
 
   obtenerHabilidades(): void {
     this.habilidadesService.obtenerHabilidades().subscribe((data) => {
@@ -393,13 +383,48 @@ export class PerfilComponent implements OnInit {
       habilidad.descripcion.toLowerCase().includes(query)
     );
   }
-  
-  seleccionarHabilidad(habilidadId: number, descripcion: string): void {
-    this.habilidadesIds += `, ${habilidadId}`;
-    this.habilidadesTouched = false;
 
+  seleccionarHabilidad(habilidadId: number, descripcion: string): void {
+    // Convertimos habilidadesIds a un array y verificamos si ya contiene el ID
+    if(this.habilidadesIds == ''){
+      this.habilidadesIds = `${habilidadId}`;
+    }
+    const idsArray = this.habilidadesIds.split(',').map(id => id.trim());
+    
+    // Si el ID ya existe, limpiamos nuevaHabilidadDescripcion y salimos de la función
+    if (idsArray.includes(habilidadId.toString())) {
+        this.nuevaHabilidadDescripcion = '';
+        return;
+    }
+
+    // Agregamos el ID si no existe, manejando el caso de string vacío
+    this.habilidadesIds = this.habilidadesIds ? `${this.habilidadesIds},${habilidadId}` : `${habilidadId}`;
+
+    // Reseteamos estado y actualizamos usuario
+    this.habilidadesTouched = false;
     this.actualizarUsuario();
     this.nuevaHabilidadDescripcion = '';
+}
+
+
+  eliminarHabilidad(index: number): void {
+    console.log('Índice a eliminar:', index);
+
+    // Convertimos habilidadesIds de string a array
+    let habilidadesArray = this.habilidadesIds.split(',');
+
+    // Verificamos si el índice está dentro del rango válido
+    if (index >= 0 && index < habilidadesArray.length) {
+        // Eliminamos el elemento en la posición indicada
+        habilidadesArray.splice(index, 1);
+        
+        // Asignamos un string vacío si no quedan IDs, o unimos los IDs restantes con comas
+        this.habilidadesIds = habilidadesArray.length ? habilidadesArray.join(',') : '9';
+
+        this.actualizarUsuario();
+    } else {
+        console.error('Índice fuera de rango');
+    }
   }
   
   formatDate(fecha: string): string {

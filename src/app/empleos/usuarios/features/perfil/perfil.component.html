@@ -60,10 +60,11 @@
     <div class="section-content visible">
       <p class="skills-p">Habilidades</p>
       <div class="skills-container">
-        <div *ngFor="let habilidad of habilidadesUsuario" class="skill">
-          {{ habilidad }} <span class="close" (click)="eliminarHabilidad(habilidad.id)">&times;</span>
+        <div *ngFor="let habilidad of habilidadesUsuario; let i = index" class="skill">
+          {{ habilidad }} 
+          <span class="close" (click)="eliminarHabilidad(i)">&times;</span>
         </div>
-      </div>
+      </div>      
       <!-- habilidades -->
       <div class="form-group habilidadesFG">
         <input
@@ -93,14 +94,15 @@
       </div>      
        <!-- fin habilidades -->
       <div class="form-group">
-        <label *ngIf="isNotEmpty(experiencias)" for="exp">Experiencia</label>
-        <label *ngIf="!isNotEmpty(experiencias)" for="exp" class="error">
+        <label *ngIf="isNotEmpty(experiencias) || !experienciaTouched" for="exp">Experiencia</label>
+        <label *ngIf="!isNotEmpty(experiencias) && experienciaTouched" for="exp" class="error">
           ¡Agrega tu experiencia!
         </label>
         <textarea 
           id="exp" 
           [(ngModel)]="experiencias" 
-          rows="4" 
+          (blur)="experienciaTouched = true"
+          rows="6" 
           placeholder="Describe tu experiencia aquí"
         ></textarea>
       </div>      
