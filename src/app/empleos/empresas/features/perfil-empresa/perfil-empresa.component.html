@@ -1,3 +1,65 @@
-<div class="parent">
-    <h1>Hola empresa</h1>
-</div>
+<div class="profile-container" #profileContainer>
+    <div class="section perfilData">        
+        <div class="separator-container">
+          <hr class="separator" />
+          <p>Datos personales</p>
+          <span class="separator-icon"><i class="fa fa-angle-down"></i></span> <!-- Icono al lado derecho -->
+        </div>
+        <div class="section-content visible">
+          <p>{{prevName}}</p>
+          <p>{{prevCorreo}}</p>
+          <p>{{prevIndustria}}</p>
+          <p>{{prevUbicacion}}</p>
+        </div>
+    </div>
+  
+    <div class="section editData">
+      <!-- Sección para editar los datos del usuario -->
+       <h2 *ngIf="isMessageShown()">Modifica tu perfil</h2>
+       <app-notification *ngIf="errorMessage" [message]="errorMessage" [isError]="true"></app-notification>
+       <app-notification *ngIf="successMessage" [message]="successMessage"></app-notification>
+
+      <!-- DATOS PERSONALES -->
+      <div class="separator-containerE">
+        <p>Datos personales</p>
+        <hr class="separatorE" />
+        <span class="separator-iconE"><i class="fa fa-angle-up"></i></span> <!-- Icono al lado derecho -->
+      </div>
+      <div class="section-content visible">
+        <div class="form-row">
+          <div class="form-group">
+            <label *ngIf="!nombreTouched || isNotEmpty(nombre)" for="nombre">Nombre</label>
+            <label *ngIf="nombreTouched && !isNotEmpty(nombre)" for="nombre" class="error">
+              Debes agregar un nombre!
+            </label>
+            <input id="nombre" type="text" [(ngModel)]="nombre" (blur)="nombreTouched = true" />
+          </div>
+          <div class="form-group">
+            <label *ngIf="!industriaTouched || isNotEmpty(industria)" for="apellidos">Industria</label>
+            <label *ngIf="industriaTouched && !isNotEmpty(industria)" for="apellidos" class="error">
+              Debes agregar una industria!
+            </label>
+            <input id="apellido" type="text" [(ngModel)]="industria" (blur)="industriaTouched = true" />
+          </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label *ngIf="isEmailValid(correo) || !emailTouched" for="correo">Correo</label>
+                <label *ngIf="!isEmailValid(correo) && emailTouched" for="correo" class="error">
+                    El correo no es válido. Debe contener "&#64;" y un formato válido!
+                </label>
+                <input id="correo" type="email" [(ngModel)]="correo" (blur)="emailTouched = true"/>
+            </div>
+          <div class="form-group">
+            <label *ngIf="!ubicacionTouched || isNotEmpty(ubicacion)" for="fechaNacimiento">Ubicación</label>
+            <label *ngIf="ubicacionTouched && !isNotEmpty(ubicacion)" for="fechaNacimiento" class="error">
+              Debes agregar una Ubicación!.
+            </label>
+            <input id="fechaNacimiento" type="text" [(ngModel)]="ubicacion" (blur)="ubicacionTouched = true" />
+          </div>
+        </div>
+        <button class="actualizar" (click)="actualizarEmpresa()" [disabled]="!isform1Valid()">Guardar cambios</button>
+      </div>
+    <app-loader *ngIf="isLoading"></app-loader>
+  </div>
+  

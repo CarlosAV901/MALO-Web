@@ -1,16 +1,248 @@
-.parent {
-    display: grid;
-    grid-template-columns: 50% 50%;
-    /* Ajusta las columnas a estar más cerca */
-    grid-template-rows: 1fr auto;
-    grid-column-gap: 0px;
-    grid-row-gap: 0px;
-    width: 100%;
-    margin: 0 auto;
-    padding: 10px;
+/* Estilos generales */
+.profile-container {
+    display: flex;
+    flex-direction: row;
     min-height: 100vh;
-    padding-bottom: 20px;
-    justify-items: center;
+  }
+  
+  .section {
+    padding: 20px;
+  }
+  
+  .perfilData {
+    background: url('/57-bg.png');
+    background-size: cover;
+    color: white;
+    width: 30%; 
+  }
+  
+  .perfilData p {
+    width: 100%;
+    padding: 5px 2rem;
+  }
+  
+  .editData {
+    background-color: white;
+    color: black;
+    width: 70%;
+    margin-right: 52px;
+  }
+  
+  form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  label {
+    margin-top: 10px;
+  }
+  
+  input, textarea {
+    margin-top: 5px;
+    padding: 8px;
+    font-size: 1rem;
+  }
+  
+  button {
+    margin-top: 15px;
+    padding: 10px;
+    font-size: 1rem;
+    cursor: pointer;
+  }
+  
+  .section-content {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: max-height 0.3s ease, opacity 0.3s ease;
+  }
+  
+  .section-content.visible {
+    max-height: 100%;
+    opacity: 1;
+  }
+  
+  .separator {
+    flex-grow: 1;
+    border: none;
+    border-top: 1px solid white;
+    margin: 10px 0;
+  }
+  
+  .separatorE {
+    flex-grow: 1;
+    border: none;
+    border-top: 1px solid black;
+    margin: 10px 0;
+    margin-left: 10px;
+  }
+  
+  .separator-icon {
+    margin-left: 8px;
+    font-size: 1.2em;
+    color: white;
+    cursor: pointer;
+    transform: rotate(180deg);
+    transition: transform 0.3s ease;
+  }
+  
+  .separator-iconE {
+    color: black;
+    margin-left: 8px;
+    font-size: 1.2em;
+    cursor: pointer;
+    transform: rotate(180deg);
+    transition: transform 0.3s ease;
+  }
+  
+  .separator-container {
+    color: white;
+    width: 100%;
+    display: flex;
     align-items: center;
-    align-items: stretch;
-}
+    cursor: pointer;
+    margin: 10px 15px 10px auto;
+  }
+  
+  .separator-container p {
+    color: #d2e3ff;
+    padding: 0;
+    padding-left: 8px;
+    margin: 0;
+    width: auto;
+  }
+  
+  .separator-containerE {
+    color: black;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    margin: 3rem 15px 2rem auto;
+  }
+  
+  .separator-containerE p {
+    color: black;
+    font-size: 1.3rem;
+  }
+  
+  h2 {
+    color: #3066be;
+    font-size: 1.7rem;
+    text-align: center;
+  }
+  
+  .separator-icon.rotated {
+    transform: rotate(0deg);
+  }
+  
+  .separator-iconE.rotated {
+    transform: rotate(0deg);
+  }
+  
+  .form-group {
+    max-width: 100%;
+    flex: 1;
+    text-align: left;
+    margin-bottom: 0.9375rem;
+  }
+  
+  .form-group select,
+  .form-group input {
+    display: block;
+    width: 100%;
+    height: 3rem;
+    padding: 0 0.9375rem;
+    border: 2px solid #3066be;
+    border-radius: 0.75rem;
+    font-size: 1rem;
+    background: none;
+    color: #000;
+  }
+  
+  .form-group label,
+  .skills-p {
+    font-size: 1.1rem;
+    color: #3066be;
+  }
+  
+  .form-row {
+    max-width: 100%;
+    display: flex;
+    gap: 20px;
+  }
+  
+  .button-group {
+    display: flex;
+    align-items: center;
+  }
+  
+  .actualizar {
+    width: 40%;
+    padding: 0.625rem 1.875rem;
+    margin-left: auto;
+    font-size: 1rem;
+    background-color: #3066be;
+    color: white;
+    border: none;
+    border-radius: 30px;
+    opacity: 0.3;
+    cursor: not-allowed;
+  }
+  
+  button:enabled {
+    opacity: 1;
+    cursor: pointer;
+  }
+  
+  .error {
+    color: red !important;
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
+  }
+  
+  /* Modo para teléfonos */
+  @media (max-width: 760px) {
+    .profile-container {
+      flex-direction: column;
+    }
+  
+    .perfilData {
+      display: none;
+    }
+  
+    .editData {
+      width: 100%;
+      margin-right: 0;
+    }
+  
+    .form-row{
+      flex-direction: column;
+    }
+  
+    .perfilData {
+      width: 100%;
+      height: auto;
+      padding-top: 20px; /* Ajuste de espacio superior */
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background: url('/57-bg.png');
+      background-size: cover;
+      background-position: center;
+    }
+  
+    /* Oculta el texto en perfilData en móviles */
+    .perfilData .separator-container,
+    .perfilData .section-content {
+      display: none;
+    }
+  
+    .actualizar{
+      width: auto;
+    }
+  }
+  
