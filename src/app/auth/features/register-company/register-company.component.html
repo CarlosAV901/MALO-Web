@@ -44,7 +44,7 @@
         <div class="form-group">
           <label *ngIf="isPasswordValid(contrasena) || !contrasenaTouched" for="contrasena">Contraseña</label>
           <label *ngIf="!isPasswordValid(contrasena) && contrasenaTouched" for="contrasena" class="error">
-            La contraseña debe tener al menos 6 caracteres!
+            Con al menos 8 caracteres y una mayuscula!
           </label>
           <input type="password" id="contrasena" class="input_3" [(ngModel)]="contrasena" (blur)="contrasenaTouched = true" required>
         </div>

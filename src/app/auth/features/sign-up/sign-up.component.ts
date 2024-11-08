@@ -98,7 +98,8 @@ export class SignUpComponent implements OnInit {
   }
   
   isPasswordValid(password: string): boolean {
-    return password.length >= 5;
+    const passwordRegex = /^(?=.*[A-Z]).{8,}$/;
+    return passwordRegex.test(password);
   }
   
   doPasswordsMatch(password: string, confirmPassword: string): boolean {
