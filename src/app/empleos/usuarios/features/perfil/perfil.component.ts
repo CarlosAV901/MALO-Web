@@ -14,7 +14,7 @@ import { UserService } from '../../../../core/services/user.service';
   standalone: true,
   imports: [CommonModule, FormsModule, LoaderComponent, NotificationComponent],
   templateUrl: './perfil.component.html',
-  styleUrls: ['./perfil.component.css']
+  styleUrls: ['./perfil.component.css', './perfil2.component.scss'],
 })
 export class PerfilComponent implements OnInit {
   // Datos usuario

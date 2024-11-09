@@ -1,0 +1,224 @@
+
+.skill {
+    height: 3rem;
+    display: flex;
+    align-items: center;
+    padding: 8px 12px;
+    background-color: #f1f1f1;
+    border-radius: 20px;
+    font-size: 14px;
+    color: #333;
+  }
+  
+  .close {
+    margin-left: 8px;
+    color: #666;
+    cursor: pointer;
+    font-size: 1.7rem;
+  }
+  
+  .close:hover {
+    color: black;
+  }
+  
+  .habilidadesFG {
+    position: relative;
+    margin-top: 20px;
+    max-width: 40%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px; /* Espacio entre el input y el botón */
+  }
+  
+  /* Estilos para el botón circular */
+  .add-button {
+    margin: 0;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%; /* Hace que el botón sea circular */
+    background-color: #3066be; /* Color de fondo, puedes cambiarlo */
+    color: white; /* Color del símbolo "+" */
+    font-size: 50px;
+    font-weight: bold;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    opacity: 0.3;
+    cursor: not-allowed;
+  }
+  
+  .profile-photo {
+    width: 160px;
+    height: 160px;
+    border-radius: 50%;
+    border: 1px solid white;
+    overflow: hidden;
+    margin: 0 auto 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    cursor: pointer;
+  }
+  
+  .profile-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: opacity 0.3s;
+  }
+  
+  .profile-photo::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    transition: opacity 0.3s;
+    border-radius: 50%;
+  }
+  
+  .profile-photo .overlay-text {
+    position: absolute;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    opacity: 0;
+    transition: opacity 0.3s;
+    pointer-events: none;
+  }
+  
+  .profile-photo:hover::after {
+    opacity: 1;
+  }
+  
+  .profile-photo:hover .overlay-text {
+    opacity: 1;
+  }
+  
+  /* Estilos para el ícono de edición */
+  .profile-photo .edit-icon {
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    bottom: 5px;
+    padding: 5px;
+    font-size: 16px;
+    background-color: white;
+    border-radius: 50%;
+    justify-content: center;
+    align-items: center;
+    display: flex;  /* Establece el contenedor como flex */
+    justify-content: center;  /* Centra el ícono horizontalmente */
+    align-items: center;  /* Centra el ícono verticalmente */
+  }
+  
+  .profile-photo .edit-icon i {
+    color: black;
+  }
+  
+  .file-input input[type=file] {
+    max-width: 100%;
+    color: #444;
+    padding: 5px;
+    background: #fff;
+    border-radius: 10px;
+    border: 1px solid #555;
+  }
+  
+  .file-input input[type=file]::file-selector-button {
+    margin-right: 20px;
+    border: none;
+    background: #3066be;
+    padding: 10px 20px;
+    border-radius: 10px;
+    color: #fff;
+    cursor: pointer;
+    transition: background .2s ease-in-out;
+  }
+  
+  .sugerencias-container {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background-color: #ffffff;
+    border: 1px solid #ccc;
+    z-index: 1000;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    max-height: 150px; /* Limita la altura máxima a 150px */
+    overflow-y: auto; /* Activa el desplazamiento vertical */
+  }
+  
+  .sugerencias-container ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .sugerencias-container li {
+    padding: 8px 12px;
+    cursor: pointer;
+  }
+  
+  .sugerencias-container li:hover {
+    background-color: #f0f0f0;
+  }
+  
+  /* Modo para teléfonos */
+  @media (max-width: 760px) {
+    .profile-container {
+      flex-direction: column;
+    }
+  
+    .perfilData {
+      display: none;
+    }
+  
+    .editData {
+      width: 100%;
+      margin-right: 0;
+    }
+  
+    .form-row{
+      flex-direction: column;
+    }
+  
+    .perfilData {
+      width: 100%;
+      height: auto;
+      padding-top: 20px; /* Ajuste de espacio superior */
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background: url('/57-bg.png');
+      background-size: cover;
+      background-position: center;
+    }
+  
+    /* Oculta el texto en perfilData en móviles */
+    .perfilData .separator-container,
+    .perfilData .section-content {
+      display: none;
+    }
+  
+    /* Estilo de la imagen de perfil */
+    .profile-photo {
+      margin: 10px 0;
+    }
+  
+    .actualizar{
+      width: auto;
+    }
+  
+    .habilidadesFG {
+      max-width: 82%;
+    }
+  }
+  
