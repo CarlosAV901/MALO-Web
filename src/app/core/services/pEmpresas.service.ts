@@ -13,19 +13,15 @@ export class PEmpresasService {
     obtenerEmpresaPorId(): Observable<any> {
         const empresaData = this.userService.getUserData(); // Método para obtener los datos del usuario
         const url = 'https://malo-backend-empresas.onrender.com/api/Empresa/GetEmpresaPorId';
-        const empresaId = empresaData.sub; // Asumiendo que el ID de la empresa está en 'sub'
-    
-        // Enviar solo el ID, no todo el objeto
-        const requestBody = { id: empresaId };
+        const requestBody = { empresa_id: empresaData.sub, };
     
         return this.http.post<any>(url, requestBody);
     }
-    
 
-      actualizarEmpresa(empresaData: any): Observable<any> {
-        const url = 'https://malo-backend-empresas.onrender.com/api/Empresa/actualizar-empresa';
-        
-        // Enviar los datos de la empresa en el cuerpo de la solicitud
-        return this.http.post<any>(url, empresaData);
-      }      
+    actualizarEmpresa(empresaData: any): Observable<any> {
+    const url = 'https://malo-backend-empresas.onrender.com/api/Empresa/actualizar-empresa';
+    
+    // Enviar los datos de la empresa en el cuerpo de la solicitud
+    return this.http.post<any>(url, empresaData);
+    }      
 }

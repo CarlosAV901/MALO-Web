@@ -127,7 +127,8 @@ export class PerfilEmpresaComponent implements OnInit {
   
     this.empresasService.actualizarEmpresa(empresaData).subscribe({
       next: (response) => {
-        console.log('Empresa actualizada con éxito:', response);
+        this.successMessage = '¡Has modificado tu perfil!';
+        this.clearMessagesAfterDelay();
         this.isLoading = false;
       },
       error: (error) => {
