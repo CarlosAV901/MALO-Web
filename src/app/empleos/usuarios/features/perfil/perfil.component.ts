@@ -232,7 +232,7 @@ export class PerfilComponent implements OnInit {
         this.prevMunicipio = response.municipio || '';
         this.prevLocalidad = response.localidad || '';
         this.prevExperiencias = this.experiencias = response.experiencias || '';
-        this.prevPhoto = response.imagenPerfil;
+        this.prevPhoto = response.imagenPerfil || '/logoblanco.png';
         this.habilidadesIds = response.habilidadesIds;
         this.prevHabilidades = response.habilidadesDescripciones || '';
         this.habilidadesUsuario = response.habilidadesDescripciones

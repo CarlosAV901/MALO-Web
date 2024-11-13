@@ -94,7 +94,19 @@
           </ul>
         </div>        
       </div>      
-       <!-- fin habilidades -->
+       <!-- fin habilidades -->    
+      <div class="form-group file-input">
+        <label for="cv">CV</label>
+        <input 
+            id="cv" 
+            type="file" 
+            (change)="onFileSelectedPDF($event)" 
+            accept=".pdf" 
+        />
+        <div *ngIf="documentoUrl">
+            <embed [src]="documentoUrl" type="application/pdf" width="100%" height="450px">
+        </div>
+      </div>  
       <div class="form-group">
         <label *ngIf="isNotEmpty(experiencias) || !experienciaTouched" for="exp">Experiencia</label>
         <label *ngIf="!isNotEmpty(experiencias) && experienciaTouched" for="exp" class="error">
@@ -107,18 +119,6 @@
           rows="6" 
           placeholder="Describe tu experiencia aquí"
         ></textarea>
-      </div>      
-      <div class="form-group file-input">
-        <label for="cv">CV</label>
-        <input 
-            id="cv" 
-            type="file" 
-            (change)="onFileSelectedPDF($event)" 
-            accept=".pdf" 
-        />
-        <div *ngIf="documentoUrl">
-            <embed [src]="documentoUrl" type="application/pdf" width="100%" height="500px">
-        </div>
       </div>    
       <button class="actualizar" (click)="actualizarUsuario()" [disabled]="!isform1Valid()">Guardar cambios</button>
     </div>
