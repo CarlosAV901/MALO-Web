@@ -18,15 +18,27 @@ export class PerfilService {
     return this.http.post<any>(url, requestBody);
   }
 
-  actualizarUsuario(formData: FormData): Observable<any> {
+  actualizarUsuario(usuarioData: any): Observable<any> {
     const url = `https://malo-backend.onrender.com/api/Usuario/ActualizarUsuario`;
     const token = this.userService.getToken();
 
+    return this.http.post<any>(url, usuarioData, {
+        headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+        }
+    });
+  }
+
+  actualizarMultimedia(formData: FormData): Observable<any> {
+    const url = `https://malo-backend.onrender.com/api/Usuario/ActualizarMultimedia`;
+    const token = this.userService.getToken();
+
     return this.http.post<any>(url, formData, {
-      headers: {
-        'Authorization': `Bearer ${token}`
-        // Nota: No agregamos 'Content-Type', ya que Angular lo maneja automáticamente para FormData
-      }
+        headers: {
+            'Authorization': `Bearer ${token}`
+            // Nota: No se agrega 'Content-Type' ya que Angular lo gestiona automáticamente para `FormData`
+        }
     });
   }
 
@@ -35,25 +47,8 @@ export class PerfilService {
     return this.http.post(url, formData, { responseType: 'text' }); // Indica que la respuesta es texto
   }  
 
-  convertirUrlAArchivo(url: string, nombreArchivo: string): Promise<File> {
-    return new Promise((resolve, reject) => {
-      const xhr = new XMLHttpRequest();
-      xhr.open("GET", url, true);
-      xhr.responseType = "blob";  // Esto permite obtener la respuesta como Blob
-  
-      xhr.onload = () => {
-        if (xhr.status === 200) {
-          const blob = xhr.response;
-          const file = new File([blob], nombreArchivo, { type: blob.type });
-          resolve(file);
-        } else {
-          reject(new Error("Error al descargar la imagen"));
-        }
-      };
-  
-      xhr.onerror = () => reject(new Error("Error de red al descargar la imagen"));
-      xhr.send();
-    });
+  obtenerDocumentos(): Observable<any[]> {
+    const url = `https://malo-backend-documentos.onrender.com/api/Documento/GetDocumentos`;
+    return this.http.get<any[]>(url);
   }
-  
 }

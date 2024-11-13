@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef, inject } from '@angular/core';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { NotificationComponent } from '../../../../shared/ui/notification/notification.component';
 import { LoaderComponent } from '../../../../shared/ui/loader/loader.component';
 import { CommonModule } from '@angular/common';
@@ -35,6 +36,8 @@ export class PerfilComponent implements OnInit {
   selectedFile: File | null = null;
   prevPDF = '';
   selectedPDF: File | null = null;
+  documentoUrl: SafeResourceUrl | null = null;
+  pdfName: string = '';
 
   telefonoTouched: boolean = false;
   emailTouched: boolean = false;
@@ -73,6 +76,7 @@ export class PerfilComponent implements OnInit {
   inegiService = inject(InegiService);
   habilidadesService = inject(HabilidadesService);
   userService = inject(UserService);
+  sanitizer = inject(DomSanitizer)
   isLoading: boolean = false;
   emailSent: boolean = false;
   verificationCode: string = '';
@@ -85,6 +89,7 @@ export class PerfilComponent implements OnInit {
 
   ngOnInit() {
     this.loadEstados();
+    this.cargarDocumentoUsuario();
     this.obtenerUsuarioPorId();
     this.obtenerHabilidades();
 
@@ -251,45 +256,37 @@ export class PerfilComponent implements OnInit {
     const municipioNombre = this.municipios.find(m => m.cvegeo === this.municipio)?.nomgeo || '';
     const localidadNombre = this.localidades.find(l => l.cvegeo === this.localidad)?.nomgeo || '';
     const userId = this.userService.getUserData();
-  
-    const formData = new FormData();
-    formData.append('usuarioId', userId.sub);
-    formData.append('nombre', this.nombre);
-    formData.append('email', this.correo);
-    formData.append('apellido', this.apellidos);
-    formData.append('telefono', this.telefono);
-    formData.append('estado', estadoNombre || this.prevEstado);
-    formData.append('municipio', municipioNombre || this.prevMunicipio);
-    formData.append('localidad', localidadNombre || this.prevLocalidad);
-    formData.append('descripcion', this.experiencias);
-    formData.append('habilidades', this.habilidadesIds);
-  
-    // Verifica si se puede usar el archivo seleccionado o crea un archivo dummy si no hay archivo o falla el fetch
-    if (this.selectedFile) {
-      formData.append('archivo', this.selectedFile);
-    } else {
-      // Crear un archivo "dummy" para enviar en caso de que no se pueda usar la imagen
-      const dummyContent = new Blob(["Contenido de archivo predeterminado"], { type: 'text/plain' });
-      const dummyFile = new File([dummyContent], "archivo_predeterminado.txt", { type: 'text/plain' });
-      formData.append('archivo', dummyFile);
-    }
-  
-    // Enviar el FormData al servicio
-    this.perfilService.actualizarUsuario(formData).subscribe({
-      next: (response) => {
-        this.obtenerUsuarioPorId();
-        this.successMessage = '¡Has modificado tu perfil!';
-        this.clearMessagesAfterDelay();
-        this.isLoading = false;
-      },
-      error: (error) => {
-        console.error('Error al actualizar el usuario:', error);
-        this.errorMessage = "¡Ups, ocurrió un error, inténtalo más tarde!";
-        this.clearMessagesAfterDelay();
-        this.isLoading = false;
-      }
+
+    const usuarioData = {
+        usuarioId: userId.sub,
+        nombre: this.nombre,
+        email: this.correo,
+        apellido: this.apellidos,
+        telefono: this.telefono,
+        estado: estadoNombre || this.prevEstado,
+        municipio: municipioNombre || this.prevMunicipio,
+        localidad: localidadNombre || this.prevLocalidad,
+        descripcion: this.experiencias,
+        habilidades: this.habilidadesIds || ''
+    };
+
+    // Enviar los datos al servicio
+    this.perfilService.actualizarUsuario(usuarioData).subscribe({
+        next: (response) => {
+            this.obtenerUsuarioPorId();
+            this.successMessage = '¡Has modificado tu perfil!';
+            this.clearMessagesAfterDelay();
+            this.isLoading = false;
+        },
+        error: (error) => {
+            console.error('Error al actualizar el usuario:', error);
+            this.errorMessage = "¡Ups, ocurrió un error, inténtalo más tarde!";
+            this.clearMessagesAfterDelay();
+            this.isLoading = false;
+        }
     });
-  }  
+  }
+ 
 
   enviarDocumento(): void {
     if (!this.selectedPDF) {
@@ -336,15 +333,68 @@ export class PerfilComponent implements OnInit {
     }
   }
 
+  cargarDocumentoUsuario(): void {
+    const userId = this.userService.getUserData().sub;
+
+    this.perfilService.obtenerDocumentos().subscribe({
+        next: (response) => {
+            const documentoUsuario = response.find((doc: any) => doc.usuario_id === userId && doc.tipo === 'application/pdf');
+            
+            if (documentoUsuario && documentoUsuario.contenido) {
+                this.documentoUrl = this.sanitizer.bypassSecurityTrustResourceUrl(documentoUsuario.contenido);
+                this.pdfName = documentoUsuario.nombre
+            } else {
+                console.log('No se encontró ningún documento PDF para el usuario');
+            }
+        },
+        error: (error) => {
+            console.error('Error al obtener el documento:', error);
+        }
+    });
+  }
+
   onFileSelectedIMG(event: Event): void {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files[0]) {
-      this.selectedFile = input.files[0];
-      this.actualizarUsuario();
+        this.selectedFile = input.files[0];
+        this.enviarArchivo();
     }
   }
 
+  enviarArchivo(): void {
+    this.isLoading = true;
+    const userId = this.userService.getUserData();
+    const formData = new FormData();
+    formData.append('usuarioId', userId.sub);
+
+    if (this.selectedFile) {
+        formData.append('archivo', this.selectedFile);
+    } else {
+        console.error('No se seleccionó ningún archivo');
+        this.errorMessage = "Por favor, selecciona un archivo para subir.";
+        this.clearMessagesAfterDelay();
+        return;
+    }
+
+    this.perfilService.actualizarMultimedia(formData).subscribe({
+        next: (response) => {
+            this.isLoading = false;
+            console.log('Archivo subido correctamente:', response);
+            this.successMessage = '¡Imágen de perfil cambiada!';
+            this.clearMessagesAfterDelay();
+            this.obtenerUsuarioPorId();
+        },
+        error: (error) => {
+            this.isLoading = false;
+            console.error('Error al subir el archivo:', error);
+            this.errorMessage = "¡Ups, ocurrió un error al subir el archivo!";
+            this.clearMessagesAfterDelay();
+        }
+    });
+  }
+
   agregarHabilidad() {
+    this.isLoading = true;
     // Verificamos si la habilidad ya existe
     const habilidadExistente = this.habilidades.find(
       habilidad => habilidad.descripcion.toLowerCase() === this.nuevaHabilidadDescripcion.toLowerCase()
@@ -355,7 +405,6 @@ export class PerfilComponent implements OnInit {
       return; // Salimos de la función
     }
     // Si no existe, agregamos la nueva habilidad
-    this.isLoading = true;
     this.habilidadesService.agregarHabilidad(this.nuevaHabilidadDescripcion).subscribe({
       next: () => {
         // Obtenemos todas las habilidades después de agregar la nueva
@@ -368,6 +417,7 @@ export class PerfilComponent implements OnInit {
             this.seleccionarHabilidad(habilidadRecienAgregada.id, habilidadRecienAgregada.descripcion);
             this.nuevaHabilidadDescripcion = '';
             this.isLoading = false;
+            this.obtenerHabilidades();
           },
           error: (error) => {
             console.error('Error al obtener habilidades:', error);
@@ -400,11 +450,12 @@ export class PerfilComponent implements OnInit {
 
   seleccionarHabilidad(habilidadId: number, descripcion: string): void {
     // Convertimos habilidadesIds a un array y verificamos si ya contiene el ID
-    if(this.habilidadesIds == ''){
-      this.habilidadesIds = `${habilidadId}`;
+    if (this.habilidadesIds === '') {
+      this.habilidadesIds = `${habilidadId}`;  // Solo asignamos la habilidadId seleccionada
     }
-    const idsArray = this.habilidadesIds.split(',').map(id => id.trim());
-    
+
+    const idsArray = (this.habilidadesIds || '').split(',').map(id => id.trim());
+
     // Si el ID ya existe, limpiamos nuevaHabilidadDescripcion y salimos de la función
     if (idsArray.includes(habilidadId.toString())) {
         this.nuevaHabilidadDescripcion = '';
@@ -418,8 +469,7 @@ export class PerfilComponent implements OnInit {
     this.habilidadesTouched = false;
     this.actualizarUsuario();
     this.nuevaHabilidadDescripcion = '';
-}
-
+  }
 
   eliminarHabilidad(index: number): void {
     console.log('Índice a eliminar:', index);
@@ -433,7 +483,7 @@ export class PerfilComponent implements OnInit {
         habilidadesArray.splice(index, 1);
         
         // Asignamos un string vacío si no quedan IDs, o unimos los IDs restantes con comas
-        this.habilidadesIds = habilidadesArray.length ? habilidadesArray.join(',') : '23';
+        this.habilidadesIds = habilidadesArray.length ? habilidadesArray.join(',') : '';
 
         this.actualizarUsuario();
     } else {

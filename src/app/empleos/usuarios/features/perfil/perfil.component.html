@@ -16,11 +16,11 @@
         <span class="separator-icon"><i class="fa fa-angle-down"></i></span> <!-- Icono al lado derecho -->
       </div>
       <div class="section-content visible">
-        <p>{{prevName}}</p>
-        <p>{{prevApellidos}}</p>
-        <p>{{prevCorreo}}</p>
-        <p>{{prevFechaNacimiento}}</p>
-        <p>{{prevTel}}</p>
+        <p><i class="fa fa-user"></i>  {{prevName}}</p> <!-- Icono de usuario para el nombre -->
+        <p><i class="fa fa-user"></i>  {{prevApellidos}}</p> <!-- Icono de usuario para los apellidos -->
+        <p><i class="fa fa-envelope"></i>  {{prevCorreo}}</p> <!-- Icono de sobre para el correo -->
+        <p><i class="fa fa-calendar"></i>  {{prevFechaNacimiento}}</p> <!-- Icono de calendario para la fecha de nacimiento -->
+        <p><i class="fa fa-phone"></i>  {{prevTel}}</p> <!-- Icono de teléfono para el teléfono -->
       </div>
       
       <div class="separator-container">
@@ -28,10 +28,11 @@
         <p>Ubicación</p>
         <span class="separator-icon"><i class="fa fa-angle-down"></i></span> <!-- Icono al lado derecho -->
       </div>
+      
       <div class="section-content visible">
-        <p>{{prevEstado}}</p>
-        <p>{{prevMunicipio}}</p>
-        <p>{{prevLocalidad}}</p>
+        <p><i class="fa fa-map-marker"></i>  {{prevEstado}}</p> <!-- Icono de marcador para el estado -->
+        <p><i class="fa fa-map-marker"></i>  {{prevMunicipio}}</p> <!-- Icono de marcador para el municipio -->
+        <p><i class="fa fa-map-marker"></i>  {{prevLocalidad}}</p> <!-- Icono de marcador para la localidad -->
       </div>
       
       <div class="separator-container">
@@ -40,9 +41,10 @@
         <span class="separator-icon"><i class="fa fa-angle-down"></i></span> <!-- Icono al lado derecho -->
       </div>
       <div class="section-content visible">
-        <p>{{prevHabilidades}}</p>
-        <p>{{prevExperiencias}}</p>
-      </div>    
+        <p>{{pdfName}}</p> <!-- Icono de maletín para experiencias -->
+        <p><i class="fa fa-lightbulb"></i> {{prevHabilidades}}</p> <!-- Icono de bombilla para habilidades -->
+        <p>{{prevExperiencias}}</p> <!-- Icono de maletín para experiencias -->
+      </div>        
   </div>
 
   <div class="section editData">
@@ -109,12 +111,15 @@
       <div class="form-group file-input">
         <label for="cv">CV</label>
         <input 
-          id="cv" 
-          type="file" 
-          (change)="onFileSelectedPDF($event)" 
-          accept=".pdf" 
+            id="cv" 
+            type="file" 
+            (change)="onFileSelectedPDF($event)" 
+            accept=".pdf" 
         />
-      </div>
+        <div *ngIf="documentoUrl">
+            <embed [src]="documentoUrl" type="application/pdf" width="100%" height="500px">
+        </div>
+      </div>    
       <button class="actualizar" (click)="actualizarUsuario()" [disabled]="!isform1Valid()">Guardar cambios</button>
     </div>
 
