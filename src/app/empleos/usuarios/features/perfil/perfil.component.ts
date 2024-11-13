@@ -37,7 +37,6 @@ export class PerfilComponent implements OnInit {
   prevPDF = '';
   selectedPDF: File | null = null;
   documentoUrl: SafeResourceUrl | null = null;
-  pdfName: string = '';
 
   telefonoTouched: boolean = false;
   emailTouched: boolean = false;
@@ -374,7 +373,6 @@ export class PerfilComponent implements OnInit {
             
             if (documentoUsuario && documentoUsuario.contenido) {
                 this.documentoUrl = this.sanitizer.bypassSecurityTrustResourceUrl(documentoUsuario.contenido);
-                this.pdfName = documentoUsuario.nombre
             } else {
                 console.log('No se encontró ningún documento PDF para el usuario');
             }
