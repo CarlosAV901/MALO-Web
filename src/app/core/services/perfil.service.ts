@@ -51,4 +51,9 @@ export class PerfilService {
     const url = `https://malo-backend-documentos.onrender.com/api/Documento/GetDocumentos`;
     return this.http.get<any[]>(url);
   }
+
+  actualizarDocumento(formData: FormData): Observable<any> {
+    const url = `https://malo-backend-documentos.onrender.com/api/Documento/ActualizarDocumento`;
+    return this.http.post(url, formData);
+  }
 }

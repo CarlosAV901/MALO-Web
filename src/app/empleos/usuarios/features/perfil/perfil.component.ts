@@ -289,31 +289,63 @@ export class PerfilComponent implements OnInit {
  
 
   enviarDocumento(): void {
+    this.isLoading = true;
     if (!this.selectedPDF) {
       console.error("No se ha seleccionado un archivo para enviar.");
       return;
     }
-
-    this.isLoading = true;
-    const formData = new FormData();
-    const userId = this.userService.getUserData();
-
-    console.log(this.selectedPDF.name)
-    // Agregar ID del usuario y archivo PDF al formData
-    formData.append('usuario_id', userId.sub); // Asegúrate de que 'usuario_id' sea el campo esperado por el backend
-    formData.append('nombre', this.selectedPDF.name); // Nombre del archivo
-    formData.append('archivo', this.selectedPDF); // El archivo en sí como 'contenido'
   
-    // Llamada al endpoint para enviar el documento
-    this.perfilService.enviarDocumento(formData).subscribe({
-      next: (response) => {
-        console.log('Documento enviado con éxito:', response);
-        this.isLoading = false;
+    const userId = this.userService.getUserData().sub;
+  
+    this.perfilService.obtenerDocumentos().subscribe({
+      next: (documentos) => {
+        const formData = new FormData();
+        formData.append('usuario_id', userId);
+        formData.append('nombre', this.selectedPDF!.name);
+        formData.append('archivo', this.selectedPDF!);
+  
+        if (documentos.some(doc => doc.usuario_id === userId)) {
+          // El usuario ya tiene un archivo, actualizamos en lugar de crear uno nuevo
+          console.log("El usuario ya tiene un archivo registrado. Actualizando documento...");
+          this.perfilService.actualizarDocumento(formData).subscribe({
+            next: (response) => {
+              console.log('Documento actualizado con éxito:', response);
+              this.cargarDocumentoUsuario();
+              this.successMessage = "¡Archivo actualizado con éxito!";
+              this.clearMessagesAfterDelay();
+              this.isLoading = false;
+            },
+            error: (error) => {
+              console.error('Error al actualizar el documento:', error);
+              this.isLoading = false;
+              this.errorMessage = "¡Ups, ocurrió un error, inténtalo más tarde!";
+              this.clearMessagesAfterDelay();
+            }
+          });
+        } else {
+          // El usuario no tiene un archivo, lo creamos
+          this.isLoading = true;
+          this.perfilService.enviarDocumento(formData).subscribe({
+            next: (response) => {
+              console.log('Documento enviado con éxito:', response);
+              this.cargarDocumentoUsuario();
+              this.successMessage = "¡Archivo agregado con éxito!";
+              this.clearMessagesAfterDelay();
+              this.isLoading = false;
+            },
+            error: (error) => {
+              console.error('Error al enviar el documento:', error);
+              this.isLoading = false;
+              this.errorMessage = "¡Ups, ocurrió un error, inténtalo más tarde!";
+              this.clearMessagesAfterDelay();
+            }
+          });
+        }
       },
       error: (error) => {
-        console.error('Error al enviar el documento:', error);
         this.isLoading = false;
-        this.errorMessage = "¡Ups, ocurrio un error, intentalo más tarde!"
+        console.error('Error al verificar si el usuario tiene un archivo:', error);
+        this.errorMessage = "¡Ups, ocurrió un error, inténtalo más tarde!";
         this.clearMessagesAfterDelay();
       }
     });
@@ -416,8 +448,8 @@ export class PerfilComponent implements OnInit {
             );
             this.seleccionarHabilidad(habilidadRecienAgregada.id, habilidadRecienAgregada.descripcion);
             this.nuevaHabilidadDescripcion = '';
-            this.isLoading = false;
             this.obtenerHabilidades();
+            this.isLoading = false;
           },
           error: (error) => {
             console.error('Error al obtener habilidades:', error);
